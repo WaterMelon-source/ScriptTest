@@ -1,139 +1,228 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local UserInputService = game:GetService("UserInputService")
 
-if dsdsd then
-	OrionLib:MakeNotification({
-		Name = "OrionLib - Notification",
-		Content = "Successfully loaded script!",
-		Image = "rbxassetid://4483345998",
-		Time = 5
-	})
-else
-	local Window = OrionLib:MakeWindow({Name = "[Update] The Flash: Project Speedforce", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
-	local character = game.Players.LocalPlayer.Character
-	if character.HumanoidRootPart:FindFirstChild("Smoke") and character.HumanoidRootPart:FindFirstChild("Dash") then
-		print("have smoke and dash")
-	else
-		local SmokeClone = game.ReplicatedStorage.Effects.Smoke:Clone()
-		SmokeClone.Parent = character.HumanoidRootPart
-		SmokeClone.Rate = 10
-		SmokeClone.Lifetime = NumberRange.new(0.4, 0.4)
-		SmokeClone.Enabled = false
-		local DashClone = game.ReplicatedStorage.Sounds.Dash:Clone()
-		DashClone.Parent = character.HumanoidRootPart
-		DashClone.Volume = 3
-	end
-	local Smoke = character.HumanoidRootPart.Smoke
-	local Dash = character.HumanoidRootPart.Dash
-	local StaminaValue = 100
-	local StaminaToggle = true
-	local TachyonToggle = false
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
 
-	local Tab = Window:MakeTab({
-		Name = "Main",
-		Icon = "rbxassetid://4483345998",
-		PremiumOnly = false
-		})
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Device = 'Device'
 
-	local Section = Tab:AddSection({
-		Name = "Player"
-		})
-
-	local SpeedShow = Tab:AddLabel("Your Speed: "..tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed))
-	local StaminaShow = Tab:AddLabel("Your Stamina: "..tostring(character:WaitForChild("Speedster").Config.Stamina.Value))
-
-	Tab:AddSlider({
-		Name = "Max Speed",
-		Min = 0,
-		Max = 10000,
-		Default = 400,
-		Color = Color3.fromRGB(255, 89, 89),
-		Increment = 100,
-		ValueName = "Speed",
-		Callback = function(Value)
-			character:WaitForChild("Speedster").Config.Speed.Value = Value
-		end    
-	})
-
-	Tab:AddSlider({
-		Name = "Stamina",
-		Min = 0,
-		Max = 10000,
-		Default = 100,
-		Color = Color3.fromRGB(9, 137, 207),
-		Increment = 10,
-		ValueName = "Stamina",
-		Callback = function(Value)
-			character:WaitForChild("Speedster").Config.Stamina.Value = Value
-			StaminaValue = Value
-		end    
-	})
-
-	Tab:AddToggle({
-		Name = "Stamina waste",
-		Default = true,
-		Callback = function(Value)
-			StaminaToggle = Value
-		end    
-	})
-
-	Tab:AddDropdown({
-		Name = "Speedforce",
-		Default = "Normal",
-		Options = {"Normal", "Negative", "Elemental"},
-		Callback = function(Value)
-			if Value == "Negative" then
-				character:WaitForChild("Speedster").Config.Negative.Value = true
-				character:WaitForChild("Speedster").Config.Elemental.Value = false
-			elseif Value == "Elemental" then
-				character:WaitForChild("Speedster").Config.Elemental.Value = true
-				character:WaitForChild("Speedster").Config.Negative.Value = false
-			else
-				character:WaitForChild("Speedster").Config.Negative.Value = false
-				character:WaitForChild("Speedster").Config.Elemental.Value = false
-			end
-		end    
-	})
-
-	local Section = Tab:AddSection({
-		Name = "Game"
-		})
-
-	Tab:AddButton({
-		Name = "Show players names in Flash Time",
-		Callback = function()
-			for i, v in pairs(game.ReplicatedStorage.InFlashtime:GetChildren()) do
-				OrionLib:MakeNotification({
-						Name = "In Flash Time Player:",
-						Content = tostring(v),
-						Image = "rbxassetid://4483345998",
-						Time = 2
-				})
-			end
-		end
-	})
-
-	OrionLib:MakeNotification({
-		Name = "OrionLib - Notification",
-		Content = "Successfully loaded script!",
-		Image = "rbxassetid://4483345998",
-		Time = 5
-	})
-
-	character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
-		if TachyonToggle == true then
-			SpeedShow:Set("Your Speed: "..tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed).." + 4x Tachyon")
-		else
-			SpeedShow:Set("Your Speed: "..tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed))
-		end
-	end)
-
-	character:WaitForChild("Speedster").Config.Stamina:GetPropertyChangedSignal("Value"):Connect(function()
-		wait(0.1)
-		StaminaShow:Set("Your Stamina: "..tostring(character:WaitForChild("Speedster").Config.Stamina.Value))
-		if StaminaToggle == false then
-			character:WaitForChild("Speedster").Config.Stamina.Value = StaminaValue
-		end
-	end)
-
-	OrionLib:Init()
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
 end
+
+local Window = Fluent:CreateWindow({
+    Title = "🔓  Dash " .. "0.0.5",
+    SubTitle = " •  Cabin Crew Simulator",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 445),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+    Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Farm = Window:AddTab({Title = "Farming", Icon = "rbxassetid://10709762879"}),
+	Gamepasses = Window:AddTab({Title = "Gamepasses", Icon = "rbxassetid://10709819149"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+Tabs.Home:AddParagraph({
+    Title = "										    💨  Dash  💨"
+})
+
+if Country == "RU" then
+	if Device == "Mobile" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer With TouchScreen" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
+		})
+	end
+elseif Country == "US" then
+	if Device == "Mobile" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer With TouchScreen" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
+		})
+	end
+end
+
+Tabs.Home:AddParagraph({
+    Title = "										  🤖  Discord  🤖",
+    Content = "\n\n							    🔗  Link : --------------  🔗"
+})
+
+Tabs.News:AddParagraph({
+    Title = "									  ✨ New Features ✨",
+    Content = "\n\n 💊  Auto Heal  💊\n\n 🔋  Auto Energy 🔋\n\n 🧁  Auto Hunger 🧁\n\n\n Date: ___"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "👟   Speed",
+    Description = "\nChange Player's Speed",
+    Default = 16,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+    end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "🦵  JumpPower",
+    Description = "\nChange Player's JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+Tabs.Farm:AddParagraph({
+    Title = "									  ✈  Create Flight  ✈"
+    --Content = ""
+})
+
+
+
+Tabs.Farm:AddButton({
+    Title = "👆🏻  Create Flight",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+-------------
+
+
+local Gamepass1Toggle = Tabs.Gamepasses:AddToggle("Gamepass1", {Title = "🛏   Premium Room", Default = game:GetService("Players").LocalPlayer.gamepasses.premium_room.Value })
+
+Gamepass1Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.premium_room.Value = Value
+end)
+
+local Gamepass2Toggle = Tabs.Gamepasses:AddToggle("Gamepass2", {Title = "🎵   Custom Music", Default = game:GetService("Players").LocalPlayer.gamepasses.custom_music.Value })
+
+Gamepass2Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.custom_music.Value = Value
+end)
+
+local Gamepass3Toggle = Tabs.Gamepasses:AddToggle("Gamepass3", {Title = "🔥   Emergency Control", Default = game:GetService("Players").LocalPlayer.gamepasses.emergency_control.Value })
+
+Gamepass3Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.emergency_control.Value = Value
+end)
+
+local Gamepass4Toggle = Tabs.Gamepasses:AddToggle("Gamepass4", {Title = "💡   Custom Lighting", Default = game:GetService("Players").LocalPlayer.gamepasses.custom_lighting.Value })
+
+Gamepass4Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.custom_lighting.Value = Value
+end)
+
+local Gamepass5Toggle = Tabs.Gamepasses:AddToggle("Gamepass5", {Title = "🎨   Extra Colors", Default = game:GetService("Players").LocalPlayer.gamepasses.extra_design.Value })
+
+Gamepass5Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.extra_design.Value = Value
+end)
+
+local Gamepass6Toggle = Tabs.Gamepasses:AddToggle("Gamepass6", {Title = "👔   Premium Attendant", Default = game:GetService("Players").LocalPlayer.gamepasses.premium_flight_attendant.Value })
+
+Gamepass6Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.premium_flight_attendant.Value = Value
+end)
+
+local Gamepass7Toggle = Tabs.Gamepasses:AddToggle("Gamepass7", {Title = "🧑🏻   Player Connect", Default = game:GetService("Players").LocalPlayer.gamepasses.multiplayer.Value })
+
+Gamepass7Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.multiplayer.Value = Value
+end)
+
+local Gamepass8Toggle = Tabs.Gamepasses:AddToggle("Gamepass8", {Title = "🎓‍   Skilled Pilots", Default = game:GetService("Players").LocalPlayer.gamepasses.skilled_pilots.Value })
+
+Gamepass8Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.skilled_pilots.Value = Value
+end)
+
+local Gamepass9Toggle = Tabs.Gamepasses:AddToggle("Gamepass9", {Title = "✈‍   Custom Tail", Default = game:GetService("Players").LocalPlayer.gamepasses.tail_logo.Value })
+
+Gamepass9Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.tail_logo.Value = Value
+end)
+
+local Gamepass10Toggle = Tabs.Gamepasses:AddToggle("Gamepass10", {Title = "💵   Earnings 2x", Default = game:GetService("Players").LocalPlayer.gamepasses.x2_earnings.Value })
+
+Gamepass10Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.x2_earnings.Value = Value
+end)
+
+local Gamepass11Toggle = Tabs.Gamepasses:AddToggle("Gamepass11", {Title = "👑   VIP", Default = game:GetService("Players").LocalPlayer.gamepasses.vip.Value })
+
+Gamepass11Toggle:OnChanged(function(Value)
+	game:GetService("Players").LocalPlayer.gamepasses.vip.Value = Value
+end)
+
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
