@@ -154,6 +154,26 @@ character:WaitForChild("Speedster").Config.Stamina:GetPropertyChangedSignal("Val
 	end
 end)
 
+local Dropdown = Tabs.Features:AddDropdown("Dropdown", {
+	Title = "Dropdown",
+	Values = {"Normal", "Negative", "Elemental"},
+	Multi = false,
+	Default = 1,
+})
+
+Dropdown:OnChanged(function(Value)
+	if Value == "Negative" then
+		character:WaitForChild("Speedster").Config.Negative.Value = true
+		character:WaitForChild("Speedster").Config.Elemental.Value = false
+	elseif Value == "Elemental" then
+		character:WaitForChild("Speedster").Config.Elemental.Value = true
+		character:WaitForChild("Speedster").Config.Negative.Value = false
+	else
+		character:WaitForChild("Speedster").Config.Negative.Value = false
+		character:WaitForChild("Speedster").Config.Elemental.Value = false
+	end
+end)
+
 -------------
 
 Window:SelectTab(1)
