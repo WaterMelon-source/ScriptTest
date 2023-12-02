@@ -22,7 +22,7 @@ end
 
 local Window = Fluent:CreateWindow({
     Title = "🔓  Dash " .. "0.0.6",
-    SubTitle = " •  [CHRISTMAS] The Flash: Project Speedforce",
+    SubTitle = " •  🎄 [CHRISTMAS] The Flash: Project Speedforce",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 445),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -141,10 +141,17 @@ Tabs.Player:AddButton({
     end
 })
 
-local StaminaWToggle = Tabs.Player:AddToggle("StaminaW", {Title = "⚡   Stamina Waste", Default = false })
+local StaminaWToggle = Tabs.Player:AddToggle("StaminaW", {Title = "⚡   Stamina Waste", Default = true })
 
 StaminaWToggle:OnChanged(function(Value)
 	StaminaToggle = Value
+end)
+
+character:WaitForChild("Speedster").Config.Stamina:GetPropertyChangedSignal("Value"):Connect(function()
+	wait(0.1)
+	if StaminaToggle == false then
+		character:WaitForChild("Speedster").Config.Stamina.Value = StaminaValue
+	end
 end)
 
 -------------
