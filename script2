@@ -1,335 +1,474 @@
--- Instances:
+--by Purples
 
-local MiniEX = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local Execute = Instance.new("TextButton")
-local UICorner_2 = Instance.new("UICorner")
-local Main = Instance.new("Frame")
-local UICorner_3 = Instance.new("UICorner")
-local ScrollingInput = Instance.new("ScrollingFrame")
-local Input = Instance.new("TextBox")
-local UICorner_4 = Instance.new("UICorner")
-local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-local Numbers = Instance.new("TextLabel")
-local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
-local ComingSoon = Instance.new("Frame")
-local UICorner_5 = Instance.new("UICorner")
-local ComingSText = Instance.new("TextLabel")
-local Scripts = Instance.new("TextLabel")
-local LeftBar = Instance.new("Frame")
-local UICorner_6 = Instance.new("UICorner")
-local UpperGroup = Instance.new("Frame")
-local UICorner_7 = Instance.new("UICorner")
-local UpperBar = Instance.new("Frame")
-local UICorner_8 = Instance.new("UICorner")
-local Plus = Instance.new("ImageButton")
-local Cross = Instance.new("ImageButton")
-local Minus = Instance.new("ImageButton")
-local Version = Instance.new("TextLabel")
-local Title = Instance.new("TextLabel")
+local Config = {
+    WindowName = "version 2.3",
+    Color = Color3.fromRGB(182,41,243),
+    Keybind = Enum.KeyCode.RightBracket
+}
 
---Properties:
 
-MiniEX.Name = "MiniEX"
-MiniEX.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-MiniEX.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-MiniEX.ResetOnSpawn = false
 
-Frame.Parent = MiniEX
-Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-Frame.BackgroundColor3 = Color3.fromRGB(63, 63, 63)
-Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(0.855000019, 0, 0.209999993, 0)
-Frame.Size = UDim2.new(0.165570065, 0, 0.165570065, 0)
-Frame.ZIndex = 0
-Frame.Active = true
-Frame.Draggable = true
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Bracket/main/BracketV3.lua"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-UICorner.CornerRadius = UDim.new(0, 6)
-UICorner.Parent = Frame
+local Tab1 = Window:CreateTab("Fishing Simulator")
 
-Execute.Name = "Execute"
-Execute.Parent = Frame
-Execute.AnchorPoint = Vector2.new(0.5, 0.5)
-Execute.BackgroundColor3 = Color3.fromRGB(0, 119, 198)
-Execute.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Execute.BorderSizePixel = 0
-Execute.Position = UDim2.new(0.589999974, 0, 0.920000017, 0)
-Execute.Size = UDim2.new(0.25, 0, 0.111000001, 0)
-Execute.ZIndex = 2
-Execute.Font = Enum.Font.FredokaOne
-Execute.Text = "Execute"
-Execute.TextColor3 = Color3.fromRGB(255, 255, 255)
-Execute.TextScaled = true
-Execute.TextSize = 14.000
-Execute.TextWrapped = true
 
-Execute.MouseButton1Click:Connect(function()
-	loadstring(Input.Text)()
+local Section1 = Tab1:CreateSection("")
+local Section2 = Tab1:CreateSection("")
+
+local RunService = game:GetService("RunService")
+local player = game.Players.LocalPlayer
+local hum = player.Character.HumanoidRootPart
+local mouse = player:GetMouse() 
+local tpservice= game:GetService("TeleportService")
+local VirtualUser= game:service'VirtualUser'
+
+local ToolsCache = game:GetService("ReplicatedStorage").ToolsCache[player.UserId]
+local plrTools
+local bLocation
+local fuckMonster
+local fuckMobby
+
+local seacreatureSelectionned
+local locationSelected
+local eggs
+
+-- Credits To Charwar for Server Hop
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+
+
+-- Server Hop
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function switchServer()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+function teleport(loc)
+    bLocation = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    if game.Players.LocalPlayer.Character.Humanoid.Sit then
+        game.Players.LocalPlayer.Character.Humanoid.Sit = false
+    end
+    wait()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = loc
+end
+
+-- Get Tools Name (Just hidden the tool in replicatedstorage, savageeeee but characte win)
+for i, getTools in pairs(player.Character:GetChildren()) do
+    if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
+        plrTools = getTools.Name
+    end
+end
+
+function EquipTool()
+    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetEquippedItem:InvokeServer(2)
+    local args = {
+     [1] = game:GetService("ReplicatedStorage").ToolsCache:FindFirstChild(player.UserId)[plrTools]
+    }
+    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EquipTool:FireServer(unpack(args))
+end
+
+game:service'Players'.LocalPlayer.Idled:connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
 end)
 
-UICorner_2.CornerRadius = UDim.new(0, 3)
-UICorner_2.Parent = Execute
+-------------
 
-Main.Name = "Main"
-Main.Parent = Frame
-Main.AnchorPoint = Vector2.new(0.5, 0.5)
-Main.BackgroundColor3 = Color3.fromRGB(136, 136, 136)
-Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Main.BorderSizePixel = 0
-Main.Position = UDim2.new(0.592396617, 0, 0.529755294, 0)
-Main.Size = UDim2.new(0.771977603, 0, 0.627806664, 0)
 
-UICorner_3.CornerRadius = UDim.new(0, 4)
-UICorner_3.Parent = Main
 
-ScrollingInput.Name = "ScrollingInput"
-ScrollingInput.Parent = Frame
-ScrollingInput.Active = true
-ScrollingInput.AnchorPoint = Vector2.new(0.5, 0.5)
-ScrollingInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ScrollingInput.BackgroundTransparency = 1.000
-ScrollingInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ScrollingInput.BorderSizePixel = 0
-ScrollingInput.Position = UDim2.new(0.592308462, 0, 0.525999963, 0)
-ScrollingInput.Size = UDim2.new(0.74000001, 0, 0.559000015, 0)
-ScrollingInput.ZIndex = 2
-ScrollingInput.CanvasPosition = Vector2.new(0, 0)
-ScrollingInput.CanvasSize = UDim2.new(0, 0, 6, 0)
-ScrollingInput.ScrollBarThickness = 3
 
-Input.Name = "Input"
-Input.Parent = ScrollingInput
-Input.AnchorPoint = Vector2.new(0.5, 0.5)
-Input.BackgroundColor3 = Color3.fromRGB(198, 198, 198)
-Input.BackgroundTransparency = 1.000
-Input.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Input.BorderSizePixel = 0
-Input.Position = UDim2.new(0.524999976, 0, 0.5, 0)
-Input.Size = UDim2.new(0.910000026, 0, 1, 0)
-Input.ZIndex = 2
-Input.ClearTextOnFocus = false
-Input.Font = Enum.Font.FredokaOne
-Input.MultiLine = true
-Input.PlaceholderText = "Code Here..."
-Input.Text = ""
-Input.TextColor3 = Color3.fromRGB(235, 235, 235)
-Input.TextScaled = false
-Input.TextSize = 14.000
-Input.TextWrapped = true
-Input.TextXAlignment = Enum.TextXAlignment.Left
-Input.TextYAlignment = Enum.TextYAlignment.Top
 
-UICorner_4.CornerRadius = UDim.new(0, 2)
-UICorner_4.Parent = Input
+-------------------------------------------------------
 
---UITextSizeConstraint.Parent = Input
---UITextSizeConstraint.MaxTextSize = 14
 
-Numbers.Name = "Numbers"
-Numbers.Parent = ScrollingInput
-Numbers.AnchorPoint = Vector2.new(0.5, 0.5)
-Numbers.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Numbers.BackgroundTransparency = 1.000
-Numbers.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Numbers.BorderSizePixel = 0
-Numbers.Position = UDim2.new(0.0350000001, 0, 0.5, 0)
-Numbers.Size = UDim2.new(0.061999999, 0, 1, 0)
-Numbers.ZIndex = 2
-Numbers.Font = Enum.Font.FredokaOne
-Numbers.Text = "1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15. 16. 17. 18. 19. 20. 21. 22. 23. 24. 25. 26. 27. 28. 29. 30. 31. 32. 33. 34. 35. 36. 37. 38. 39. 40. 41. 42. 43. 44. 45. 46. 47. 48. 49. 50. 51. 52. 53. 54. 55. 56. 57. 58. 59. 60. 61. 62. 63. 64. 65. 66. 67. 68. 69. 70. 71. 72. 73. 74. 75. 76. 77. 78. 79. 80. "
-Numbers.TextColor3 = Color3.fromRGB(198, 198, 198)
-Numbers.TextScaled = false
-Numbers.TextSize = 14.000
-Numbers.TextWrapped = true
-Numbers.TextXAlignment = Enum.TextXAlignment.Left
-Numbers.TextYAlignment = Enum.TextYAlignment.Top
 
---UITextSizeConstraint_2.Parent = Numbers
---UITextSizeConstraint_2.MaxTextSize = 14
+Section1:CreateLabel("Farming")
 
-ComingSoon.Name = "ComingSoon!"
-ComingSoon.Parent = Frame
-ComingSoon.AnchorPoint = Vector2.new(0.5, 0.5)
-ComingSoon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-ComingSoon.BackgroundTransparency = 0.400
-ComingSoon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ComingSoon.BorderSizePixel = 0
-ComingSoon.Position = UDim2.new(0.094524771, 0, 0.607926011, 0)
-ComingSoon.Size = UDim2.new(0.19072254, 0, 0.784148157, 0)
-ComingSoon.ZIndex = 6
-
-UICorner_5.CornerRadius = UDim.new(0, 4)
-UICorner_5.Parent = ComingSoon
-
-ComingSText.Name = "ComingSText"
-ComingSText.Parent = ComingSoon
-ComingSText.AnchorPoint = Vector2.new(0.5, 0.5)
-ComingSText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ComingSText.BackgroundTransparency = 1.000
-ComingSText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ComingSText.BorderSizePixel = 0
-ComingSText.Position = UDim2.new(0.499892294, 0, 0.500000179, 0)
-ComingSText.Size = UDim2.new(0.746090353, 0, 0.999999583, 0)
-ComingSText.ZIndex = 2
-ComingSText.Font = Enum.Font.FredokaOne
-ComingSText.Text = "Coming Soon!"
-ComingSText.TextColor3 = Color3.fromRGB(198, 198, 198)
-ComingSText.TextScaled = true
-ComingSText.TextSize = 14.000
-ComingSText.TextWrapped = true
-
-Scripts.Name = "Scripts"
-Scripts.Parent = Frame
-Scripts.AnchorPoint = Vector2.new(0.5, 0.5)
-Scripts.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Scripts.BackgroundTransparency = 1.000
-Scripts.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Scripts.BorderSizePixel = 0
-Scripts.Position = UDim2.new(0.0945094302, 0, 0.269727141, 0)
-Scripts.Size = UDim2.new(0.190754279, 0, 0.10775093, 0)
-Scripts.ZIndex = 2
-Scripts.Font = Enum.Font.FredokaOne
-Scripts.Text = "Scripts"
-Scripts.TextColor3 = Color3.fromRGB(198, 198, 198)
-Scripts.TextScaled = true
-Scripts.TextSize = 14.000
-Scripts.TextWrapped = true
-
-LeftBar.Name = "LeftBar"
-LeftBar.Parent = Frame
-LeftBar.AnchorPoint = Vector2.new(0.5, 0.5)
-LeftBar.BackgroundColor3 = Color3.fromRGB(136, 136, 136)
-LeftBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-LeftBar.BorderSizePixel = 0
-LeftBar.Position = UDim2.new(0.094524771, 0, 0.607926011, 0)
-LeftBar.Size = UDim2.new(0.19072254, 0, 0.784148157, 0)
-
-UICorner_6.CornerRadius = UDim.new(0, 4)
-UICorner_6.Parent = LeftBar
-
-UpperGroup.Name = "UpperGroup"
-UpperGroup.Parent = Frame
-UpperGroup.AnchorPoint = Vector2.new(0.5, 0.5)
-UpperGroup.BackgroundColor3 = Color3.fromRGB(63, 63, 63)
-UpperGroup.BackgroundTransparency = 0
-UpperGroup.BorderColor3 = Color3.fromRGB(0, 0, 0)
-UpperGroup.BorderSizePixel = 0
-UpperGroup.Position = UDim2.new(0.499581844, 0, 0.0912837312, 0)
-UpperGroup.Size = UDim2.new(1.00083685, 0, 0.182566836, 0)
-UpperGroup.ZIndex = 6
-
-UICorner_7.CornerRadius = UDim.new(0, 6)
-UICorner_7.Parent = UpperGroup
-
-UpperBar.Name = "UpperBar"
-UpperBar.Parent = UpperGroup
-UpperBar.AnchorPoint = Vector2.new(0.5, 0.5)
-UpperBar.BackgroundColor3 = Color3.fromRGB(136, 136, 136)
-UpperBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-UpperBar.BorderSizePixel = 0
-UpperBar.Position = UDim2.new(0.198752388, 0, 0.495203137, 0)
-UpperBar.Size = UDim2.new(0.399179161, 0, 1.00959504, 0)
-
-UICorner_8.CornerRadius = UDim.new(0, 4)
-UICorner_8.Parent = UpperBar
-
-Plus.Name = "Plus"
-Plus.Parent = UpperGroup
-Plus.AnchorPoint = Vector2.new(0.5, 0.5)
-Plus.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Plus.BackgroundTransparency = 1.000
-Plus.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Plus.BorderSizePixel = 0
-Plus.Position = UDim2.new(0.89685601, 0, 0.49290207, 0)
-Plus.Size = UDim2.new(0.0430640653, 0, 0.432137161, 0)
-Plus.Visible = false
-Plus.Image = "rbxassetid://10734924532"
-
-Plus.MouseButton1Click:Connect(function()
-	Frame:TweenSize(UDim2.new(0.166, 0, 0.166, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.05)
-	UpperGroup:TweenSize(UDim2.new(1, 0, 0.183, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.01)
-	Minus.Visible = true
-	Plus.Visible = false
-	ComingSoon.Visible = true
-	LeftBar.Visible = true
-	Main.Visible = true
-	ScrollingInput.Visible = true
-	Execute.Visible = true
-	Scripts.Visible = true
+local Toggle6 = Section1:CreateToggle("Auto Kill", nil, function(State)
+    shared.toggle = State
+     if shared.toggle then
+    fuckMonster = RunService.Stepped:Connect(function()
+     for i, v in pairs(game.Workspace:GetChildren()) do
+     if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
+        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                 
+                
+                    for i, getTools in pairs(player.Character:GetChildren()) do
+                        if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
+                            plrTools = getTools.Name
+                        end
+                    end
+                 
+                    teleport(v.HumanoidRootPart.CFrame + Vector3.new(0, 30, 0))
+                    wait(1)
+                    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(workspace[v.Name], tostring(plrTools), true)
+                    break
+                elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                    EquipTool()
+               break
+            end
+        end
+     end
+     end)
+    else
+         fuckMonster:Disconnect()
+          teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))
+        end
 end)
 
-Cross.Name = "Cross"
-Cross.Parent = UpperGroup
-Cross.AnchorPoint = Vector2.new(0.5, 0.5)
-Cross.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Cross.BackgroundTransparency = 1.000
-Cross.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Cross.BorderSizePixel = 0
-Cross.Position = UDim2.new(0.956856132, 0, 0.49290207, 0)
-Cross.Size = UDim2.new(0.0430640653, 0, 0.432137161, 0)
-Cross.Image = "rbxassetid://10747384394"
-
-Cross.MouseButton1Click:Connect(function()
-	MiniEX:Destroy()
+local Toggle11 = Section1:CreateToggle("Auto Kill Mobby Wood", nil, function(State)
+    shared.toggle = State
+     if shared.toggle then
+    fuckMobby = RunService.Stepped:Connect(function()
+     for i, v in pairs(game.Workspace:GetChildren()) do
+     if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and v.Name == "MobbyWood" then
+        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                 
+                
+                    for i, getTools in pairs(player.Character:GetChildren()) do
+                        if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
+                            plrTools = getTools.Name
+                        end
+                    end
+                 
+                    teleport(v.HumanoidRootPart.CFrame + Vector3.new(0, 50, 0))
+                    wait(1)
+                    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(workspace[v.Name], tostring(plrTools), true)
+                    break
+                elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                    EquipTool()
+               break
+            end
+        end
+     end
+     end)
+    else
+         fuckMobby:Disconnect()
+          teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))
+        end
 end)
 
-Minus.Name = "Minus"
-Minus.Parent = UpperGroup
-Minus.AnchorPoint = Vector2.new(0.5, 0.5)
-Minus.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Minus.BackgroundTransparency = 1.000
-Minus.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Minus.BorderSizePixel = 0
-Minus.Position = UDim2.new(0.89685601, 0, 0.49290207, 0)
-Minus.Size = UDim2.new(0.0430640653, 0, 0.432137161, 0)
-Minus.Image = "rbxassetid://10734896206"
 
-Minus.MouseButton1Click:Connect(function()
-	Frame:TweenSize(UDim2.new(0.166, 0, 0.01, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.001)
-	UpperGroup:TweenSize(UDim2.new(1, 0, 3, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.01)
-	Plus.Visible = true
-	Minus.Visible = false
-	ComingSoon.Visible = false
-	LeftBar.Visible = false
-	Main.Visible = false
-	ScrollingInput.Visible = false
-	Execute.Visible = false
-	Scripts.Visible = false
+local Toggle8 = Section1:CreateToggle("Reduce Lag", nil, function(State)
+    toggle = State
+     if toggle then
+        while toggle do 
+            wait(30)
+            for i, v in pairs(game.Workspace.DroppedItems:GetChildren()) do
+                if v:IsA("Model") then
+                    v:Destroy()
+                end
+            end
+        end
+      end
 end)
 
-Version.Name = "Version"
-Version.Parent = UpperGroup
-Version.AnchorPoint = Vector2.new(0.5, 0.5)
-Version.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Version.BackgroundTransparency = 1.000
-Version.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Version.BorderSizePixel = 0
-Version.Position = UDim2.new(0.499435693, 0, 0.47309345, 0)
-Version.Size = UDim2.new(0.147281513, 0, 0.675214052, 0)
-Version.ZIndex = 2
-Version.Font = Enum.Font.FredokaOne
-Version.Text = "v 0.0.3"
-Version.TextColor3 = Color3.fromRGB(198, 198, 198)
-Version.TextScaled = true
-Version.TextSize = 14.000
-Version.TextWrapped = true
+local Toggle10 = Section1:CreateToggle("Auto Lock Rare Items", nil, function(State)
+    toggle = State
+     if toggle then
+        while toggle do 
+            wait(.1)
+for i, v in pairs(game.Players.LocalPlayer.PlayerGui.Interface.Inventory.Inventory.Frame.Backpack.List.Container:GetChildren()) do
+        if string.match(v.Name, "key") then
+            for i, model in pairs(v:GetDescendants()) do
+                if model:IsA("Tool") then
+                    if model.RarityLevel.Value >= 4 then
+                        
+                        if v.DraggableComponent.Contents.LockIcon.Visible == false then
+                            print(v.Name, model.Name, model.RarityLevel.Value)
+                        local args = {
+                            [1] = "Tools",
+                            [2] = v.Name,
+                            [3] = true
+                        }
+                        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetInventoryItemLock:InvokeServer(unpack(args))
+                                                    
+                        end
+                    end
+                end
+            end
+        end
+end
+            
+        end
+      end
+end)
 
-Title.Name = "Title"
-Title.Parent = UpperGroup
-Title.AnchorPoint = Vector2.new(0.5, 0.5)
-Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Title.BackgroundTransparency = 1.000
-Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Title.BorderSizePixel = 0
-Title.Position = UDim2.new(0.196034044, 0, 0.473095715, 0)
-Title.Size = UDim2.new(0.345357269, 0, 0.675214052, 0)
-Title.ZIndex = 2
-Title.Font = Enum.Font.FredokaOne
-Title.Text = "Executor Mini"
-Title.TextColor3 = Color3.fromRGB(198, 198, 198)
-Title.TextScaled = true
-Title.TextSize = 14.000
-Title.TextWrapped = true
+Toggle10:AddToolTip("Rarity Locked: \nEpic \nLegendary \nEvent \nSecret")
+
+local Toggle1 = Section1:CreateToggle("Auto Caught", nil, function(State)
+toggle = State
+    while toggle do
+        wait(2.6)
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.FishCaught:FireServer()
+    end
+end)
+
+local Toggle2 = Section1:CreateToggle("Auto Sell", nil, function(State)
+toggle = State
+    while toggle do
+        wait(2.6)
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
+    end
+end)
+
+local Toggle3 = Section1:CreateToggle("Remove Fog", nil, function(State)
+    toggle = State
+        while toggle do
+        if  game.Lighting.FogEnd == 100 then
+         game.Lighting.FogEnd = 1000000
+        end
+            game.Lighting.FogEnd = 1000000
+            game.Lighting.GlobalLighting:Destroy()
+            game.Lighting.Atmosphere:Destroy()     
+             game.Lighting.Lighting:Destroy()  
+              game.Lighting.ColorCorrection:Destroy()     
+               game.Lighting.Bloom:Destroy()     
+                game.Lighting.Blur:Destroy()     
+                 game.Lighting.Atmosphere:Destroy()                 
+        end
+end)
+
+Section1:CreateLabel("Chest")
+
+local Toggle4 = Section1:CreateToggle("Daily Chest", nil, function(State)
+    toggle = State
+        while toggle do
+                for i, v in pairs(game.Workspace.Islands:GetDescendants()) do
+                    if v:IsA("Model") and string.match(v.Name, "Chest") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+                        wait(1)
+                        fireproximityprompt(v.HumanoidRootPart.ProximityPrompt)
+                    end
+                end            
+        end
+end)
+
+local Toggle9 = Section1:CreateToggle("Random Chest", nil, function(State)
+    toggle = State
+        while toggle do
+                for i, v in pairs(game.Workspace.RandomChests:GetDescendants()) do
+                    if v:IsA("Model") and string.match(v.Name, "Chest") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+                        wait(1)
+                        fireproximityprompt(v.HumanoidRootPart.ProximityPrompt)
+                    end
+                end            
+        end
+end)
+
+local Toggle5 = Section1:CreateToggle("Suken Chest", nil, function(State)
+    toggle = State
+        while toggle do
+            wait(5)
+             for i, v in pairs(game.Workspace:GetChildren()) do
+                if string.find(v.Name, "ShipModel") then
+                        teleport(v.HitBox.CFrame)
+                        for i, x in pairs(v:GetChildren()) do
+                            if string.match(x.Name, "Chest_") then
+                                teleport(x.HumanoidRootPart.CFrame)
+                                wait(1)
+                                fireproximityprompt(x.HumanoidRootPart.ProximityPrompt)    
+                            end                                
+                        end
+                    break
+                 end
+              end
+        end
+end)
+
+
+---------------------------------------------------------------------
+Section1:CreateLabel("Teleport")
+
+local Dropdown2 = Section1:CreateDropdown("Store", {"Boat Store","Raygan's Tavern","Supplies Store", "Pets Store"}, function(String)
+    locationSelected = String
+end)
+
+local Button1 = Section1:CreateButton("Teleport", function()
+    if locationSelected == "Boat Store" then
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("BoatShopInterior", "Inside")
+        elseif locationSelected == "Raygan's Tavern" then
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("TavernInterior", "Inside")
+        elseif locationSelected == "Supplies Store" then
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("SuppliesStoreInterior", "Inside")  
+        elseif locationSelected == "Pets Store" then
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("PetShop", "MainEntrance")
+    end
+end)
+
+local Dropdown3 = Section1:CreateDropdown("Location", {"Port Jackson","Ancient Shores","Shadow Isles", "Pharaoh's Dunes", "Eruption Island", "Monster's Borough", "Suken Ship"}, function(String)
+    locationSelected = String
+end)
+
+local Button2 = Section1:CreateButton("Teleport", function()
+    if locationSelected == "Port Jackson" then
+        teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))           
+        elseif locationSelected == "Ancient Shores" then
+        teleport(CFrame.new(-2436.431640625, 43.564971923828, -1683.4526367188))    
+        elseif locationSelected == "Shadow Isles" then
+        teleport(CFrame.new(2196.9926757812, 43.491630554199, -2216.4543457031))    
+        elseif locationSelected == "Pharaoh's Dunes" then
+        teleport(CFrame.new(-4142.74609375, 46.71378326416, 262.05679321289))
+        elseif locationSelected == "Eruption Island" then
+        teleport(CFrame.new(3022.9311523438, 52.347640991211, 1323.74609375))
+        elseif locationSelected == "Monster's Borough" then
+        teleport(CFrame.new(-3211.9047851562, 41.850345611572, 2735.306640625))  
+        elseif locationSelected == "Suken Ship" then
+             for i, v in pairs(game.Workspace:GetChildren()) do
+                if string.find(v.Name, "ShipModel") then
+                        teleport(v.HitBox.CFrame)
+                    break
+                 end
+              end                               
+    end
+end)
+
+Section2:CreateLabel("Boats")
+
+local Slider1 = Section2:CreateSlider("Boat Speed", 0,150,nil,true, function(Value)
+ for i, v in pairs(game.Workspace:GetChildren()) do
+        if v.Name == (game.Players.LocalPlayer.Name .. "'s Boat") then
+             v.Controller.VehicleSeat.MaxSpeed = tonumber(Value)
+         end
+    end   
+end)
+
+local Button3 = Section2:CreateButton("Tp to Boat", function()
+    for i, v in pairs(game.Workspace:GetChildren()) do
+        if v.Name == (game.Players.LocalPlayer.Name .. "'s Boat") then
+             teleport(v.Controller.VehicleSeat.CFrame + Vector3.new(0, 3, 0))
+        end
+    end
+end)
+local Button4 = Section2:CreateButton("Remove Borders", function()
+    for i, v in pairs(game.Workspace.IgnoredByMouse.BoatBorders:GetChildren()) do
+        v:Destroy()
+    end
+end)   
+
+Section2:CreateLabel("Pets")
+
+
+local Dropdown4 = Section2:CreateDropdown("Egg's", {"Royals","Normal","Ruby", "Void", "Silver", "Stone", "Gold"}, function(String)
+    eggs = String
+end)
+
+local Button8 = Section2:CreateButton("Buy", function()
+    if eggs == "Royal" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("royalegg")    
+        elseif eggs == "Normal" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("normalegg")   
+        elseif eggs == "Ruby" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("rubyegg")   
+        elseif eggs == "Void" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("voidegg")
+        elseif eggs == "Silver" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("silverchest")
+        elseif eggs == "Stone" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("stonechest")    
+        elseif eggs == "Gold" then
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("goldchest")            
+    end
+end)
+
+Section2:CreateLabel("Misc")
+
+
+local Button8 = Section2:CreateButton("Instant ProximityPrompt", function()
+game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(prompt)
+   prompt.HoldDuration = 0
+end)
+end) 
+
+local Button5 = Section2:CreateButton("Rejoins", function()
+tpservice:Teleport(game.PlaceId, plr)
+end) 
+
+local Button6 = Section2:CreateButton("Server Hop", function()
+switchServer()
+end)   
+
+local Button7 = Section2:CreateButton("Discord", function()
+setclipboard("adgXmSMCUM") 
+end)
+
+local Toggle7 = Section2:CreateToggle("UI Toggle", nil, function(State)
+    Window:Toggle(State)
+end)
+
+Toggle7:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+    Config.Keybind = Enum.KeyCode[Key]
+end)    
+Toggle7:SetState(true)
+
+EquipTool()
+game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(character)
+    EquipTool()
+end)
+
+--Hi
