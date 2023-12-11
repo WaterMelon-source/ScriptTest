@@ -163,7 +163,7 @@ local Toggle6 = Section1:CreateToggle("Auto Kill", nil, function(State)
                         end
                     end
                  
-                    teleport(v.HumanoidRootPart.CFrame + Vector3.new(0, 35, 0))
+                    v.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
                     wait(1)
                     break
                 elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
