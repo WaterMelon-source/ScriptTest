@@ -166,7 +166,7 @@ local Toggle6 = Section1:CreateToggle("Auto Kill", nil, function(State)
                     teleport(v.HumanoidRootPart.CFrame + Vector3.new(0, 30, 0))
                     wait(1)
                     game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(workspace[v.Name], tostring(plrTools), true)
-                    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(tostring(plrTools), game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 1702316267.3358395)
+                    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(tostring(plrTools), game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, Vector3.new(0.7219288945198059, -0.4673948585987091, 0.5102555155754089), 1702316267.3358395)
                     break
                 elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
                     EquipTool()
