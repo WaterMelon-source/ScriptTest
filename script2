@@ -1,473 +1,703 @@
---by Purples
+--------------------------------------------------------------------------------------Run Dash------------------------------------------------------------------------------------
 
-local Config = {
-    WindowName = "version 2.3",
-    Color = Color3.fromRGB(182,41,243),
-    Keybind = Enum.KeyCode.RightBracket
-}
+local characterC = game.Players.LocalPlayer.Character
 
+function RunDash()
+	local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
+	local Window = OrionLib:MakeWindow({Name = "🔓  Dash • 3008 [2.72]", IntroEnabled = true, IntroText = "Dash • 3008 [2.72]", IntroIcon = "http://www.roblox.com/asset/?id=257841248", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Bracket/main/BracketV3.lua"))()
-local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+	game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(character)
+		characterC = character
+	end)
 
-local Tab1 = Window:CreateTab("Fishing Simulator")
+--------------------------------------------------------------------------------------Functions-----------------------------------------------------------------------------------
 
+-----------------------------------------------------------------------------------Notify Function--------------------------------------------------------------------------------
 
-local Section1 = Tab1:CreateSection("")
-local Section2 = Tab1:CreateSection("")
+	function Notify(content, time)
+		OrionLib:MakeNotification({
+			Name = "Dash - Notification",
+			Content = content,
+			Image = "http://www.roblox.com/asset/?id=12684119225",
+			Time = time
+		})
+	end
 
-local RunService = game:GetService("RunService")
-local player = game.Players.LocalPlayer
-local hum = player.Character.HumanoidRootPart
-local mouse = player:GetMouse() 
-local tpservice= game:GetService("TeleportService")
-local VirtualUser= game:service'VirtualUser'
+---------------------------------------------------------------------------------CameraShake Function-----------------------------------------------------------------------------
 
-local ToolsCache = game:GetService("ReplicatedStorage").ToolsCache[player.UserId]
-local plrTools
-local bLocation
-local fuckMonster
-local fuckMobby
+	function CameraShake(Value)
+		game.Players.LocalPlayer.PlayerScripts.source.CameraShake.Enabled = not Value
+	end
 
-local seacreatureSelectionned
-local locationSelected
-local eggs
+----------------------------------------------------------------------------------FallDamage Function-----------------------------------------------------------------------------
 
--- Credits To Charwar for Server Hop
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-local File = pcall(function()
-    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
-end)
-if not File then
-    table.insert(AllIDs, actualHour)
-    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+	function FallDamage(Value)
+		characterC.FallDamage.Enabled = not Value
+	end
+
+---------------------------------------------------------------------------------ThirdPerson Function-----------------------------------------------------------------------------
+
+	function ThirdPerson(Value)
+		if Value == true then
+			game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
+			game.Players.LocalPlayer.CameraMaxZoomDistance = 6
+			game.Players.LocalPlayer.CameraMinZoomDistance = 6
+		else
+			game.Players.LocalPlayer.CameraMode = Enum.CameraMode.LockFirstPerson
+			game.Players.LocalPlayer.CameraMaxZoomDistance = 0.5
+			game.Players.LocalPlayer.CameraMinZoomDistance = 0.5
+		end
+	end
+
+----------------------------------------------------------------------------------AutoHeal Function-------------------------------------------------------------------------------
+
+	function AutoHeal(Value)
+		_G.WorkingAH = Value
+		while _G.WorkingAH == true do
+			wait()
+			if characterC.Humanoid.Health <= 95 then
+				for _, v in pairs(workspace.GameObjects.Physical.Map.Floor:GetChildren()) do
+					if v:FindFirstChild("Items") and v.Items:FindFirstChild("Medkit") and _G.WorkingAH == true then
+						if characterC.Humanoid.Health >= 90 then
+							wait()
+						else
+							_G.PPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+							wait(0.5)
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Items.Medkit.WorldPivot.Position.X, v.Items.Medkit.WorldPivot.Position.Y, v.Items.Medkit.WorldPivot.Position.Z)
+							wait(0.3)
+
+							local args = {
+								[1] = "Store",
+								[2] = {
+									["Model"] = v.Items.Medkit
+								}
+							}
+
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							wait(0.5)
+
+							local args = {
+								[1] = "Inventory_Consume",
+								[2] = {
+									["Tool"] = "Medkit"
+								}
+							}
+
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+						end
+					end
+				end
+			end
+		end
+	end
+
+----------------------------------------------------------------------------------AutoEat Function--------------------------------------------------------------------------------
+
+	function AutoHunger(Value)
+		_G.WorkingAE = Value
+		while _G.WorkingAE == true do
+			wait()
+			if characterC.Humanoid:GetAttribute("Hunger") <= 90 then
+				for _, v in pairs(workspace.GameObjects.Physical.Map.Floor:GetChildren()) do
+					if v:FindFirstChild("Items") and v.Items:FindFirstChild("Banana") and _G.WorkingAE == true then
+						if characterC.Humanoid:GetAttribute("Hunger") >= 90 then
+							wait()
+						else
+							_G.PPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+							wait(0.5)
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Items:FindFirstChild("Banana").WorldPivot.Position.X, v.Items:FindFirstChild("Banana").WorldPivot.Position.Y, v.Items:FindFirstChild("Banana").WorldPivot.Position.Z)
+							wait(0.3)
+
+							local args = {
+								[1] = "Store",
+								[2] = {
+									["Model"] = v.Items:FindFirstChild("Banana")
+								}
+							}
+
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							wait(0.5)
+
+							local args = {
+								[1] = "Inventory_Consume",
+								[2] = {
+									["Tool"] = "Banana"
+								}
+							}
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+						end
+					end
+				end
+			end
+		end
+	end
+
+----------------------------------------------------------------------------------AutoEnergy Function------------------------------------------------------------------------------
+
+	function AutoEnergy(Value)
+		_G.WorkingAEN = Value
+		while _G.WorkingAEN == true do
+			wait()
+			if characterC.Humanoid:GetAttribute("Energy") <= 50 then
+				for _, v in pairs(workspace.GameObjects.Physical.Map.Floor:GetChildren()) do
+					if v:FindFirstChild("Items") and v.Items:FindFirstChild("Bloxy Soda") and _G.WorkingAEN == true then
+						if characterC.Humanoid:GetAttribute("Energy") >= 90 then
+							wait()
+						else
+							_G.PPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+							wait(0.5)
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Items:FindFirstChild("Bloxy Soda").WorldPivot.Position.X, v.Items:FindFirstChild("Bloxy Soda").WorldPivot.Position.Y, v.Items:FindFirstChild("Bloxy Soda").WorldPivot.Position.Z)
+							wait(0.3)
+
+							local args = {
+								[1] = "Store",
+								[2] = {
+									["Model"] = v.Items:FindFirstChild("Bloxy Soda")
+								}
+							}
+
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							wait(0.5)
+
+							local args = {
+								[1] = "Inventory_Consume",
+								[2] = {
+									["Tool"] = "Bloxy Soda"
+								}
+							}
+
+							game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+						end
+					end
+				end
+			end
+		end
+	end   
+
+--------------------------------------------------------------------------------------Main Tab------------------------------------------------------------------------------------
+
+	local MainTab = Window:MakeTab({
+		Name = "Main",
+		Icon = "http://www.roblox.com/asset/?id=9405923687",
+		PremiumOnly = false
+	})
+
+	local Section = MainTab:AddSection({
+		Name = "📰  News & Updates"
+	})
+
+--------------------------------------------------------------------------------------News Here-----------------------------------------------------------------------------------
+	
+	MainTab:AddParagraph("🔗  New Tab Update","\n➕  Added: \n\n 💊  Auto Heal \n\n 🔋  Auto Energy \n\n 🧁  Auto Hunger \n\n Date: ___")
+	MainTab:AddParagraph("🔗  Auto Things Update","\n➕  Added: \n\n 💊  Auto Heal \n\n 🔋  Auto Energy \n\n 🧁  Auto Hunger \n\n Date: ___")
+	
+--------------------------------------------------------------------------------------Stats Tab-----------------------------------------------------------------------------------
+
+	local StatsTab = Window:MakeTab({
+		Name = "Stats",
+		Icon = "http://www.roblox.com/asset/?id=14377123173",
+		PremiumOnly = false
+	})
+		
+	local SectionStats = StatsTab:AddSection({
+		Name = " ℹ️  Player Stats"
+	})
+
+	_G.HealthShow = StatsTab:AddLabel("❤  Health: 100")
+	_G.EnergyShow = StatsTab:AddLabel("⚡  Energy: 100")
+	_G.HungerShow = StatsTab:AddLabel("🍖  Hunger: 100")
+		
+	local SectionStats = StatsTab:AddSection({
+		Name = " 🔥  Max Player Stats"
+	})
+		
+	_G.MaxHealthShow = StatsTab:AddLabel("💕  Max Health: 100")
+	_G.MaxEnergyShow = StatsTab:AddLabel("🌩  Max Energy: 100")
+	_G.MaxHungerShow = StatsTab:AddLabel("😋  Max Hunger: 100")
+
+--------------------------------------------------------------------------------------Player Tab-----------------------------------------------------------------------------------
+
+	local PlayerTab = Window:MakeTab({
+		Name = "Player",
+		Icon = "http://www.roblox.com/asset/?id=2795572800",
+		PremiumOnly = false
+	})
+
+	local SectionStats = PlayerTab:AddSection({
+		Name = " 😃  Player Default"
+	})
+
+	_G.SpeedShow = PlayerTab:AddLabel("👟  Speed: 12")
+	_G.JumpShow = PlayerTab:AddLabel("🦵  Jump: 40")
+		
+	local SectionStats = PlayerTab:AddSection({
+		Name = " 👤  Player Features"
+	})
+
+	PlayerTab:AddSlider({
+		Name = "👟  Speed",
+		Min = 0,
+		Max = 500,
+		Default = 12,
+		Color = Color3.fromRGB(255, 89, 89),
+		Increment = 1,
+		ValueName = "Speed 💨",
+		Callback = function(Value)
+			characterC.Humanoid.WalkSpeed = Value
+		end    
+	})
+
+	PlayerTab:AddButton({
+		Name = "🔄  Set to default",
+		Callback = function()
+			characterC.Humanoid.WalkSpeed = 12
+		end
+	})
+
+	PlayerTab:AddSlider({
+		Name = "🦵  Jump",
+		Min = 0,
+		Max = 10000,
+		Default = 40,
+		Color = Color3.fromRGB(9, 137, 207),
+		Increment = 1,
+		ValueName = "Jump ⬆",
+		Callback = function(Value)
+			characterC.Humanoid.JumpPower = Value
+		end    
+	})
+
+	PlayerTab:AddButton({
+		Name = "🔄  Set to default",
+		Callback = function()
+			characterC.Humanoid.JumpPower = 40
+		end
+	})
+		
+	PlayerTab:AddToggle({
+		Name = "💥  Disable/Enable Fall Damage",
+		Default = false,
+		Callback = function(Value)
+			characterC.FallDamage.Enabled = not Value
+		end    
+	})
+
+	PlayerTab:AddToggle({
+		Name = "🦅  Enable/Disable 3rd Person",
+		Default = false,
+		Callback = function(Value)
+			ThirdPerson(Value)
+		end    
+	})
+
+	PlayerTab:AddToggle({
+		Name = "💊  Enable/Disable Auto Heal",
+		Default = false,
+		Callback = function(Value)
+			AutoHeal(Value)
+		end    
+	})
+
+	PlayerTab:AddToggle({
+		Name = "🔋  Enable/Disable Auto Energy",
+		Default = false,
+		Callback = function(Value)
+			 AutoEnergy(Value)
+		end
+	})
+
+	PlayerTab:AddToggle({
+		Name = "🧁  Enable/Disable Auto Hunger",
+		Default = false,
+		Callback = function(Value)
+			AutoHunger(Value)
+		end    
+	})
+
+	PlayerTab:AddToggle({
+		Name = "📷  Disable/Enable Camera Shake",
+		Default = false,
+		Callback = function(Value)
+			CameraShake(Value)
+		end    
+	})
+
+--------------------------------------------------------------------------------------Game Tab------------------------------------------------------------------------------------
+
+	local GameTab = Window:MakeTab({
+		Name = "Game",
+		Icon = "http://www.roblox.com/asset/?id=11894535915",
+		PremiumOnly = false
+	})
+
+	local Section = GameTab:AddSection({
+		Name = " 🎮  Game Features"
+	})
+
+	_G.GameStatusShow = GameTab:AddLabel("☀🌙  Game Status: nil")
+
+	----------------------------------------------------------------------------------GetItem Function------------------------------------------------------------------------------
+
+	function GetItem(Item, Part, Value)
+		local times = 0
+		_G.PPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+		for _, v in pairs(workspace.GameObjects.Physical:GetChildren()) do
+			if v:FindFirstChild(Item) and times == 0 then
+				times += 1
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v:FindFirstChild(Item).WorldPivot.Position.X, v:FindFirstChild(Item).WorldPivot.Position.Y, v:FindFirstChild(Item).WorldPivot.Position.Z)
+				Notify("✅  Successfully Teleported To: "..Value, 2)
+				wait(0.15)
+				local args = {
+					[1] = "Store",
+					[2] = {
+						["Model"] = v:FindFirstChild(Item)
+					}
+				}
+
+				game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+				wait(0.15)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+				print("worked")
+			end
+		end
+		for _, v in pairs(workspace.GameObjects.Physical.Map.Floor:GetChildren()) do
+			if v:FindFirstChild("Items") and v.Items:FindFirstChild(Item) and times == 0 then
+				times += 1
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Items:FindFirstChild(Item).WorldPivot.Position.X, v.Items:FindFirstChild(Item).WorldPivot.Position.Y, v.Items:FindFirstChild(Item).WorldPivot.Position.Z)
+				Notify("✅  Successfully Teleported To: "..Value, 2)
+				wait(0.15)
+				local args = {
+					[1] = "Store",
+					[2] = {
+						["Model"] = v.Items:FindFirstChild(Item)
+					}
+				}
+
+				game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+				wait(0.15)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+				print("worked")
+			end
+		end
+		--for _, v in pairs(workspace.GameObjects.Physical:GetChildren()) do
+		--	if v:FindFirstChild(Item):FindFirstChild(Part) then
+		--		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v:FindFirstChild(Item):FindFirstChild(Part).CFrame.Position.X, v:FindFirstChild(Item):FindFirstChild(Part).CFrame.Position.Y, v:FindFirstChild(Item):FindFirstChild(Part).CFrame.Position.Z)
+		--		Notify("✅  Successfully Teleported To: "..Value, 2)
+		--		wait(0.5)
+		--		local args = {
+		--			[1] = "Store",
+		--			[2] = {
+		--				["Model"] = v.Items:FindFirstChild(Item)
+		--			}
+		--		}
+		--
+		--		game:GetService("Players").LocalPlayer.Character.System.Action:InvokeServer(unpack(args))
+		--		wait(0.5)
+		--		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = _G.PPos
+		--	end
+		--end
+	end
+
+	GameTab:AddDropdown({
+		Name = "🌀  Get Food: ",
+		Default = "",
+		Options = {"🍻  2 Litre Dr. Bob", "🍎  Apple",
+		"🍌  Banana", "🥫  Beans", "🥤  Bloxy Soda",
+		"🍔  Burger", "🥔  Chips", "🍪  Cookie",
+		"🍕  Pizza", "💧  Water", "🍋  Lemon"},
+		Callback = function(Value)
+			if Value == "🍻  2 Litre Dr. Bob" then
+				GetItem("2 Litre Dr. Bob", "Handle", Value)
+			elseif Value == "🍎  Apple" then
+				GetItem("Apple", "Apple", Value)
+			elseif Value == "🍌  Banana" then
+				GetItem("Banana", "Root", Value)
+			elseif Value == "🥫  Beans" then
+				GetItem("Beans", "Handle", Value)
+			elseif Value == "🥤  Bloxy Soda" then
+				GetItem("Bloxy Soda", "can", Value)
+			elseif Value == "🍔  Burger" then
+				GetItem("Burger", "Burger", Value)
+			elseif Value == "🥔  Chips" then
+				GetItem("Chips", "Root", Value)
+			elseif Value == "🍪  Cookie" then
+				GetItem("Cookie", "default", Value)
+			elseif Value == "🍺  Dr. Bob Soda" then
+				GetItem("Dr. Bob Soda", "Root", Value)
+			elseif Value == "🍕  Pizza" then
+				GetItem("Pizza", "Pizza", Value)
+			elseif Value == "💧  Water" then
+				GetItem("Water", "Root", Value)
+			elseif Value == "🍋  Lemon" then
+				GetItem("Lemon", "Root", Value)
+			end
+		end    
+	})	
+
+	GameTab:AddToggle({
+		Name = "🔆  FullBright",
+		Default = _G.FullBrightEnabled,
+		Callback = function(Value)
+			if not _G.FullBrightExecuted then
+				_G.FullBrightEnabled = false
+
+				_G.NormalLightingSettings = {
+					Brightness = game:GetService("Lighting").Brightness,
+					FogEnd = game:GetService("Lighting").FogEnd,
+					GlobalShadows = game:GetService("Lighting").GlobalShadows,
+					Ambient = game:GetService("Lighting").Ambient
+				}
+
+				game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
+					if game:GetService("Lighting").Brightness ~= 1 and game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness then
+						_G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+						if not _G.FullBrightEnabled then
+							repeat
+								wait()
+							until _G.FullBrightEnabled
+						end
+						game:GetService("Lighting").Brightness = 1
+					end
+				end)
+
+				game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
+					if game:GetService("Lighting").FogEnd ~= 786543 and game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd then
+						_G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+						if not _G.FullBrightEnabled then
+							repeat
+								wait()
+							until _G.FullBrightEnabled
+						end
+						game:GetService("Lighting").FogEnd = 786543
+					end
+				end)
+
+				game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+					if game:GetService("Lighting").GlobalShadows ~= false and game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
+						_G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+						if not _G.FullBrightEnabled then
+							repeat
+								wait()
+							until _G.FullBrightEnabled
+						end
+						game:GetService("Lighting").GlobalShadows = false
+					end
+				end)
+
+				game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
+					if game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient then
+						_G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+						if not _G.FullBrightEnabled then
+							repeat
+								wait()
+							until _G.FullBrightEnabled
+						end
+						game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+					end
+				end)
+
+				game:GetService("Lighting").Brightness = 1
+				game:GetService("Lighting").FogEnd = 786543
+				game:GetService("Lighting").GlobalShadows = false
+				game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+
+				local LatestValue = true
+				spawn(function()
+					repeat
+						wait()
+					until _G.FullBrightEnabled
+					while wait() do
+						if _G.FullBrightEnabled ~= LatestValue then
+							if not _G.FullBrightEnabled then
+								game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+								game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+								game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+								game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+							else
+								game:GetService("Lighting").Brightness = 1
+								game:GetService("Lighting").FogEnd = 786543
+								game:GetService("Lighting").GlobalShadows = false
+								game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+							end
+							LatestValue = not LatestValue
+						end
+					end
+				end)
+			end
+
+			_G.FullBrightExecuted = true
+			_G.FullBrightEnabled = Value
+		end
+	})
+
+	local KeyBindsTab = Window:MakeTab({
+		Name = "Keybinds",
+		Icon = "http://www.roblox.com/asset/?id=13254238395",
+		PremiumOnly = false
+	})
+
+	local Section = KeyBindsTab:AddSection({
+		Name = "🅿️  Keybinds"
+	})
+
+	KeyBindsTab:AddBind({
+		Name = "📷  Disable/Enable Camera Shake KeyBind",
+		Default = Enum.KeyCode.L,
+		Hold = false,
+		Callback = function()
+			CameraShake(game.Players.LocalPlayer.PlayerScripts.source.CameraShake.Enabled)	
+		end    
+	})
+
+--------------------------------------------------------------------------------------Game Tab------------------------------------------------------------------------------------
+
+	local SettingsTab = Window:MakeTab({
+		Name = "Settings",
+		Icon = "http://www.roblox.com/asset/?id=9753762469",
+		PremiumOnly = false
+	})
+
+	local Section = SettingsTab:AddSection({
+		Name = "⚙  Settings"
+	})
+
+	SettingsTab:AddToggle({
+		Name = "💥  Disable/Enable Fall Damage",
+		Default = false,
+		Callback = function(Value)
+			characterC.FallDamage.Enabled = not Value
+			characterC.FallDamage.Disabled = Value
+		end    
+	})
+
+	Notify("✅  Successfully loaded script!", 5)
+
+	OrionLib:Init()
 end
 
+---------------------------------------------------------------------------------------Values-------------------------------------------------------------------------------------
 
--- Server Hop
-function TPReturner()
-    local Site;
-    if foundAnything == "" then
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-    else
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-    end
-    local ID = ""
-    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-        foundAnything = Site.nextPageCursor
-    end
-    local num = 0;
-    for i,v in pairs(Site.data) do
-        local Possible = true
-        ID = tostring(v.id)
-        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-            for _,Existing in pairs(AllIDs) do
-                if num ~= 0 then
-                    if ID == tostring(Existing) then
-                        Possible = false
-                    end
-                else
-                    if tonumber(actualHour) ~= tonumber(Existing) then
-                        local delFile = pcall(function()
-                            delfile("NotSameServers.json")
-                            AllIDs = {}
-                            table.insert(AllIDs, actualHour)
-                        end)
-                    end
-                end
-                num = num + 1
-            end
-            if Possible == true then
-                table.insert(AllIDs, ID)
-                wait()
-                pcall(function()
-                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                    wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                end)
-                wait(4)
-            end
-        end
-    end
+function Values(humanoid)
+	humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+		_G.HealthShow:Set("❤  Health: "..tostring(humanoid.Health))
+	end)
+
+	humanoid:GetAttributeChangedSignal("Energy"):Connect(function()
+		_G.EnergyShow:Set("⚡  Energy: "..tostring(humanoid:GetAttribute("Energy")))
+	end)
+
+	humanoid:GetAttributeChangedSignal("Hunger"):Connect(function()
+		_G.HungerShow:Set("🍖  Hunger: "..tostring(humanoid:GetAttribute("Hunger")))
+	end)
+
+	humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(function()
+		_G.MaxHealthShow:Set("💕  Max Health: "..tostring(humanoid.MaxHealth))
+	end)
+
+	humanoid:GetAttributeChangedSignal("MaxEnergy"):Connect(function()
+		_G.MaxEnergyShow:Set("🌩  Max Energy: "..tostring(humanoid:GetAttribute("MaxEnergy")))
+	end)
+
+	humanoid:GetAttributeChangedSignal("MaxHunger"):Connect(function()
+		_G.MaxHungerShow:Set("😋  Max Hunger: "..tostring(humanoid:GetAttribute("MaxHunger")))
+	end)
+
+	humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+		_G.SpeedShow:Set("👟  Speed: "..tostring(humanoid.WalkSpeed))
+	end)
+
+	humanoid:GetPropertyChangedSignal("JumpPower"):Connect(function()
+		_G.JumpShow:Set("🦵  Jump: "..tostring(humanoid.JumpPower))
+	end)
+
+	game.ReplicatedStorage.ServerSettings.TimeSettings.TimeLeft:GetPropertyChangedSignal("Value"):Connect(function()
+		if game.Lighting.ClockTime == 0 and _G.FullBrightEnabled == false then
+			_G.GameStatusShow:Set("🌙  Game Status: Night, "..game.ReplicatedStorage.ServerSettings.TimeSettings.TimeLeft.Value)
+		elseif game.Lighting.ClockTime == 12 and _G.FullBrightEnabled == false then
+			_G.GameStatusShow:Set("🌞  Game Status: Day, "..game.ReplicatedStorage.ServerSettings.TimeSettings.TimeLeft.Value)
+		else
+			_G.GameStatusShow:Set("🔆  Game Status: FullBright")
+		end
+	end)
 end
 
-function switchServer()
-    while wait() do
-        pcall(function()
-            TPReturner()
-            if foundAnything ~= "" then
-                TPReturner()
-            end
-        end)
-    end
-end
-
-function teleport(loc)
-    bLocation = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-    if game.Players.LocalPlayer.Character.Humanoid.Sit then
-        game.Players.LocalPlayer.Character.Humanoid.Sit = false
-    end
-    wait()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = loc
-end
-
--- Get Tools Name (Just hidden the tool in replicatedstorage, savageeeee but characte win)
-for i, getTools in pairs(player.Character:GetChildren()) do
-    if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
-        plrTools = getTools.Name
-    end
-end
-
-function EquipTool()
-    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetEquippedItem:InvokeServer(2)
-    local args = {
-     [1] = game:GetService("ReplicatedStorage").ToolsCache:FindFirstChild(player.UserId)[plrTools]
-    }
-    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EquipTool:FireServer(unpack(args))
-end
-
-game:service'Players'.LocalPlayer.Idled:connect(function()
-    VirtualUser:CaptureController()
-    VirtualUser:ClickButton2(Vector2.new())
-end)
-
--------------
-
-
-
-
-
--------------------------------------------------------
-
-
-
-Section1:CreateLabel("Farming")
-
-local Toggle6 = Section1:CreateToggle("Auto Kill", nil, function(State)
-    shared.toggle = State
-     if shared.toggle then
-    fuckMonster = RunService.Stepped:Connect(function()
-     for i, v in pairs(game.Workspace:GetChildren()) do
-     if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
-        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
-                 
-                
-                    for i, getTools in pairs(player.Character:GetChildren()) do
-                        if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
-                            plrTools = getTools.Name
-                        end
-                    end
-                 
-                    v.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-                    wait(1)
-                    break
-                elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
-                    EquipTool()
-               break
-            end
-        end
-     end
-     end)
-    else
-         fuckMonster:Disconnect()
-          teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))
-        end
-end)
-
-local Toggle11 = Section1:CreateToggle("Auto Kill Mobby Wood", nil, function(State)
-    shared.toggle = State
-     if shared.toggle then
-    fuckMobby = RunService.Stepped:Connect(function()
-     for i, v in pairs(game.Workspace:GetChildren()) do
-     if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and v.Name == "MobbyWood" then
-        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
-                 
-                
-                    for i, getTools in pairs(player.Character:GetChildren()) do
-                        if getTools:IsA("Tool") and  getTools:FindFirstChild("GripC1") then
-                            plrTools = getTools.Name
-                        end
-                    end
-                 
-                    teleport(v.HumanoidRootPart.CFrame + Vector3.new(0, 50, 0))
-                    wait(1)
-                    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(workspace[v.Name], tostring(plrTools), true)
-                    break
-                elseif not game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
-                    EquipTool()
-               break
-            end
-        end
-     end
-     end)
-    else
-         fuckMobby:Disconnect()
-          teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))
-        end
-end)
-
-
-local Toggle8 = Section1:CreateToggle("Reduce Lag", nil, function(State)
-    toggle = State
-     if toggle then
-        while toggle do 
-            wait(30)
-            for i, v in pairs(game.Workspace.DroppedItems:GetChildren()) do
-                if v:IsA("Model") then
-                    v:Destroy()
-                end
-            end
-        end
-      end
-end)
-
-local Toggle10 = Section1:CreateToggle("Auto Lock Rare Items", nil, function(State)
-    toggle = State
-     if toggle then
-        while toggle do 
-            wait(.1)
-for i, v in pairs(game.Players.LocalPlayer.PlayerGui.Interface.Inventory.Inventory.Frame.Backpack.List.Container:GetChildren()) do
-        if string.match(v.Name, "key") then
-            for i, model in pairs(v:GetDescendants()) do
-                if model:IsA("Tool") then
-                    if model.RarityLevel.Value >= 4 then
-                        
-                        if v.DraggableComponent.Contents.LockIcon.Visible == false then
-                            print(v.Name, model.Name, model.RarityLevel.Value)
-                        local args = {
-                            [1] = "Tools",
-                            [2] = v.Name,
-                            [3] = true
-                        }
-                        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetInventoryItemLock:InvokeServer(unpack(args))
-                                                    
-                        end
-                    end
-                end
-            end
-        end
-end
-            
-        end
-      end
-end)
-
-Toggle10:AddToolTip("Rarity Locked: \nEpic \nLegendary \nEvent \nSecret")
-
-local Toggle1 = Section1:CreateToggle("Auto Caught", nil, function(State)
-toggle = State
-    while toggle do
-        wait(2.6)
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.FishCaught:FireServer()
-    end
-end)
-
-local Toggle2 = Section1:CreateToggle("Auto Sell", nil, function(State)
-toggle = State
-    while toggle do
-        wait(2.6)
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
-    end
-end)
-
-local Toggle3 = Section1:CreateToggle("Remove Fog", nil, function(State)
-    toggle = State
-        while toggle do
-        if  game.Lighting.FogEnd == 100 then
-         game.Lighting.FogEnd = 1000000
-        end
-            game.Lighting.FogEnd = 1000000
-            game.Lighting.GlobalLighting:Destroy()
-            game.Lighting.Atmosphere:Destroy()     
-             game.Lighting.Lighting:Destroy()  
-              game.Lighting.ColorCorrection:Destroy()     
-               game.Lighting.Bloom:Destroy()     
-                game.Lighting.Blur:Destroy()     
-                 game.Lighting.Atmosphere:Destroy()                 
-        end
-end)
-
-Section1:CreateLabel("Chest")
-
-local Toggle4 = Section1:CreateToggle("Daily Chest", nil, function(State)
-    toggle = State
-        while toggle do
-                for i, v in pairs(game.Workspace.Islands:GetDescendants()) do
-                    if v:IsA("Model") and string.match(v.Name, "Chest") then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
-                        wait(1)
-                        fireproximityprompt(v.HumanoidRootPart.ProximityPrompt)
-                    end
-                end            
-        end
-end)
-
-local Toggle9 = Section1:CreateToggle("Random Chest", nil, function(State)
-    toggle = State
-        while toggle do
-                for i, v in pairs(game.Workspace.RandomChests:GetDescendants()) do
-                    if v:IsA("Model") and string.match(v.Name, "Chest") then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
-                        wait(1)
-                        fireproximityprompt(v.HumanoidRootPart.ProximityPrompt)
-                    end
-                end            
-        end
-end)
-
-local Toggle5 = Section1:CreateToggle("Suken Chest", nil, function(State)
-    toggle = State
-        while toggle do
-            wait(5)
-             for i, v in pairs(game.Workspace:GetChildren()) do
-                if string.find(v.Name, "ShipModel") then
-                        teleport(v.HitBox.CFrame)
-                        for i, x in pairs(v:GetChildren()) do
-                            if string.match(x.Name, "Chest_") then
-                                teleport(x.HumanoidRootPart.CFrame)
-                                wait(1)
-                                fireproximityprompt(x.HumanoidRootPart.ProximityPrompt)    
-                            end                                
-                        end
-                    break
-                 end
-              end
-        end
-end)
-
-
----------------------------------------------------------------------
-Section1:CreateLabel("Teleport")
-
-local Dropdown2 = Section1:CreateDropdown("Store", {"Boat Store","Raygan's Tavern","Supplies Store", "Pets Store"}, function(String)
-    locationSelected = String
-end)
-
-local Button1 = Section1:CreateButton("Teleport", function()
-    if locationSelected == "Boat Store" then
-            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("BoatShopInterior", "Inside")
-        elseif locationSelected == "Raygan's Tavern" then
-            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("TavernInterior", "Inside")
-        elseif locationSelected == "Supplies Store" then
-            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("SuppliesStoreInterior", "Inside")  
-        elseif locationSelected == "Pets Store" then
-            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.EnterDoor:InvokeServer("PetShop", "MainEntrance")
-    end
-end)
-
-local Dropdown3 = Section1:CreateDropdown("Location", {"Port Jackson","Ancient Shores","Shadow Isles", "Pharaoh's Dunes", "Eruption Island", "Monster's Borough", "Suken Ship"}, function(String)
-    locationSelected = String
-end)
-
-local Button2 = Section1:CreateButton("Teleport", function()
-    if locationSelected == "Port Jackson" then
-        teleport(CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734))           
-        elseif locationSelected == "Ancient Shores" then
-        teleport(CFrame.new(-2436.431640625, 43.564971923828, -1683.4526367188))    
-        elseif locationSelected == "Shadow Isles" then
-        teleport(CFrame.new(2196.9926757812, 43.491630554199, -2216.4543457031))    
-        elseif locationSelected == "Pharaoh's Dunes" then
-        teleport(CFrame.new(-4142.74609375, 46.71378326416, 262.05679321289))
-        elseif locationSelected == "Eruption Island" then
-        teleport(CFrame.new(3022.9311523438, 52.347640991211, 1323.74609375))
-        elseif locationSelected == "Monster's Borough" then
-        teleport(CFrame.new(-3211.9047851562, 41.850345611572, 2735.306640625))  
-        elseif locationSelected == "Suken Ship" then
-             for i, v in pairs(game.Workspace:GetChildren()) do
-                if string.find(v.Name, "ShipModel") then
-                        teleport(v.HitBox.CFrame)
-                    break
-                 end
-              end                               
-    end
-end)
-
-Section2:CreateLabel("Boats")
-
-local Slider1 = Section2:CreateSlider("Boat Speed", 0,150,nil,true, function(Value)
- for i, v in pairs(game.Workspace:GetChildren()) do
-        if v.Name == (game.Players.LocalPlayer.Name .. "'s Boat") then
-             v.Controller.VehicleSeat.MaxSpeed = tonumber(Value)
-         end
-    end   
-end)
-
-local Button3 = Section2:CreateButton("Tp to Boat", function()
-    for i, v in pairs(game.Workspace:GetChildren()) do
-        if v.Name == (game.Players.LocalPlayer.Name .. "'s Boat") then
-             teleport(v.Controller.VehicleSeat.CFrame + Vector3.new(0, 3, 0))
-        end
-    end
-end)
-local Button4 = Section2:CreateButton("Remove Borders", function()
-    for i, v in pairs(game.Workspace.IgnoredByMouse.BoatBorders:GetChildren()) do
-        v:Destroy()
-    end
-end)   
-
-Section2:CreateLabel("Pets")
-
-
-local Dropdown4 = Section2:CreateDropdown("Egg's", {"Royals","Normal","Ruby", "Void", "Silver", "Stone", "Gold"}, function(String)
-    eggs = String
-end)
-
-local Button8 = Section2:CreateButton("Buy", function()
-    if eggs == "Royal" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("royalegg")    
-        elseif eggs == "Normal" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("normalegg")   
-        elseif eggs == "Ruby" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("rubyegg")   
-        elseif eggs == "Void" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("voidegg")
-        elseif eggs == "Silver" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("silverchest")
-        elseif eggs == "Stone" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("stonechest")    
-        elseif eggs == "Gold" then
-        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.OpenLootboxFunction:InvokeServer("goldchest")            
-    end
-end)
-
-Section2:CreateLabel("Misc")
-
-
-local Button8 = Section2:CreateButton("Instant ProximityPrompt", function()
-game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(prompt)
-   prompt.HoldDuration = 0
-end)
-end) 
-
-local Button5 = Section2:CreateButton("Rejoins", function()
-tpservice:Teleport(game.PlaceId, plr)
-end) 
-
-local Button6 = Section2:CreateButton("Server Hop", function()
-switchServer()
-end)   
-
-local Button7 = Section2:CreateButton("Discord", function()
-setclipboard("adgXmSMCUM") 
-end)
-
-local Toggle7 = Section2:CreateToggle("UI Toggle", nil, function(State)
-    Window:Toggle(State)
-end)
-
-Toggle7:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
-    Config.Keybind = Enum.KeyCode[Key]
-end)    
-Toggle7:SetState(true)
-
-EquipTool()
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(character)
-    EquipTool()
+	local humanoid = character:WaitForChild("Humanoid")
+	Values(humanoid)
 end)
 
---Hi
+local humanoid = characterC:WaitForChild("Humanoid")
+Values(humanoid)
+
+--------------------------------------------------------------------------------------Key System------------------------------------------------------------------------------------
+
+if gg then--game.CoreGui:FindFirstChild("Orion") then
+	warn("⚠️ Dash - Notification: Script already loaded!")
+else
+	local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+	local Window = OrionLib:MakeWindow({Name = "🔒  Dash • Key System", IntroEnabled = true, IntroText = "Dash • Key System", IntroIcon = "http://www.roblox.com/asset/?id=257841248", HidePremium = false, SaveConfig = true, ConfigFolder = "Dash_Key"})
+
+	function Notify(content, time)
+		OrionLib:MakeNotification({
+			Name = "Dash - Notification",
+			Content = content,
+			Image = "http://www.roblox.com/asset/?id=12684119225",
+			Time = time
+		})
+	end
+
+	local KeyTab = Window:MakeTab({
+		Name = "Key",
+		Icon = "http://www.roblox.com/asset/?id=10359759953",
+		PremiumOnly = false
+	})
+
+	KeyTab:AddTextbox({
+		Name = "🔑  Key: ",
+		Default = _G.key,
+		TextDisappear = false,
+		Callback = function(Value)
+			_G.key = Value
+		end	  
+	})
+
+	KeyTab:AddButton({
+		Name = "✅  Submit",
+		Callback = function()
+			if _G.key == "Dash_X%eQk]5Q10k2R.WPPQ-v" then
+				RunDash()
+			else
+				Notify("❌  Error: Not Correct Key", 2)
+			end
+		end
+	})
+
+	local Orion = game.CoreGui:FindFirstChild("Orion")
+	print(Orion)
+	--Orion.Name == "DashKS"
+
+	if _G.key == "Dash_X%eQk]5Q10k2R.WPPQ-v" then
+		RunDash()
+		Notify("✅  Key is still valid", 5)
+	else
+		Notify("⚠️  Key Expired/Leaved The Game/New", 10)
+	end
+	OrionLib:Init()
+end
