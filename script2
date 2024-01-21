@@ -194,7 +194,7 @@ function RunDash()
 
 	local MainTab = Window:MakeTab({
 		Name = "Main",
-		Icon = "http://www.roblox.com/asset/?id=9405923687",
+		Icon = "rbxassetid://10723407389",
 		PremiumOnly = false
 	})
 
@@ -211,7 +211,7 @@ function RunDash()
 
 	local StatsTab = Window:MakeTab({
 		Name = "Stats",
-		Icon = "http://www.roblox.com/asset/?id=14377123173",
+		Icon = "rbxassetid://10747363465",
 		PremiumOnly = false
 	})
 		
@@ -235,7 +235,7 @@ function RunDash()
 
 	local PlayerTab = Window:MakeTab({
 		Name = "Player",
-		Icon = "http://www.roblox.com/asset/?id=2795572800",
+		Icon = "rbxassetid://10734920149",
 		PremiumOnly = false
 	})
 
@@ -342,7 +342,7 @@ function RunDash()
 
 	local GameTab = Window:MakeTab({
 		Name = "Game",
-		Icon = "http://www.roblox.com/asset/?id=11894535915",
+		Icon = "rbxassetid://10723395457",
 		PremiumOnly = false
 	})
 
@@ -548,7 +548,7 @@ function RunDash()
 
 	local KeyBindsTab = Window:MakeTab({
 		Name = "Keybinds",
-		Icon = "http://www.roblox.com/asset/?id=13254238395",
+		Icon = "rbxassetid://10723416652",
 		PremiumOnly = false
 	})
 
@@ -561,15 +561,15 @@ function RunDash()
 		Default = Enum.KeyCode.L,
 		Hold = false,
 		Callback = function()
-			CameraShake(game.Players.LocalPlayer.PlayerScripts.source.CameraShake.Enabled)	
+			CameraShake(game.Players.LocalPlayer.PlayerScripts.source.CameraShake.Enabled)
 		end    
 	})
 
---------------------------------------------------------------------------------------Game Tab------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------Settings Tab------------------------------------------------------------------------------------
 
 	local SettingsTab = Window:MakeTab({
 		Name = "Settings",
-		Icon = "http://www.roblox.com/asset/?id=9753762469",
+		Icon = "rbxassetid://10734950309",
 		PremiumOnly = false
 	})
 
