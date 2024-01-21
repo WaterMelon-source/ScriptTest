@@ -342,7 +342,7 @@ function RunDash()
 
 	local GameTab = Window:MakeTab({
 		Name = "Game",
-		Icon = "rbxassetid://10723395457",
+		Icon = "rbxassetid://10723416527",
 		PremiumOnly = false
 	})
 
@@ -546,9 +546,11 @@ function RunDash()
 		end
 	})
 
+--------------------------------------------------------------------------------------Keybinds Tab------------------------------------------------------------------------------------
+
 	local KeyBindsTab = Window:MakeTab({
 		Name = "Keybinds",
-		Icon = "rbxassetid://10723416652",
+		Icon = "rbxassetid://10723416765",
 		PremiumOnly = false
 	})
 
