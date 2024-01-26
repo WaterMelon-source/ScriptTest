@@ -153,6 +153,24 @@ Tabs.Player:AddButton({
 })
 
 Tabs.Farm:AddParagraph({
+    Title = "									   🍷  Restaurant  🍷"
+    --Content = ""
+})
+
+local Input = Tabs.Farm:AddInput("PlayerInput", {
+	Title = "👤  Player Restaurant: ",
+	Default = _G.restaurant,
+	Placeholder = "Placeholder",
+	Numeric = false, -- Only allows numbers
+	Finished = true, -- Only calls callback when you press enter
+	Callback = function(Value)
+		if game.Players:FindFirstChild(Value) then
+			_G.restaurant = game.Players:FindFirstChild(Value)
+		end
+	end
+})
+
+Tabs.Farm:AddParagraph({
     Title = "									    🔥  Functions  🔥"
     --Content = ""
 })
