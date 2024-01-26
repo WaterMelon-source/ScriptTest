@@ -159,7 +159,7 @@ Tabs.Farm:AddParagraph({
 
 local Input = Tabs.Farm:AddInput("PlayerInput", {
 	Title = "👤  Player Restaurant: ",
-	Default = _G.restaurant.Name,
+	Default = "LocalPlayer",
 	Placeholder = "Placeholder",
 	Numeric = false, -- Only allows numbers
 	Finished = true, -- Only calls callback when you press enter
