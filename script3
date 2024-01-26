@@ -9,13 +9,8 @@ local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
 _G.restaurant = nil
-_G.Settings = {
-    		[1] = _G.AutoCooking,
-    		[2] = _G.AutoCollectCash,
-		[3] = _G.AutoCollectTrash
-}
 
------reset to load normal------
+------reset login normal-------
 _G.AutoCooking = false
 _G.AutoCollectCash = false
 _G.AutoCollectTrash = false
@@ -164,7 +159,7 @@ Tabs.Farm:AddParagraph({
 
 
 
-local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = _G.Settings[1]})
+local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = _G.AutoCooking})
 
 AutoCookToggle:OnChanged(function(Value)
 	_G.AutoCooking = Value
@@ -188,7 +183,7 @@ AutoCookToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = _G.Settings[2]})
+local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = _G.AutoCollectCash})
 
 AutoCollectCashToggle:OnChanged(function(Value)
 	_G.AutoCollectCash = Value
@@ -210,7 +205,7 @@ AutoCollectCashToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.Settings[3]})
+local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
 
 AutoCollectTrashToggle:OnChanged(function(Value)
 	_G.AutoCollectTrash = Value
