@@ -144,7 +144,7 @@ Tabs.Player:AddButton({
 })
 
 Tabs.Farm:AddParagraph({
-    Title = "									  🔥  Functions  🔥"
+    Title = "									    🔥  Functions  🔥"
     --Content = ""
 })
 
