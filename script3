@@ -10,12 +10,6 @@ local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayer
 local Device = 'Device'
 _G.restaurant = nil
 
-for i,v in pairs(workspace.Tycoons:GetChildren()) do
-	if v:FindFirstChild("Player") and v.Player.Value == game.Players.LocalPlayer then
-		_G.restaurant = v
-	end
-end
-
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
 elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
@@ -50,6 +44,16 @@ function Notify(content, time)
 		Duration = time -- Set to nil to make the notification not disappear
 	})
 end
+
+repeat
+	wait(4)
+	for i,v in pairs(workspace.Tycoons:GetChildren()) do
+		if v:FindFirstChild("Player") and v.Player.Value == game.Players.LocalPlayer then
+			_G.restaurant = v
+		end
+	end
+	Notify("Waiting for you to claim Restaurant",2)
+until _G.restaurant
 
 Tabs.Home:AddParagraph({
     Title = "										    💨  Dash  💨"
