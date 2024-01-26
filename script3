@@ -178,11 +178,11 @@ InstantCookToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
+local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = _G.AutoCollectCash})
 
-AutoCollectTrashToggle:OnChanged(function(Value)
-	_G.AutoCollectTrash = Value
-	while _G.InstantCooking == true do
+AutoCollectCashToggle:OnChanged(function(Value)
+	_G.AutoCollectCash = Value
+	while _G.AutoCollectCash == true do
 		wait(5)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Bill") then
@@ -190,6 +190,28 @@ AutoCollectTrashToggle:OnChanged(function(Value)
     					[1] = _G.restaurant,
     					[2] = {
         					["name"] = "CollectBill",
+        					["model"] = v
+    					}
+				}
+
+				game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+			end
+		end
+	end
+end)
+
+local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
+
+AutoCollectTrashToggle:OnChanged(function(Value)
+	_G.AutoCollectTrash = Value
+	while _G.AutoCollectTrash == true do
+		wait(5)
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+			if v:FindFirstChild("Trash") then
+				local args = {
+    					[1] = _G.restaurant,
+    					[2] = {
+        					["name"] = "ClearTrash",
         					["model"] = v
     					}
 				}
