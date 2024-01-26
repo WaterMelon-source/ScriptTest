@@ -150,7 +150,7 @@ Tabs.Farm:AddParagraph({
 
 
 
-local InstantCookToggle = Tabs.Farm:AddToggle("InstantCook", {Title = "👨‍🍳   Instant Cook", Default = false})
+local InstantCookToggle = Tabs.Farm:AddToggle("InstantCook", {Title = "👨‍🍳   Instant Cook", Default = _G.InstantCooking})
 
 InstantCookToggle:OnChanged(function(Value)
 	_G.InstantCooking = Value
