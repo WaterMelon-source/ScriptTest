@@ -154,11 +154,11 @@ Tabs.Farm:AddParagraph({
 
 
 
-local InstantCookToggle = Tabs.Farm:AddToggle("InstantCook", {Title = "👨‍🍳   Instant Cook", Default = _G.InstantCooking})
+local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = _G.AutoCooking})
 
-InstantCookToggle:OnChanged(function(Value)
-	_G.InstantCooking = Value
-	while _G.InstantCooking == true do
+AutoCookToggle:OnChanged(function(Value)
+	_G.AutoCooking = Value
+	while _G.AutoCooking == true do
 		wait(1)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
@@ -183,7 +183,7 @@ local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "�
 AutoCollectCashToggle:OnChanged(function(Value)
 	_G.AutoCollectCash = Value
 	while _G.AutoCollectCash == true do
-		wait(5)
+		wait(1)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Bill") then
 				local args = {
@@ -205,7 +205,7 @@ local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = 
 AutoCollectTrashToggle:OnChanged(function(Value)
 	_G.AutoCollectTrash = Value
 	while _G.AutoCollectTrash == true do
-		wait(5)
+		wait(1)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Trash") then
 				local args = {
