@@ -178,6 +178,28 @@ InstantCookToggle:OnChanged(function(Value)
 	end
 end)
 
+local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
+
+AutoCollectTrashToggle:OnChanged(function(Value)
+	_G.AutoCollectTrash = Value
+	while _G.InstantCooking == true do
+		wait(5)
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+			if v:FindFirstChild("Bill") then
+				local args = {
+    					[1] = _G.restaurant,
+    					[2] = {
+        					["name"] = "CollectBill",
+        					["model"] = v
+    					}
+				}
+
+				game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+			end
+		end
+	end
+end)
+
 
 -------------
 
