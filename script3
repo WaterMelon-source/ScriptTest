@@ -182,7 +182,7 @@ local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   A
 AutoCookToggle:OnChanged(function(Value)
 	_G.AutoCooking = Value
 	while _G.AutoCooking == true do
-		wait(1)
+		wait(0.1)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
 				for i,f in pairs(v:GetChildren()) do
@@ -214,7 +214,7 @@ local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "�
 AutoCollectCashToggle:OnChanged(function(Value)
 	_G.AutoCollectCash = Value
 	while _G.AutoCollectCash == true do
-		wait(1)
+		wait(0.5)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Bill") then
 				local args = {
@@ -236,7 +236,7 @@ local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = 
 AutoCollectTrashToggle:OnChanged(function(Value)
 	_G.AutoCollectTrash = Value
 	while _G.AutoCollectTrash == true do
-		wait(1)
+		wait(0.5)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Trash") then
 				local args = {
@@ -258,7 +258,7 @@ local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "�
 AutoCollectTipToggle:OnChanged(function(Value)
 	_G.AutoCollectTip = Value
 	while _G.AutoCollectTip == true do
-		wait(10)
+		wait(5)
 		local args = {
     			[1] = _G.restaurant,
     			[2] = {
@@ -274,7 +274,7 @@ local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Cu
 AutoSeatToggle1:OnChanged(function(Value)
 	_G.AutoSeat = Value
 	while _G.AutoSeat == true do
-		wait(1)
+		wait(0.5)
 		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
@@ -310,7 +310,7 @@ local AutoServeToggle = Tabs.Farm:AddToggle("AutoServe", {Title = "💬   Auto C
 AutoServeToggle:OnChanged(function(Value)
 	_G.AutoServe = Value
 	while _G.AutoServe == true do
-		wait(1)
+		wait(0.5)
 		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
@@ -339,7 +339,7 @@ local AutoFoodToggle = Tabs.Farm:AddToggle("AutoFood", {Title = "🍝   Auto Del
 AutoFoodToggle:OnChanged(function(Value)
 	_G.AutoFood = Value
 	while _G.AutoFood == true do
-		wait(1)
+		wait(0.5)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("OrderedFoods") then
 				for i,f in pairs(v:FindFirstChild("OrderedFoods"):GetChildren()) do
