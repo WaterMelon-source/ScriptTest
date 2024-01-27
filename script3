@@ -242,6 +242,22 @@ AutoCollectTrashToggle:OnChanged(function(Value)
 	end
 end)
 
+local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "🪙   Auto Collect Tip", Default = _G.AutoCollectTip})
+
+AutoCollectTipToggle:OnChanged(function(Value)
+	_G.AutoCollectTip = Value
+	while _G.AutoCollectTip == true do
+		wait(10)
+		local args = {
+    			[1] = _G.restaurant,
+    			[2] = {
+     	  			["name"] = "CollectTip"
+    			}
+		}
+		game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+	end
+end)
+
 
 -------------
 
