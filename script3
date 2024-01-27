@@ -242,7 +242,7 @@ AutoCollectTrashToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "🪙   Auto Collect Tip", Default = _G.AutoCollectTip})
+local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "💸   Auto Collect Tip", Default = _G.AutoCollectTip})
 
 AutoCollectTipToggle:OnChanged(function(Value)
 	_G.AutoCollectTip = Value
