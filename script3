@@ -182,7 +182,7 @@ local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   A
 AutoCookToggle:OnChanged(function(Value)
 	_G.AutoCooking = Value
 	while _G.AutoCooking == true do
-		wait(0.1)
+		wait(0.5)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
 				for i,f in pairs(v:GetChildren()) do
@@ -195,13 +195,13 @@ AutoCookToggle:OnChanged(function(Value)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-				v.Base.Attachment:FindFirstChild("Cook_Oven"):Destroy()
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-				v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"):Destroy()
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
-				v.Base.Attachment:FindFirstChild("Cook_Stove"):Destroy()
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
 			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
@@ -316,7 +316,7 @@ AutoServeToggle:OnChanged(function(Value)
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
 					if f:FindFirstChild(tostring(v.Name)) then
-						if game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui:FindFirstChild("CustomerSpeechUI") and game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui.CustomerSpeechUI:FindFirstChild("Emoji") then
+						if game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui:FindFirstChild("CustomerSpeechUI") and game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui.CustomerSpeechUI:FindFirstChild("Picture").ImageColor3 == Color3.fromRGB(255,255,255) then
 							for i,s in pairs(f:FindFirstChild(tostring(v.Name)):GetChildren()) do
 								local args = {
     								[1] = _G.restaurant,
