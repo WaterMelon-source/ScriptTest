@@ -9,6 +9,7 @@ local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
 _G.restaurant = nil
+_G.CurrentPlayer = nil
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -50,6 +51,7 @@ repeat
 	for i,v in pairs(workspace.Tycoons:GetChildren()) do
 		if v:FindFirstChild("Player") and v.Player.Value == game.Players.LocalPlayer then
 			_G.restaurant = v
+			_G.CurrentPlayer = game.Players.LocalPlayer.Name
 		end
 	end
 	Notify("Waiting for you to claim Restaurant",2)
@@ -162,6 +164,7 @@ local Input = Tabs.Farm:AddInput("PlayerInput", {
 		for i,v in pairs(workspace.Tycoons:GetChildren()) do
 			if v:FindFirstChild("Player") and v.Player.Value == game.Players:FindFirstChild(Value) then
 				_G.restaurant = v
+				_G.CurrentPlayer = game.Players:FindFirstChild(Value).Name
 			end
 		end
 	end
@@ -183,7 +186,9 @@ AutoCookToggle:OnChanged(function(Value)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
 				for i,f in pairs(v:GetChildren()) do
-					fireproximityprompt(f, 1, true)
+					if f.Name:match(_G.CurrentPlayer) then
+						fireproximityprompt(f, 1, true)
+					end
 				end
 			end
 		end
