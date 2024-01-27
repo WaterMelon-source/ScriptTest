@@ -194,14 +194,17 @@ AutoCookToggle:OnChanged(function(Value)
 		end
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
+				wait(0.5)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
+				wait(1)
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
+				wait(0.5)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
 			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
@@ -316,18 +319,20 @@ AutoServeToggle:OnChanged(function(Value)
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
 					if f:FindFirstChild(tostring(v.Name)) then
-						if game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui:FindFirstChild("CustomerSpeechUI") and game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui.CustomerSpeechUI:FindFirstChild("Picture").ImageColor3 == Color3.fromRGB(255,255,255) then
-							for i,s in pairs(f:FindFirstChild(tostring(v.Name)):GetChildren()) do
-								local args = {
-    								[1] = _G.restaurant,
-    									[2] = {
-        									["name"] = "ManageCustomers",
-        									["group"] = tostring(v.Name),
-       										["tycoon"] = _G.restaurant,
-        									["customer"] = tostring(s.Name)
-    									}
-								}
-								game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+						for i,d in pairs(game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui:GetChildren()) do
+							if d:FindFirstChild("Picture") and d:FindFirstChild("Picture").ImageColor3 == Color3.fromRGB(255,255,255) then
+								for i,s in pairs(f:FindFirstChild(tostring(v.Name)):GetChildren()) do
+									local args = {
+    										[1] = _G.restaurant,
+    										[2] = {
+        										["name"] = "ManageCustomers",
+        										["group"] = tostring(v.Name),
+       											["tycoon"] = _G.restaurant,
+        										["customer"] = tostring(s.Name)
+    										}
+									}
+									game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+								end
 							end	
 						end
 					end
