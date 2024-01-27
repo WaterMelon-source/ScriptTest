@@ -265,7 +265,7 @@ end)
 
 local AutoSeatToggle = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Customers Seat", Default = _G.AutoSeat})
 
-AutoSeat:OnChanged(function(Value)
+AutoSeatToggle:OnChanged(function(Value)
 	_G.AutoSeat = Value
 	while _G.AutoSeat == true do
 		wait(5)
