@@ -55,11 +55,6 @@ repeat
 	Notify("Waiting for you to claim Restaurant",2)
 until _G.restaurant
 
-
-if _G.Loaded == 1 then
-	Fluent:Destroy()
-end
-
 Tabs.Home:AddParagraph({
     Title = "										    💨  Dash  💨"
 })
@@ -254,5 +249,3 @@ end)
 Window:SelectTab(1)
 
 Notify("✅  Successfully Loaded!", 5)
-
-_G.Loaded = 1
