@@ -328,6 +328,47 @@ AutoServeToggle:OnChanged(function(Value)
 	end
 end)
 
+local AutoFoodToggle = Tabs.Farm:AddToggle("AutoFood", {Title = "🍝   Auto Deliver Food", Default = _G.AutoFood})
+
+AutoDeliverFoodToggle:OnChanged(function(Value)
+	_G.AutoFood = Value
+	while _G.AutoFood == true do
+		wait(1)
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+			if v:FindFirstChild("OrderedFoods") then
+				for i,f in pairs(v:FindFirstChild("OrderedFoods"):GetChildren()) do
+					for i,s in pairs(_G.restaurant.Customers:GetChildren()) do
+						if s:FindFirstChild("Customers") then
+							for i,d in pairs(s.Customers:GetChildren()) do
+								if d:FindFirstChild("MealChoice") then
+									_G.meal = tostring(d.MealChoice.Value)
+									_G.order = tostring(f.Name)
+									if _G.meal == _G.order then
+										local args = {
+    											[1] = _G.restaurant,
+    											[2] = {
+        											["models"] = {},
+        											["name"] = "ManageFood",
+       												["model"] = f,
+        											["customer"] = tostring(d),
+       												["tycoon"] = _G.restaurant,
+        											["group"] = tostring(s)
+    											}
+										}
+
+										game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+
 -------------
 
 
