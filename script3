@@ -195,16 +195,10 @@ AutoCookToggle:OnChanged(function(Value)
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-				wait(1)
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"), 1, true)
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-				wait(1)
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"), 1, true)
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
-				wait(1)
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"), 1, true)
 			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
