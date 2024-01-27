@@ -193,16 +193,25 @@ AutoCookToggle:OnChanged(function(Value)
 			end
 		end
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
-			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
-			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-			--if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
-			--	fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
-			--elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
-			--	fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
-			--elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
-			--	fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
-			--end
+			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
+				wait(1.2)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
+				wait(1)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				wait(1)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				wait(1)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				wait(1)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
+				wait(1.2)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
 			if workspace.Waypoints:FindFirstChild("Part") then
