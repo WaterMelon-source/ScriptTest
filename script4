@@ -1,0 +1,307 @@
+local UserInputService = game:GetService("UserInputService")
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
+
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Device = 'Device'
+_G.restaurant = nil
+_G.CurrentPlayer = nil
+
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
+end
+
+local Window = Fluent:CreateWindow({
+    Title = "🔓  Dash " .. "0.0.5",
+    SubTitle = " •  Restaurant Tycoon 2",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 445),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+    Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Farm = Window:AddTab({Title = "Farming", Icon = "rbxassetid://10709762879"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+repeat
+	wait(4)
+	for i,v in pairs(workspace.Tycoons:GetChildren()) do
+		if v:FindFirstChild("Player") and v.Player.Value == game.Players.LocalPlayer then
+			_G.restaurant = v
+			_G.CurrentPlayer = game.Players.LocalPlayer.Name
+		end
+	end
+	Notify("Waiting for you to claim Restaurant",2)
+until _G.restaurant
+
+Tabs.Home:AddParagraph({
+    Title = "										    💨  Dash  💨"
+})
+
+if Country == "RU" then
+	if Device == "Mobile" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer With TouchScreen" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
+		})
+	end
+elseif Country == "US" then
+	if Device == "Mobile" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
+		})
+	elseif Device == "Computer With TouchScreen" then
+		Tabs.Home:AddParagraph({
+			Title = "											👤  User  👤",
+			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
+		})
+	end
+end
+
+Tabs.Home:AddParagraph({
+    Title = "										  🤖  Discord  🤖",
+    Content = "\n\n							    🔗  Link : --------------  🔗"
+})
+
+Tabs.News:AddParagraph({
+    Title = "									  ✨ New Features ✨",
+    Content = "\n\n 💊  Auto Heal  💊\n\n 🔋  Auto Energy 🔋\n\n 🧁  Auto Hunger 🧁\n\n\n Date: ___"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "👟   Speed",
+    Description = "\nChange Player's Speed",
+    Default = 16,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+    end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "🦵  JumpPower",
+    Description = "\nChange Player's JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+Tabs.Farm:AddParagraph({
+    Title = "									   🍷  Restaurant  🍷"
+    --Content = ""
+})
+
+local Input = Tabs.Farm:AddInput("PlayerInput", {
+	Title = "👤  Player Restaurant: ",
+	Default = "LocalPlayer",
+	Placeholder = "Placeholder",
+	Numeric = false, -- Only allows numbers
+	Finished = true, -- Only calls callback when you press enter
+	Callback = function(Value)
+		for i,v in pairs(workspace.Tycoons:GetChildren()) do
+			if v:FindFirstChild("Player") and v.Player.Value == game.Players:FindFirstChild(Value) then
+				_G.restaurant = v
+				_G.CurrentPlayer = game.Players:FindFirstChild(Value).Name
+			end
+		end
+	end
+})
+
+Tabs.Farm:AddParagraph({
+    Title = "									    🔥  Functions  🔥"
+    --Content = ""
+})
+
+
+
+local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = _G.AutoCooking})
+
+AutoCookToggle:OnChanged(function(Value)
+	_G.AutoCooking = Value
+	while _G.AutoCooking == true do
+		wait(1)
+		for i,v in pairs(workspace.Temp:GetChildren()) do
+			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
+				for i,f in pairs(v:GetChildren()) do
+					if f.Name:match(tostring(_G.CurrentPlayer)) then
+						fireproximityprompt(f, 1, true)
+					end
+				end
+			end
+		end
+		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
+		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+		for i,v in pairs(workspace.Waypoints:GetChildren()) do
+			if workspace.Waypoints:FindFirstChild("Part") then
+				v:Destroy()
+			end
+		end
+	end
+end)
+
+local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = _G.AutoCollectCash})
+
+AutoCollectCashToggle:OnChanged(function(Value)
+	_G.AutoCollectCash = Value
+	while _G.AutoCollectCash == true do
+		wait(1)
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+			if v:FindFirstChild("Bill") then
+				local args = {
+    					[1] = _G.restaurant,
+    					[2] = {
+        					["name"] = "CollectBill",
+        					["model"] = v
+    					}
+				}
+
+				game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+			end
+		end
+	end
+end)
+
+local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
+
+AutoCollectTrashToggle:OnChanged(function(Value)
+	_G.AutoCollectTrash = Value
+	while _G.AutoCollectTrash == true do
+		wait(1)
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+			if v:FindFirstChild("Trash") then
+				local args = {
+    					[1] = _G.restaurant,
+    					[2] = {
+        					["name"] = "ClearTrash",
+        					["model"] = v
+    					}
+				}
+
+				game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+			end
+		end
+	end
+end)
+
+local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "💸   Auto Collect Tip", Default = _G.AutoCollectTip})
+
+AutoCollectTipToggle:OnChanged(function(Value)
+	_G.AutoCollectTip = Value
+	while _G.AutoCollectTip == true do
+		wait(10)
+		local args = {
+    			[1] = _G.restaurant,
+    			[2] = {
+     	  			["name"] = "CollectTip"
+    			}
+		}
+		game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+	end
+end)
+
+local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Customers Seat", Default = _G.AutoSeat})
+
+AutoSeatToggle1:OnChanged(function(Value)
+	_G.AutoSeat = Value
+	while _G.AutoSeat == true do
+		wait(5)
+		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
+			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
+				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
+					print(tostring(v.Name))
+					if f:FindFirstChild(tostring(v.Name)) then
+						for i,s in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+							if s:FindFirstChild("InUse") then
+								_G.table = s
+								print(_G.table)
+								local args = {
+ 	   								[1] = _G.restaurant,
+	    								[2] = {
+ 	      									["name"] = "SendToTable",
+		       								["obj"] = _G.restaurant.Items.OftenFiltered.Surface:FindFirstChild(tostring(_G.table.Name)),
+	        								["group"] = tostring(v.Name),
+        									["tycoon"] = _G.restaurant,
+        									["customer"] = tostring(v.Name)
+    									}
+								}
+
+								game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+-------------
+
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
