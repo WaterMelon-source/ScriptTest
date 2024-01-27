@@ -268,7 +268,7 @@ local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Cu
 AutoSeatToggle1:OnChanged(function(Value)
 	_G.AutoSeat = Value
 	while _G.AutoSeat == true do
-		wait(5)
+		wait(2)
 		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
@@ -291,6 +291,35 @@ AutoSeatToggle1:OnChanged(function(Value)
 
 								game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
 							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+local AutoServeToggle = Tabs.Farm:AddToggle("AutoServe", {Title = "💬   Auto Customers Serve", Default = _G.AutoServe})
+
+AutoServeToggle:OnChanged(function(Value)
+	_G.AutoServe = Value
+	while _G.AutoServe == true do
+		wait(2)
+		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
+			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
+				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
+					if f:FindFirstChild(tostring(v.Name)) then
+						for i,s in pairs(f:FindFirstChild(tostring(v.Name)):GetChildren()) do
+							local args = {
+    								[1] = _G.restaurant,
+    								[2] = {
+        								["name"] = "ManageCustomers",
+        								["group"] = tostring(f.Name),
+       									["tycoon"] = _G.restaurant,
+        								["customer"] = tostring(s.Name)
+    								}
+							}
+							game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
 						end
 					end
 				end
