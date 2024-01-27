@@ -357,6 +357,7 @@ AutoFoodToggle:OnChanged(function(Value)
 										}
 
 										game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+										wait(1)
 									end
 								end
 							end
