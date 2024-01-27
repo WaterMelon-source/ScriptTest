@@ -263,6 +263,42 @@ AutoCollectTipToggle:OnChanged(function(Value)
 	end
 end)
 
+local AutoSeatToggle = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Customers Seat", Default = _G.AutoSeat})
+
+AutoSeat:OnChanged(function(Value)
+	_G.AutoSeat = Value
+	while _G.AutoSeat == true do
+		wait(5)
+		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
+			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
+				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
+					print(tostring(v.Name))
+					if f:FindFirstChild(tostring(v.Name)) then
+						for i,s in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+							if s:FindFirstChild("InUse") then
+								_G.table = s
+								print(_G.table)
+								local args = {
+ 	   								[1] = _G.restaurant,
+	    								[2] = {
+ 	      									["name"] = "SendToTable",
+		       								["obj"] = _G.restaurant.Items.OftenFiltered.Surface:FindFirstChild(tostring(_G.table.Name)),
+	        								["group"] = tostring(v.Name),
+        									["tycoon"] = _G.restaurant,
+        									["customer"] = tostring(v.Name)
+    									}
+								}
+
+								game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(unpack(args))
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
 
 -------------
 
