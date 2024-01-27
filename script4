@@ -281,15 +281,12 @@ AutoSeatToggle1:OnChanged(function(Value)
 					print(tostring(v.Name))
 					if f:FindFirstChild(tostring(v.Name)) then
 						for i,s in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
-							print(s.Name)
 							if s:FindFirstChild("InUse") and s:FindFirstChild("InUse").Value == false then
-								_G.table = s
-								print(_G.table)
 								local args = {
  	   								[1] = _G.restaurant,
 	    								[2] = {
  	      									["name"] = "SendToTable",
-		       								["obj"] = _G.restaurant.Items.OftenFiltered.Surface:FindFirstChild(tostring(_G.table.Name)),
+		       								["obj"] = s,
 	        								["group"] = tostring(v.Name),
         									["tycoon"] = _G.restaurant,
         									["customer"] = tostring(v.Name)
