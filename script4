@@ -330,7 +330,7 @@ end)
 
 local AutoFoodToggle = Tabs.Farm:AddToggle("AutoFood", {Title = "🍝   Auto Deliver Food", Default = _G.AutoFood})
 
-AutoDeliverFoodToggle:OnChanged(function(Value)
+AutoFoodToggle:OnChanged(function(Value)
 	_G.AutoFood = Value
 	while _G.AutoFood == true do
 		wait(1)
