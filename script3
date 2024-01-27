@@ -10,11 +10,6 @@ local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayer
 local Device = 'Device'
 _G.restaurant = nil
 
-------reset login normal-------
-_G.AutoCooking = false
-_G.AutoCollectCash = false
-_G.AutoCollectTrash = false
-
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
 elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
@@ -248,7 +243,13 @@ end)
 
 -------------
 
+if _G.Loaded == 1 then
+	Fluent:Destroy()
+end
+
 
 Window:SelectTab(1)
+
+_G.Loaded = 1
 
 Notify("✅  Successfully Loaded!", 5)
