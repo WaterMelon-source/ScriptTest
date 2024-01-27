@@ -185,7 +185,7 @@ AutoCookToggle:OnChanged(function(Value)
 		wait(1)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
-				for i,f in pairs(v:GetChildren()) do
+				for i,f in pairs(s:GetChildren()) do
 					if f.Name:match(tostring(_G.CurrentPlayer)) then
 						fireproximityprompt(f, 1, true)
 					end
@@ -194,17 +194,17 @@ AutoCookToggle:OnChanged(function(Value)
 		end
 		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"), 1, true)
-				wait(0.5)
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard")
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"), 1, true)
-				wait(0.5)
+				wait(1)
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"), 1, true)
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove")
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"), 1, true)
-				wait(0.5)
+				wait(1)
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"), 1, true)
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
 				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+				wait(1)
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"), 1, true)
 			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
