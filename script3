@@ -243,13 +243,13 @@ end)
 
 -------------
 
-if _G.Loaded == 1 then
-	Fluent:Destroy()
-end
-
 
 Window:SelectTab(1)
 
 _G.Loaded = 1
 
 Notify("✅  Successfully Loaded!", 5)
+
+if _G.Loaded == 1 then
+	Fluent:Destroy()
+end
