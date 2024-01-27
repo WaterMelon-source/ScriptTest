@@ -268,7 +268,7 @@ local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Cu
 AutoSeatToggle1:OnChanged(function(Value)
 	_G.AutoSeat = Value
 	while _G.AutoSeat == true do
-		wait(2)
+		wait(1)
 		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
@@ -304,7 +304,7 @@ local AutoServeToggle = Tabs.Farm:AddToggle("AutoServe", {Title = "💬   Auto C
 AutoServeToggle:OnChanged(function(Value)
 	_G.AutoServe = Value
 	while _G.AutoServe == true do
-		wait(2)
+		wait(1)
 		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
 				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
