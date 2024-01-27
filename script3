@@ -192,9 +192,21 @@ AutoCookToggle:OnChanged(function(Value)
 				end
 			end
 		end
-		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-		game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
+			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"), 1, true)
+				wait(0.5)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard")
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"), 1, true)
+				wait(0.5)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove")
+				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"), 1, true)
+				wait(0.5)
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+			end
+		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
 			if workspace.Waypoints:FindFirstChild("Part") then
 				v:Destroy()
@@ -275,7 +287,7 @@ AutoSeatToggle1:OnChanged(function(Value)
 					print(tostring(v.Name))
 					if f:FindFirstChild(tostring(v.Name)) then
 						for i,s in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
-							if s:FindFirstChild("InUse") then
+							if s:FindFirstChild("InUse") and s:FindFirstChild("InUse").Value == false then
 								_G.table = s
 								print(_G.table)
 								local args = {
