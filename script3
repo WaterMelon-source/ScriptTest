@@ -363,6 +363,7 @@ AutoFoodToggle:OnChanged(function(Value)
 							end
 						end
 					end
+					f:Destroy()
 				end
 			end
 		end
