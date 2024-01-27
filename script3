@@ -186,7 +186,7 @@ AutoCookToggle:OnChanged(function(Value)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
 				for i,f in pairs(v:GetChildren()) do
-					if f.Name:match(_G.CurrentPlayer) then
+					if f.Name:match(tostring(_G.CurrentPlayer)) then
 						fireproximityprompt(f, 1, true)
 					end
 				end
