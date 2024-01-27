@@ -314,7 +314,7 @@ AutoServeToggle:OnChanged(function(Value)
     								[1] = _G.restaurant,
     								[2] = {
         								["name"] = "ManageCustomers",
-        								["group"] = tostring(f.Name),
+        								["group"] = tostring(v.Name),
        									["tycoon"] = _G.restaurant,
         								["customer"] = tostring(s.Name)
     								}
