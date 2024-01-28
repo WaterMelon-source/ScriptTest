@@ -1,0 +1,491 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Settings = {
+	-- AutoClean & AutoArrest
+    EnabledAC = false,
+    EnabledAA = false,
+    CooldownAC = 0,
+    CooldownAA = 0,
+    --AutoBuy
+    EnabledAB = false,
+    EnabledID = false,
+    Amount = 1,
+    Thing = "Christmas Tree",
+    CooldownID = 0,
+    CooldownCP = 0,
+    InstantDelivery = true,
+    --Settings
+    SpeedRSG = 1,
+    EnabledRG = false,
+    SpeedRCS = 1,
+    EnabledRC = false,
+    SpeedRST = 1,
+    EnabledRT = false
+}
+
+function Notify(title, text, img, duration)
+	Rayfield:Notify({
+   		Title = title,
+   		Content = text,
+   		Duration = duration,
+   		Image = img,
+   		Actions = { -- Notification Buttons
+      	--Ignore = {
+        -- 	Name = "Okay!",
+        -- 	Callback = function()
+        -- 	print("The user tapped Okay!")
+     	--	end
+  		--},
+	},
+	})
+end
+
+for i,v in pairs(game.CoreGui:GetChildren()) do
+	if v:FindFirstChild("Rayfield") then
+	    v:FindFirstChild("Rayfield").Main.Topbar.BackgroundColor3 = Color3.fromRGB(10,200,0)
+	    v:FindFirstChild("Rayfield").Main.Topbar.CornerRepair.BackgroundColor3 = Color3.fromRGB(10,200,0)
+	    v:FindFirstChild("Rayfield").Main.Topbar.Divider.BackgroundColor3 = Color3.fromRGB(10,250,0)
+	    v:FindFirstChild("Rayfield").Main.Shadow.Image.ImageColor3 = Color3.fromRGB(10,255,0)
+	    v:FindFirstChild("Rayfield").Main.BackgroundColor3 = Color3.fromRGB(200,200,200)
+	end
+end
+
+local Window = Rayfield:CreateWindow({
+	Name = "Spotify | Retail Tycoon 2",
+	LoadingTitle = "Retail Tycoon 2 Script Loading...",
+	LoadingSubtitle = "Retail Tycoon 2 Script",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = "RT2Config", 
+		FileName = "SPOTIFY"
+	},
+        Discord = {
+        	Disabled = false,
+        	Invite = "https://discord.gg/bD2w3e2W2K", 
+        	RememberJoins = true 
+        },
+	KeySystem = true, 
+	KeySettings = {
+		Title = "Spotify | Retail Tycoon 2",
+		Subtitle = "Retail Key",
+		Note = "Discord Server To Get a Key: https://discord.gg/bD2w3e2W2K",
+		FileName = "SpotifyKey",
+		SaveKey = true,
+		GrabKeyFromSite = false,
+		Key = "a@xN3G1z@ZU367uYp2v7@n3P7"
+	}
+})
+
+for i,v in pairs(game.CoreGui:GetChildren()) do
+	repeat
+		v:FindFirstChild("Key").Main.Input.BackgroundColor3 = Color3.fromRGB(10,200,0)
+		v:FindFirstChild("Key").Main.Input.UIStroke.Color = Color3.fromRGB(255,255,255)
+		v:FindFirstChild("Key").Main.Input.InputBox.PlaceholderColor3 = Color3.fromRGB(240,240,240)
+		v:FindFirstChild("Key").Main.Input.InputBox.PlaceholderText = "Spotify's key here..."
+		v:FindFirstChild("Key").Main.Shadow.Image.ImageColor3 = Color3.fromRGB(10,250,0)
+		v:FindFirstChild("Key").Main.BackgroundColor3 = Color3.fromRGB(200,200,200)
+		v:FindFirstChild("Key").Main.KeyNote.TextColor3 = Color3.fromRGB(240,240,240)
+		v:FindFirstChild("Key").Main.NoteTitle.TextColor3 = Color3.fromRGB(240,240,240)
+		v:FindFirstChild("Key").Main.Subtitle.TextColor3 = Color3.fromRGB(240,240,240)
+		v:FindFirstChild("Key").Main.SubTitle.TextColor3 = Color3.fromRGB(240,240,240)
+	until v:FindFirstChild("Key")
+end
+
+local Tab = Window:CreateTab("Main", 7539983773)
+local Section = Tab:CreateSection("Version & Updates")
+local Paragraph = Tab:CreateParagraph({Title = "Spotify | Retail Tycoon 2", Content = "Script Version: 0.5 | Beta"})
+local Paragraph = Tab:CreateParagraph({Title = "Spotify | Retail Tycoon 2", Content = "New Update | 01.19.2023"})
+local Paragraph = Tab:CreateParagraph({Title = "New Updated", Content = "Added AutoFarm"})
+local Paragraph = Tab:CreateParagraph({Title = "New Updated", Content = "Added ESP"})
+local Section = Tab:CreateSection("Features")
+local Paragraph = Tab:CreateParagraph({Title = "Spotify | Retail Tycoon 2", Content = "AutoFarm"})
+local Paragraph = Tab:CreateParagraph({Title = "Spotify | Retail Tycoon 2", Content = "Esp"})
+local Paragraph = Tab:CreateParagraph({Title = "Spotify | Retail Tycoon 2", Content = "Auto Detect Admin Join"})
+local Section = Tab:CreateSection("Credits")
+local Paragraph = Tab:CreateParagraph({Title = "Discord", Content = "Daemon#3332"})
+local Section = Tab:CreateSection("Supports")
+local Paragraph = Tab:CreateParagraph({Title = "Executor", Content = "Support KRNL"})
+local Paragraph = Tab:CreateParagraph({Title = "Executor", Content = "Support SYNAPSE"})
+local Paragraph = Tab:CreateParagraph({Title = "Executor", Content = "Mobile Executors"})
+local Paragraph = Tab:CreateParagraph({Title = "Executor", Content = "More..."})
+
+local Tab = Window:CreateTab("AutoFarm", 7185430954)
+local Section = Tab:CreateSection("AutoFarm")
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Arrest Robbers (Beta)",
+	CurrentValue = false,
+	Flag = "ToggleAA",
+	Callback = function(valAA)
+	Settings.EnabledAA = valAA
+	if valAA then
+		while wait(Settings.CooldownAA) do
+			if Settings.EnabledAA == false then
+                break
+            end
+			for i,v in pairs(workspace.NPCModel:GetChildren()) do
+				if v:FindFirstChild("HumanoidRootPart") then
+					if v:FindFirstChild("ArrestPrompt") then
+						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame
+						v:FindFirstChild("Humanoid").WalkSpeed = 0
+						v:FindFirstChild("ArrestPrompt").HoldDuration = 0
+						wait(0.1)
+						fireproximityprompt(v:FindFirstChild("ArrestPrompt"))
+						Notify("Retail Tycoon 2 Script", "Arrested", 11570802781, 5)
+					else
+						wait()
+					end       
+				end
+			end
+		end
+	end
+	end,
+})
+local Toggle2 = Tab:CreateToggle({
+	Name = "Auto Clean Trash",
+	CurrentValue = false,
+	Flag = "ToggleAC",
+	Callback = function(valAC)
+	Settings.EnabledAC = valAC
+	if valAC then
+		while wait(Settings.CooldownAC) do
+			if Settings.EnabledAC == false then
+                break
+            end
+			for i,v in pairs(workspace.Map.Plots:GetChildren()) do
+				if v:FindFirstChild("Trash") then
+					for i,n in pairs(v.Trash:GetChildren()) do
+						if n:FindFirstChild("PromptPart") then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = n:FindFirstChild("PromptPart").CFrame
+							n:FindFirstChild("PromptPart").ProximityPrompt.HoldDuration = 0
+							wait(0.2)
+							fireproximityprompt(n:FindFirstChild("PromptPart").ProximityPrompt)
+							Notify("Retail Tycoon 2 Script", "Cleaned", 11570802781, 5)
+						end
+					end    
+				end
+			end
+		end
+	end
+	end,
+})
+local Section1 = Tab:CreateSection("AutoBuy")
+local Toggle3 = Tab:CreateToggle({
+	Name = "Auto Buy Items",
+	CurrentValue = false,
+	Flag = "ToggleAB",
+	Callback = function(valAB)
+	Settings.EnabledAB = valAB
+	if valAB then
+		Notify("Retail Tycoon 2 Script", "Auto Buy Activated", 11570802781, 5)
+		while wait(Settings.CooldownCP) do
+			if Settings.EnabledAB == false then
+                break
+            end
+            game:GetService("ReplicatedStorage").Remotes.BuyStorage:InvokeServer(Settings.Thing, Settings.Amount, Settings.InstantDelivery)
+		end
+	end
+	end,
+})
+
+local Status = Tab:CreateLabel("Status: Buying (Christmas Tree) 1 per 0.1 Seconds")
+
+function updatestatus()
+    Status:Set("Status: Buying ("..Settings.Thing..") "..Settings.Amount.." per "..Settings.CooldownCP.." Seconds")
+end
+
+local Slider1 = Tab:CreateSlider({
+   Name = "Amount of Buy",
+   Range = {0, 100},
+   Increment = 1,
+   Suffix = "Items",
+   CurrentValue = 1,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valSAB)
+		if valSAB ~= 0 then
+        	Settings.Amount = valSAB
+        	updatestatus()
+    	end
+   end,
+})
+
+local Slider2 = Tab:CreateSlider({
+   Name = "Cooldown of Purchases",
+   Range = {0, 10},
+   Increment = 0.1,
+   Suffix = "Sec",
+   CurrentValue = 0.1,
+   Flag = "Slider2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valCP)
+		if valCP ~= 0 then
+        	Settings.CooldownCP = valCP
+        	updatestatus()
+    	end
+   end,
+})
+
+local Dropdown = Tab:CreateDropdown({
+   Name = "Things to Buy",
+   Options = {"Christmas Tree","Toys","Clothing","Shoes","Hats","Candy","Snacks","Canned Food","Boxed Food","Cold Food","Baked Goods","Fruit","Vegetables","Condiments","Beverages","Small Electronics","PC Electronics","PC Peripherals","Office Electronics",
+   "Game Consoles","Videogames","Small Appliances","Large Appliances","Kitchenware","Luggage","Vacuum Cleaners","Personal Care","School Supplies","Brass Instruments","String Instruments","Pianos","Small Outdoor Equipment","Large Outdoor Equipment","Garden Tools",
+   "Paint Supplies","Lumber","Small Furniture","Large Furniture","Exercise Equipment","Game Tables","Personal Transport","Car Parts","Economy Cars","Jewelry","Guns","Ammo","Military Vehicles","Armored Vehicles"},
+   CurrentOption = "Christmas Tree",
+   Flag = "Dropdown", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valTB)
+		Settings.Thing = valTB
+    	updatestatus()
+   end,
+})
+
+local Toggle4 = Tab:CreateToggle({
+	Name = "Instant Delivery",
+	CurrentValue = true,
+	Flag = "ToggleID",
+	Callback = function(valID)
+	Settings.EnabledID = valID
+	if valID then
+		Notify("Retail Tycoon 2 Script", "InstantDelivery Activated", 11570802781, 5)
+		while wait(Settings.CooldownID) do
+			if Settings.EnabledID == false then
+                break
+            end
+			Settings.InstantDelivery = valID
+		end
+	end
+	end,
+})
+
+local Tab = Window:CreateTab("ESP", 6523858394)
+
+local Label = Tab:CreateLabel("Coming Soon")
+
+local Tab = Window:CreateTab("Settings", 6793572208)
+local Section2 = Tab:CreateSection("GUI")
+local ColorPickerG = Tab:CreateColorPicker({
+    Name = "Gui Color",
+    Color = Color3.new(255,255,255),
+    Flag = "ColorPickerG", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(valCoG)
+    	for i,v in pairs(game.CoreGui:GetChildren()) do
+	    	if v:FindFirstChild("Rayfield") then
+	    		v:FindFirstChild("Rayfield").Main.BackgroundColor3 = valCoG
+			end
+		end
+    end
+})
+local ToggleRGB1 = Tab:CreateToggle({
+	Name = "Enable Rainbow Color",
+	CurrentValue = false,
+	Flag = "",
+	Callback = function(valRG)
+	Settings.EnabledRG = valRG
+	if valRG then
+		Notify("Retail Tycoon 2 Script", "Activated Rainbow Color", 11570802781, 5)
+		while task.wait() do
+			local hue = tick() % (10/Settings.SpeedRSG) / (10/Settings.SpeedRSG)
+			local color = Color3.fromHSV(hue,1,1)
+            for i,v in pairs(game.CoreGui:GetChildren()) do
+	    		if v:FindFirstChild("Rayfield") then
+	    			if Settings.EnabledRG == false then
+                		break
+            		end
+	    			v:FindFirstChild("Rayfield").Main.BackgroundColor3 = color
+	    		end
+	    		if v:FindFirstChild("Rayfield-Old") then
+	    			break
+				end
+			end
+		end
+	end
+	end,
+})
+local SliderRGB1 = Tab:CreateSlider({
+   Name = "Rainbow Color Speed",
+   Range = {1, 20},
+   Increment = 0.1,
+   Suffix = "Speed",
+   CurrentValue = 1,
+   Flag = "SliderRCG", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valRGS)
+		if valRGS ~= 0 then
+        	Settings.SpeedRSG = valRGS
+    	end
+   end,
+})
+local Section3 = Tab:CreateSection("Shadow")
+local ColorPickerSH = Tab:CreateColorPicker({
+    Name = "Shadow Color",
+    Color = Color3.new(255,255,255),
+    Flag = "ColorPickerSH", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(valCoSH)
+    	for i,v in pairs(game.CoreGui:GetChildren()) do
+	    	if v:FindFirstChild("Rayfield") then
+	    		v:FindFirstChild("Rayfield").Main.Shadow.Image.ImageColor3 = valCoSH
+			end
+		end
+    end
+})
+local ToggleRGB2 = Tab:CreateToggle({
+	Name = "Enable Rainbow Color",
+	CurrentValue = false,
+	Flag = "",
+	Callback = function(valRC)
+	Settings.EnabledRC = valRC
+	if valRC then
+		Notify("Retail Tycoon 2 Script", "Activated Rainbow Color", 11570802781, 5)
+		while task.wait() do
+			local hue = tick() % (10/Settings.SpeedRCS) / (10/Settings.SpeedRCS)
+			local color = Color3.fromHSV(hue,1,1)
+            for i,v in pairs(game.CoreGui:GetChildren()) do
+	    		if v:FindFirstChild("Rayfield") then
+	    			if Settings.EnabledRC == false then
+                		break
+            		end
+	    			v:FindFirstChild("Rayfield").Main.Shadow.Image.ImageColor3 = color
+	    		end
+	    		if v:FindFirstChild("Rayfield-Old") then
+	    			break
+				end
+			end
+		end
+	end
+	end,
+})
+local SliderRGB2 = Tab:CreateSlider({
+   Name = "Rainbow Color Speed",
+   Range = {1, 20},
+   Increment = 0.1,
+   Suffix = "Speed",
+   CurrentValue = 1,
+   Flag = "SliderRCS2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valRCS)
+		if valRCS ~= 0 then
+        	Settings.SpeedRCS = valRCS
+    	end
+   end,
+})
+local Section3 = Tab:CreateSection("Topbar")
+local ColorPickerSH = Tab:CreateColorPicker({
+    Name = "Topbar Color",
+    Color = Color3.new(255,255,255),
+    Flag = "ColorPickerT", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(valCoT)
+    	for i,v in pairs(game.CoreGui:GetChildren()) do
+	    	if v:FindFirstChild("Rayfield") then
+	    		v:FindFirstChild("Rayfield").Main.Topbar.BackgroundColor3 = valCoT
+	    		v:FindFirstChild("Rayfield").Main.Topbar.CornerRepair.BackgroundColor3 = valCoT
+	    		v:FindFirstChild("Rayfield").Main.Topbar.Divider.BackgroundColor3 = Color3.new(10,250,0)
+			end
+		end
+    end
+})
+local ToggleRGB3 = Tab:CreateToggle({
+	Name = "Enable Rainbow Color",
+	CurrentValue = false,
+	Flag = "",
+	Callback = function(valRT)
+	Settings.EnabledRT = valRT
+	if valRT then
+		Notify("Retail Tycoon 2 Script", "Activated Rainbow Color", 11570802781, 5)
+		while task.wait() do
+			local hue = tick() % (10/Settings.SpeedRST) / (10/Settings.SpeedRST)
+			local color = Color3.fromHSV(hue,1,1)
+            for i,v in pairs(game.CoreGui:GetChildren()) do
+	    		if v:FindFirstChild("Rayfield") then
+	    			if Settings.EnabledRT == false then
+                		break
+            		end
+	    			v:FindFirstChild("Rayfield").Main.Topbar.BackgroundColor3 = color
+	    			v:FindFirstChild("Rayfield").Main.Topbar.CornerRepair.BackgroundColor3 = color
+	    			v:FindFirstChild("Rayfield").Main.Topbar.Divider.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	    		end
+	    		if v:FindFirstChild("Rayfield-Old") then
+	    			break
+				end
+			end
+		end
+	end
+	end,
+})
+local SliderRGB3 = Tab:CreateSlider({
+   Name = "Rainbow Color Speed",
+   Range = {1, 20},
+   Increment = 0.1,
+   Suffix = "Speed",
+   CurrentValue = 1,
+   Flag = "SliderRST", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(valRST)
+		if valRST ~= 0 then
+        	Settings.SpeedRST = valRST
+    	end
+   end,
+})
+
+Rayfield:LoadConfiguration()
+
+for i,v in pairs(game.CoreGui:GetChildren()) do
+	if v:FindFirstChild("Rayfield") then
+		local main = v:FindFirstChild("Rayfield").Main.Elements.Main:GetDescendants()
+		local autofarm = v:FindFirstChild("Rayfield").Main.Elements.AutoFarm:GetDescendants()
+		local esp = v:FindFirstChild("Rayfield").Main.Elements.ESP:GetDescendants()
+		local stgs = v:FindFirstChild("Rayfield").Main.Elements.Settings:GetDescendants()
+		--Main Things
+		for _, obj in ipairs(main) do
+			if obj.ClassName == "Frame" and obj.Name == "Paragraph" then
+				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
+				obj.Content.TextColor3 = Color3.fromRGB(240,240,240)
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+			end
+			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
+				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
+			end
+		end
+		--AutoFarm Things
+		for _, obj in ipairs(autofarm) do
+			if obj.ClassName == "Frame" and obj.Name == "Auto Arrest Robbers (Beta)" or obj.Name == "Auto Clean Trash" or obj.Name == "Auto Buy Items" or obj.Name == "Instant Delivery" then
+				obj.Switch.BackgroundColor3 = Color3.fromRGB(10,200,0)
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+			end
+			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
+				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
+			end
+			if obj.ClassName == "Frame" and obj.Name == "Label" then
+				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
+			end
+			if obj.ClassName == "Frame" and obj.Name == "Amount of Buy" or obj.Name == "Cooldown of Purchases" then
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.Main.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.Main.Progress.BackgroundColor3 = Color3.fromRGB(10,200,0)
+				obj.Main.Progress.UIStroke.Color = Color3.fromRGB(10,200,0)
+				obj.Main.BackgroundColor3 = Color3.fromRGB(10,250,0)
+				obj.Main.Information.TextTransparency = 0
+			end
+		end
+		--ESP Things
+		for _, obj in ipairs(esp) do
+			if obj.ClassName == "Frame" and obj.Name == "Label" then
+				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+			end
+		end
+		--Settings Things
+		for _, obj in ipairs(stgs) do
+			if obj.ClassName == "Frame" and obj.Name == "Gui Color" or obj.Name == "Shadow Color" or obj.Name == "Topbar Color" then
+				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
+				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.HexInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
+				obj.HexInput.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.RGB.GInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
+				obj.RGB.GInput.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.RGB.RInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
+				obj.RGB.RInput.UIStroke.Color = Color3.fromRGB(240,240,240)
+				obj.RGB.BInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
+				obj.RGB.BInput.UIStroke.Color = Color3.fromRGB(240,240,240)
+			end
+			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
+				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
+			end
+		end
+	end
+end
