@@ -234,7 +234,7 @@ local CooldownBetweenPurchasesSlider = Tabs.Farm:AddSlider("CooldownBetweenPurch
 	Default = 0.5,
 	Min = 0.1,
 	Max = 100,
-	Rounding = 1,
+	Rounding = 10,
 	Callback = function(Value)
 		_G.CooldownBuy = Value
 	end
