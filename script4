@@ -2,8 +2,6 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Settings = {
 	-- AutoClean & AutoArrest
-    EnabledAC = false,
-    EnabledAA = false,
     CooldownAC = 0,
     CooldownAA = 0,
     --AutoBuy
@@ -91,7 +89,7 @@ local Toggle = Tab:CreateToggle({
 	CurrentValue = false,
 	Flag = "ToggleAA",
 	Callback = function(valAA)
-	Settings.EnabledAA = valAA
+	_G.EnabledAA = valAA
 	if valAA then
 		while wait(Settings.CooldownAA) do
 			if Settings.EnabledAA == false then
@@ -120,20 +118,28 @@ local Toggle2 = Tab:CreateToggle({
 	CurrentValue = false,
 	Flag = "ToggleAC",
 	Callback = function(valAC)
-	Settings.EnabledAC = valAC
-	if valAC then
-		while wait(Settings.CooldownAC) do
-			if Settings.EnabledAC == false then
-                break
-            end
+	_G.EnabledAC = valAC
+	if _G.EnabledAC then
+		while _G.EnabledAC == true do
+			wait(0.5)
 			for i,v in pairs(workspace.Map.Plots:GetChildren()) do
 				if v:FindFirstChild("Trash") then
 					for i,n in pairs(v.Trash:GetChildren()) do
 						if n:FindFirstChild("PromptPart") then
 							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = n:FindFirstChild("PromptPart").CFrame
-							n:FindFirstChild("PromptPart").ProximityPrompt.HoldDuration = 0
-							wait(0.2)
-							fireproximityprompt(n:FindFirstChild("PromptPart").ProximityPrompt)
+							wait(0.5)
+							local split = n.Name:split('_')
+							local CFrame = {
+								split[2],
+								split[3],
+								split[4]
+							}
+							local args = {
+   								[1] = 1,
+    								[2] = Vector3.new(unpack(CFrame))
+							}
+
+							game:GetService("ReplicatedStorage").Remotes.CleanTrash:FireServer(unpack(args))
 							Notify("Retail Tycoon 2 Script", "Cleaned", 11570802781, 5)
 						end
 					end    
