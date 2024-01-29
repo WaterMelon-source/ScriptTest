@@ -8,8 +8,8 @@ local DisplayName = game.Players.LocalPlayer.DisplayName
 local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
-_G.restaurant = nil
-_G.CurrentPlayer = nil
+getgenv().restaurant = nil
+getgenv().CurrentPlayer = nil
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -50,12 +50,12 @@ repeat
 	wait(4)
 	for i,v in pairs(workspace.Tycoons:GetChildren()) do
 		if v:FindFirstChild("Player") and v.Player.Value == game.Players.LocalPlayer then
-			_G.restaurant = v
-			_G.CurrentPlayer = game.Players.LocalPlayer.Name
+			getgenv().restaurant = v
+			getgenv().CurrentPlayer = game.Players.LocalPlayer.Name
 		end
 	end
 	Notify("Waiting for you to claim Restaurant",2)
-until _G.restaurant
+until getgenv().restaurant
 
 Tabs.Home:AddParagraph({
     Title = "										    💨  Dash  💨"
@@ -163,8 +163,8 @@ local Input = Tabs.Farm:AddInput("PlayerInput", {
 	Callback = function(Value)
 		for i,v in pairs(workspace.Tycoons:GetChildren()) do
 			if v:FindFirstChild("Player") and v.Player.Value == game.Players:FindFirstChild(Value) then
-				_G.restaurant = v
-				_G.CurrentPlayer = game.Players:FindFirstChild(Value).Name
+				getgenv().restaurant = v
+				getgenv().CurrentPlayer = game.Players:FindFirstChild(Value).Name
 			end
 		end
 	end
@@ -177,40 +177,40 @@ Tabs.Farm:AddParagraph({
 
 
 
-local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = _G.AutoCooking})
+local AutoCookToggle = Tabs.Farm:AddToggle("AutoCook", {Title = "👨‍🍳   Auto Cook", Default = getgenv().AutoCooking})
 
 AutoCookToggle:OnChanged(function(Value)
-	_G.AutoCooking = Value
-	while _G.AutoCooking == true do
+	getgenv().AutoCooking = Value
+	while getgenv().AutoCooking == true do
 		wait(0.5)
 		for i,v in pairs(workspace.Temp:GetChildren()) do
 			if not v:FindFirstChild("Dialog2") and not v:FindFirstChild("QuestInteraction") then
 				for i,f in pairs(v:GetChildren()) do
-					if f.Name:match(tostring(_G.CurrentPlayer)) then
+					if f.Name:match(tostring(getgenv().CurrentPlayer)) then
 						fireproximityprompt(f, 1, true)
 					end
 				end
 			end
 		end
-		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
 				wait(1.2)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
 				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
 				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
 				wait(1.2)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", _G.restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
 			end
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
@@ -221,16 +221,16 @@ AutoCookToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = _G.AutoCollectCash})
+local AutoCollectCashToggle = Tabs.Farm:AddToggle("AutoCollectCash", {Title = "💵   Auto Collect Cash", Default = getgenv().AutoCollectCash})
 
 AutoCollectCashToggle:OnChanged(function(Value)
-	_G.AutoCollectCash = Value
-	while _G.AutoCollectCash == true do
+	getgenv().AutoCollectCash = Value
+	while getgenv().AutoCollectCash == true do
 		wait(0.5)
-		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Bill") then
 				local args = {
-    					[1] = _G.restaurant,
+    					[1] = getgenv().restaurant,
     					[2] = {
         					["name"] = "CollectBill",
         					["model"] = v
@@ -243,16 +243,16 @@ AutoCollectCashToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = _G.AutoCollectTrash})
+local AutoCollectTrashToggle = Tabs.Farm:AddToggle("AutoCollectTrash", {Title = "🍽   Auto Collect Trash", Default = getgenv().AutoCollectTrash})
 
 AutoCollectTrashToggle:OnChanged(function(Value)
-	_G.AutoCollectTrash = Value
-	while _G.AutoCollectTrash == true do
+	getgenv().AutoCollectTrash = Value
+	while getgenv().AutoCollectTrash == true do
 		wait(0.5)
-		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("Trash") then
 				local args = {
-    					[1] = _G.restaurant,
+    					[1] = getgenv().restaurant,
     					[2] = {
         					["name"] = "ClearTrash",
         					["model"] = v
@@ -265,14 +265,14 @@ AutoCollectTrashToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "💸   Auto Collect Tip", Default = _G.AutoCollectTip})
+local AutoCollectTipToggle = Tabs.Farm:AddToggle("AutoCollectTip", {Title = "💸   Auto Collect Tip", Default = getgenv().AutoCollectTip})
 
 AutoCollectTipToggle:OnChanged(function(Value)
-	_G.AutoCollectTip = Value
-	while _G.AutoCollectTip == true do
+	getgenv().AutoCollectTip = Value
+	while getgenv().AutoCollectTip == true do
 		wait(5)
 		local args = {
-    			[1] = _G.restaurant,
+    			[1] = getgenv().restaurant,
     			[2] = {
      	  			["name"] = "CollectTip"
     			}
@@ -281,26 +281,26 @@ AutoCollectTipToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Customers Seat", Default = _G.AutoSeat})
+local AutoSeatToggle1 = Tabs.Farm:AddToggle("AutoSeat", {Title = "🪑   Auto Customers Seat", Default = getgenv().AutoSeat})
 
 AutoSeatToggle1:OnChanged(function(Value)
-	_G.AutoSeat = Value
-	while _G.AutoSeat == true do
+	getgenv().AutoSeat = Value
+	while getgenv().AutoSeat == true do
 		wait(0.5)
-		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").Stage.Value == "Entered" then
-				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
+				for i,f in pairs(getgenv().restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
 					print(tostring(v.Name))
 					if f:FindFirstChild(tostring(v.Name)) then
-						for i,s in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+						for i,s in pairs(getgenv().restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 							if s:FindFirstChild("InUse") and s:FindFirstChild("InUse").Value == false then
 								local args = {
- 	   								[1] = _G.restaurant,
+ 	   								[1] = getgenv().restaurant,
 	    								[2] = {
  	      									["name"] = "SendToTable",
 		       								["obj"] = s,
 	        								["group"] = tostring(v.Name),
-        									["tycoon"] = _G.restaurant,
+        									["tycoon"] = getgenv().restaurant,
         									["customer"] = tostring(v.Name)
     									}
 								}
@@ -315,25 +315,25 @@ AutoSeatToggle1:OnChanged(function(Value)
 	end
 end)
 
-local AutoServeToggle = Tabs.Farm:AddToggle("AutoServe", {Title = "💬   Auto Customers Serve", Default = _G.AutoServe})
+local AutoServeToggle = Tabs.Farm:AddToggle("AutoServe", {Title = "💬   Auto Customers Serve", Default = getgenv().AutoServe})
 
 AutoServeToggle:OnChanged(function(Value)
-	_G.AutoServe = Value
-	while _G.AutoServe == true do
+	getgenv().AutoServe = Value
+	while getgenv().AutoServe == true do
 		wait(0.5)
-		for i,v in pairs(_G.restaurant.Customers:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Customers:GetChildren()) do
 			if v:FindFirstChild("Data").Stage and v:FindFirstChild("Data").NumOrders.Value >= 1 then
-				for i,f in pairs(_G.restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
+				for i,f in pairs(getgenv().restaurant.Items.AlwaysFiltered.NPCs:GetChildren()) do
 					if f:FindFirstChild(tostring(v.Name)) then
-						for i,d in pairs(game.Players:FindFirstChild(_G.CurrentPlayer).PlayerGui:GetChildren()) do
+						for i,d in pairs(game.Players:FindFirstChild(getgenv().CurrentPlayer).PlayerGui:GetChildren()) do
 							if d:FindFirstChild("Picture") and d:FindFirstChild("Picture").ImageColor3 == Color3.fromRGB(255,255,255) then
 								for i,s in pairs(f:FindFirstChild(tostring(v.Name)):GetChildren()) do
 									local args = {
-    										[1] = _G.restaurant,
+    										[1] = getgenv().restaurant,
     										[2] = {
         										["name"] = "ManageCustomers",
         										["group"] = tostring(v.Name),
-       											["tycoon"] = _G.restaurant,
+       											["tycoon"] = getgenv().restaurant,
         										["customer"] = tostring(s.Name)
     										}
 									}
@@ -348,30 +348,30 @@ AutoServeToggle:OnChanged(function(Value)
 	end
 end)
 
-local AutoFoodToggle = Tabs.Farm:AddToggle("AutoFood", {Title = "🍝   Auto Deliver Food", Default = _G.AutoFood})
+local AutoFoodToggle = Tabs.Farm:AddToggle("AutoFood", {Title = "🍝   Auto Deliver Food", Default = getgenv().AutoFood})
 
 AutoFoodToggle:OnChanged(function(Value)
-	_G.AutoFood = Value
-	while _G.AutoFood == true do
+	getgenv().AutoFood = Value
+	while getgenv().AutoFood == true do
 		wait(0.5)
-		for i,v in pairs(_G.restaurant.Items.OftenFiltered.Surface:GetChildren()) do
+		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Surface:GetChildren()) do
 			if v:FindFirstChild("OrderedFoods") then
 				for i,f in pairs(v:FindFirstChild("OrderedFoods"):GetChildren()) do
-					for i,s in pairs(_G.restaurant.Customers:GetChildren()) do
+					for i,s in pairs(getgenv().restaurant.Customers:GetChildren()) do
 						if s:FindFirstChild("Customers") then
 							for i,d in pairs(s.Customers:GetChildren()) do
 								if d:FindFirstChild("MealChoice") then
-									_G.meal = tostring(d.MealChoice.Value)
-									_G.order = tostring(f.Name)
-									if _G.meal == _G.order then
+									getgenv().meal = tostring(d.MealChoice.Value)
+									getgenv().order = tostring(f.Name)
+									if getgenv().meal == getgenv().order then
 										local args = {
-    											[1] = _G.restaurant,
+    											[1] = getgenv().restaurant,
     											[2] = {
         											["models"] = {},
         											["name"] = "ManageFood",
        												["model"] = f,
         											["customer"] = tostring(d),
-       												["tycoon"] = _G.restaurant,
+       												["tycoon"] = getgenv().restaurant,
         											["group"] = tostring(s)
     											}
 										}
