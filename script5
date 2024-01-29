@@ -222,7 +222,7 @@ local AmountOfBuySlider = Tabs.Farm:AddSlider("AmountOfBuySlider", {
 	Default = 10,
 	Min = 1,
 	Max = 1000,
-	Rounding = 1,
+	Rounding = 0,
 	Callback = function(Value)
 		_G.AmountBuy = Value
 	end
@@ -234,7 +234,7 @@ local CooldownBetweenPurchasesSlider = Tabs.Farm:AddSlider("CooldownBetweenPurch
 	Default = 0.5,
 	Min = 0.1,
 	Max = 100,
-	Rounding = 10,
+	Rounding = 1,
 	Callback = function(Value)
 		_G.CooldownBuy = Value
 	end
