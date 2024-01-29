@@ -40,16 +40,6 @@ function Notify(title, text, img, duration)
 	})
 end
 
-for i,v in pairs(game.CoreGui:GetChildren()) do
-	if v:FindFirstChild("Rayfield") then
-	    v:FindFirstChild("Rayfield").Main.Topbar.BackgroundColor3 = Color3.fromRGB(10,200,0)
-	    v:FindFirstChild("Rayfield").Main.Topbar.CornerRepair.BackgroundColor3 = Color3.fromRGB(10,200,0)
-	    v:FindFirstChild("Rayfield").Main.Topbar.Divider.BackgroundColor3 = Color3.fromRGB(10,250,0)
-	    v:FindFirstChild("Rayfield").Main.Shadow.Image.ImageColor3 = Color3.fromRGB(10,255,0)
-	    v:FindFirstChild("Rayfield").Main.BackgroundColor3 = Color3.fromRGB(200,200,200)
-	end
-end
-
 local Window = Rayfield:CreateWindow({
 	Name = "Spotify | Retail Tycoon 2",
 	LoadingTitle = "Retail Tycoon 2 Script Loading...",
@@ -75,21 +65,6 @@ local Window = Rayfield:CreateWindow({
 		Key = "a@xN3G1z@ZU367uYp2v7@n3P7"
 	}
 })
-
-for i,v in pairs(game.CoreGui:GetChildren()) do
-	repeat
-		v:FindFirstChild("Key").Main.Input.BackgroundColor3 = Color3.fromRGB(10,200,0)
-		v:FindFirstChild("Key").Main.Input.UIStroke.Color = Color3.fromRGB(255,255,255)
-		v:FindFirstChild("Key").Main.Input.InputBox.PlaceholderColor3 = Color3.fromRGB(240,240,240)
-		v:FindFirstChild("Key").Main.Input.InputBox.PlaceholderText = "Spotify's key here..."
-		v:FindFirstChild("Key").Main.Shadow.Image.ImageColor3 = Color3.fromRGB(10,250,0)
-		v:FindFirstChild("Key").Main.BackgroundColor3 = Color3.fromRGB(200,200,200)
-		v:FindFirstChild("Key").Main.KeyNote.TextColor3 = Color3.fromRGB(240,240,240)
-		v:FindFirstChild("Key").Main.NoteTitle.TextColor3 = Color3.fromRGB(240,240,240)
-		v:FindFirstChild("Key").Main.Subtitle.TextColor3 = Color3.fromRGB(240,240,240)
-		v:FindFirstChild("Key").Main.SubTitle.TextColor3 = Color3.fromRGB(240,240,240)
-	until v:FindFirstChild("Key")
-end
 
 local Tab = Window:CreateTab("Main", 7539983773)
 local Section = Tab:CreateSection("Version & Updates")
@@ -421,71 +396,3 @@ local SliderRGB3 = Tab:CreateSlider({
 })
 
 Rayfield:LoadConfiguration()
-
-for i,v in pairs(game.CoreGui:GetChildren()) do
-	if v:FindFirstChild("Rayfield") then
-		local main = v:FindFirstChild("Rayfield").Main.Elements.Main:GetDescendants()
-		local autofarm = v:FindFirstChild("Rayfield").Main.Elements.AutoFarm:GetDescendants()
-		local esp = v:FindFirstChild("Rayfield").Main.Elements.ESP:GetDescendants()
-		local stgs = v:FindFirstChild("Rayfield").Main.Elements.Settings:GetDescendants()
-		--Main Things
-		for _, obj in ipairs(main) do
-			if obj.ClassName == "Frame" and obj.Name == "Paragraph" then
-				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
-				obj.Content.TextColor3 = Color3.fromRGB(240,240,240)
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-			end
-			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
-				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
-			end
-		end
-		--AutoFarm Things
-		for _, obj in ipairs(autofarm) do
-			if obj.ClassName == "Frame" and obj.Name == "Auto Arrest Robbers (Beta)" or obj.Name == "Auto Clean Trash" or obj.Name == "Auto Buy Items" or obj.Name == "Instant Delivery" then
-				obj.Switch.BackgroundColor3 = Color3.fromRGB(10,200,0)
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-			end
-			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
-				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
-			end
-			if obj.ClassName == "Frame" and obj.Name == "Label" then
-				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
-			end
-			if obj.ClassName == "Frame" and obj.Name == "Amount of Buy" or obj.Name == "Cooldown of Purchases" then
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.Main.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.Main.Progress.BackgroundColor3 = Color3.fromRGB(10,200,0)
-				obj.Main.Progress.UIStroke.Color = Color3.fromRGB(10,200,0)
-				obj.Main.BackgroundColor3 = Color3.fromRGB(10,250,0)
-				obj.Main.Information.TextTransparency = 0
-			end
-		end
-		--ESP Things
-		for _, obj in ipairs(esp) do
-			if obj.ClassName == "Frame" and obj.Name == "Label" then
-				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-			end
-		end
-		--Settings Things
-		for _, obj in ipairs(stgs) do
-			if obj.ClassName == "Frame" and obj.Name == "Gui Color" or obj.Name == "Shadow Color" or obj.Name == "Topbar Color" then
-				obj.BackgroundColor3 = Color3.fromRGB(10,200,0)
-				obj.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.HexInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
-				obj.HexInput.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.RGB.GInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
-				obj.RGB.GInput.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.RGB.RInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
-				obj.RGB.RInput.UIStroke.Color = Color3.fromRGB(240,240,240)
-				obj.RGB.BInput.BackgroundColor3 = Color3.fromRGB(240,240,240)
-				obj.RGB.BInput.UIStroke.Color = Color3.fromRGB(240,240,240)
-			end
-			if obj.ClassName == "Frame" and obj.Name == "SectionTitle" then
-				obj.Title.TextColor3 = Color3.fromRGB(240,240,240)
-			end
-		end
-	end
-end
