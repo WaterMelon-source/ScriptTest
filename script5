@@ -218,7 +218,7 @@ end)
 
 local AmountOfBuySlider = Tabs.Farm:AddSlider("AmountOfBuySlider", {
 	Title = "✏️   Amount Of Buy",
-	Description = "📌   Set Amount Of Buy For Auto Buy",
+	Description = "",
 	Default = 10,
 	Min = 1,
 	Max = 1000,
@@ -230,7 +230,7 @@ local AmountOfBuySlider = Tabs.Farm:AddSlider("AmountOfBuySlider", {
 
 local CooldownBetweenPurchasesSlider = Tabs.Farm:AddSlider("CooldownBetweenPurchasesSlider", {
 	Title = "✏️   Cooldown Between Purchases",
-	Description = "📌   Set Cooldown Between Purchases For Auto Buy",
+	Description = "",
 	Default = 0.5,
 	Min = 0.1,
 	Max = 100,
