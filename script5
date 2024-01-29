@@ -8,6 +8,9 @@ local DisplayName = game.Players.LocalPlayer.DisplayName
 local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
+_G.CooldownClean = 0.5
+_G.CooldownArrest = 0.5
+_G.CooldownBuy = 0.5
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -141,19 +144,17 @@ Tabs.Farm:AddParagraph({
     --Content = ""
 })
 
-
-
 local AutoArrestToggle = Tabs.Farm:AddToggle("AutoArrest", {Title = "👨‍✈️   Auto Arrest", Default = _G.AutoArrest})
 
 AutoArrestToggle:OnChanged(function(Value)
 	_G.AutoArrest = Value
 	while _G.AutoArrest == true do
-		wait(0.5)
+		wait(_G.CooldownArrest)
 		for i,v in pairs(workspace.NPCModel:GetChildren()) do
 			if v:FindFirstChild("HumanoidRootPart") then
 				if v:FindFirstChild("ArrestPrompt") then
 					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame
-					wait(0.5)
+					wait(_G.CooldownArrest)
 					local split = v.Name:split('_')
 					game:GetService("ReplicatedStorage").Remotes.ArrestRobber:InvokeServer(tonumber(split[2]))
 				end       
@@ -167,13 +168,13 @@ local AutoCleanTrashToggle = Tabs.Farm:AddToggle("AutoCleanTrash", {Title = "�
 AutoCleanTrashToggle:OnChanged(function(Value)
 	_G.AutoCleanTrash = Value
 	while _G.AutoCleanTrash == true do
-		wait(0.5)
+		wait(_G.CooldownClean)
 		for i,v in pairs(workspace.Map.Plots:GetChildren()) do
 			if v:FindFirstChild("Trash") then
 				for i,n in pairs(v.Trash:GetChildren()) do
 					if n:FindFirstChild("PromptPart") then
 						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = n:FindFirstChild("PromptPart").CFrame
-						wait(0.5)
+						wait(_G.CooldownClean)
 						local split = n.Name:split('_')
 						local CFrame = {
 							split[2],
@@ -198,10 +199,39 @@ local AutoBuyProductsToggle = Tabs.Farm:AddToggle("AutoBuyProducts", {Title = "�
 AutoBuyProductsToggle:OnChanged(function(Value)
 	_G.AutoBuyProducts = Value
 	while _G.AutoBuyProducts == true do
-		wait(0.5)
+		wait(_G.CooldownBuy)
 		game:GetService("ReplicatedStorage").Remotes.BuyStorage:InvokeServer(_G.Thing, _G.AmountBuy, _G.InstantDelivery)
 	end
 end)
+
+Tabs.Farm:AddParagraph({
+    Title = "									     ⚙  Configs  ⚙"
+    --Content = ""
+})
+
+local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
+	Title = "⌛   Cooldown Arrest",
+	Description = "",
+	Default = 0.5,
+	Min = 0.1,
+	Max = 100,
+	Rounding = 1,
+	Callback = function(Value)
+		_G.CooldownArrest = Value
+	end
+})
+
+local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
+	Title = "⌛   Cooldown Clean",
+	Description = "",
+	Default = 0.5,
+	Min = 0.1,
+	Max = 100,
+	Rounding = 1,
+	Callback = function(Value)
+		_G.CooldownClean = Value
+	end
+})
 
 local ThingstoBuyDropdown = Tabs.Farm:AddDropdown("ThingstoBuyDropdown", {
 	Title = "📋   Things to Buy",
@@ -228,8 +258,8 @@ local AmountOfBuySlider = Tabs.Farm:AddSlider("AmountOfBuySlider", {
 	end
 })
 
-local CooldownBetweenPurchasesSlider = Tabs.Farm:AddSlider("CooldownBetweenPurchasesSlider", {
-	Title = "✏️   Cooldown Between Purchases",
+local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
+	Title = "⌛   Cooldown Buy",
 	Description = "",
 	Default = 0.5,
 	Min = 0.1,
@@ -240,7 +270,7 @@ local CooldownBetweenPurchasesSlider = Tabs.Farm:AddSlider("CooldownBetweenPurch
 	end
 })
 
-local InstantDeliveryToggle = Tabs.Farm:AddToggle("InstantDelivery", {Title = "📦   Instant Delivery", Default = _G.InstantDelivery})
+local InstantDeliveryToggle = Tabs.Farm:AddToggle("InstantDelivery", {Title = "📦   Instant Delivery", Default = true})
 
 InstantDeliveryToggle:OnChanged(function(Value)
 	_G.InstantDelivery = Value
