@@ -165,7 +165,7 @@ local Toggle3 = Tab:CreateToggle({
 local Status = Tab:CreateLabel("Status: Buying (Christmas Tree) 1 per 0.1 Seconds")
 
 function updatestatus()
-    Status:Set("Status: Buying ("..Settings.Thing..") "..Settings.Amount.." per "..Settings.CooldownCP.." Seconds")
+    Status:Set("Status: Buying ("..tostring(Settings.Thing)..") "....tostring(Settings.Amount).." per "....tostring(Settings.CooldownCP).." Seconds")
 end
 
 local Slider1 = Tab:CreateSlider({
