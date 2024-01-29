@@ -165,7 +165,7 @@ local Toggle3 = Tab:CreateToggle({
 local Status = Tab:CreateLabel("Status: Buying (Christmas Tree) 1 per 0.1 Seconds")
 
 function updatestatus()
-    Status:Set("Status: Buying ("..tostring(Settings.Thing)..") "..tostring(Settings.Amount).." per "..tostring(Settings.CooldownCP).." Seconds")
+    Status:Set("Status: Buying ("..Settings.Thing..") "..Settings.Amount.." per "..Settings.CooldownCP.." Seconds")
 end
 
 local Slider1 = Tab:CreateSlider({
@@ -203,11 +203,10 @@ local Dropdown = Tab:CreateDropdown({
    Options = {"Christmas Tree","Toys","Clothing","Shoes","Hats","Candy","Snacks","Canned Food","Boxed Food","Cold Food","Baked Goods","Fruit","Vegetables","Condiments","Beverages","Small Electronics","PC Electronics","PC Peripherals","Office Electronics",
    "Game Consoles","Videogames","Small Appliances","Large Appliances","Kitchenware","Luggage","Vacuum Cleaners","Personal Care","School Supplies","Brass Instruments","String Instruments","Pianos","Small Outdoor Equipment","Large Outdoor Equipment","Garden Tools",
    "Paint Supplies","Lumber","Small Furniture","Large Furniture","Exercise Equipment","Game Tables","Personal Transport","Car Parts","Economy Cars","Jewelry","Guns","Ammo","Military Vehicles","Armored Vehicles"},
-   CurrentOption = "Christmas Tree",
+   CurrentOption = {"Christmas Tree"},
    Flag = "Dropdown", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(valTB)
-		print(valTB)
-		Settings.Thing = valTB
+		Settings.Thing = table.concat(valTB)
 		print(Settings.Thing)
     	updatestatus()
    end,
