@@ -8,9 +8,9 @@ local DisplayName = game.Players.LocalPlayer.DisplayName
 local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
-_G.CooldownClean = 0.5
-_G.CooldownArrest = 0.5
-_G.CooldownBuy = 0.5
+_G.CooldownClean = 0.3
+_G.CooldownArrest = 2.2
+_G.CooldownBuy = 60.0
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
