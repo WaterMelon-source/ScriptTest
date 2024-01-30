@@ -63,19 +63,19 @@ end
 
 if Country == "RU" then
 	if Device == "Mobile" then
-		Info(🇷🇺, 📱)
+		Info("🇷🇺", "📱")
 	elseif Device == "Computer" then
-		Info(🇷🇺, 🖥️)
+		Info("🇷🇺", "🖥️")
 	elseif Device == "Computer With TouchScreen" then
-		Info(🇷🇺, 💻)
+		Info("🇷🇺", "💻")
 	end
 elseif Country == "US" then
 	if Device == "Mobile" then
-		Info(🇺🇸, 📱)
+		Info("🇺🇸", "📱")
 	elseif Device == "Computer" then
-		Info(🇺🇸, 🖥️)
+		Info("🇺🇸", "🖥️")
 	elseif Device == "Computer With TouchScreen" then
-		Info(🇺🇸, 💻)
+		Info("🇺🇸", "💻")
 	end
 end
 
