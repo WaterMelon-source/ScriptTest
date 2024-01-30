@@ -212,10 +212,10 @@ Tabs.Farm:AddParagraph({
     --Content = ""
 })
 
-local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
+local CooldownArrestSlider = Tabs.Farm:AddSlider("CooldownArrestSlider", {
 	Title = "⌛   Cooldown Arrest",
 	Description = "",
-	Default = 0.5,
+	Default = 2.2,
 	Min = 0.1,
 	Max = 100,
 	Rounding = 1,
@@ -224,10 +224,10 @@ local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
 	end
 })
 
-local CooldownBuySlider = Tabs.Farm:AddSlider("CooldownBuySlider", {
+local CooldownCleanSlider = Tabs.Farm:AddSlider("CooldownCleanSlider", {
 	Title = "⌛   Cooldown Clean",
 	Description = "",
-	Default = 0.5,
+	Default = 0.3,
 	Min = 0.1,
 	Max = 100,
 	Rounding = 1,
