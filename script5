@@ -57,7 +57,7 @@ Tabs.Home:AddParagraph({
 function Info(country_emoji, device_emoji)
 	Tabs.Home:AddParagraph({
 		Title = "											👤  User  👤",
-		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n ..country_emoji..  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n ..device_emoji..  Device : "..Device.."\n"
+		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n "..country_emoji.."  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n "..device_emoji.."  Device : "..Device.."\n"
 	})
 end
 
