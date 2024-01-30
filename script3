@@ -61,39 +61,28 @@ Tabs.Home:AddParagraph({
     Title = "										    💨  Dash  💨"
 })
 
+function Info(country_emoji, device_emoji)
+	Tabs.Home:AddParagraph({
+		Title = "											👤  User  👤",
+		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n "..country_emoji.."  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n "..device_emoji.."  Device : "..Device.."\n"
+	})
+end
+
 if Country == "RU" then
 	if Device == "Mobile" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
-		})
+		Info("🇷🇺", "📱")
 	elseif Device == "Computer" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
-		})
+		Info("🇷🇺", "🖥️")
 	elseif Device == "Computer With TouchScreen" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇷🇺  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
-		})
+		Info("🇷🇺", "💻")
 	end
 elseif Country == "US" then
 	if Device == "Mobile" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 📱  Device : "..Device.."\n"
-		})
+		Info("🇺🇸", "📱")
 	elseif Device == "Computer" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 🖥️  Device : "..Device.."\n"
-		})
+		Info("🇺🇸", "🖥️")
 	elseif Device == "Computer With TouchScreen" then
-		Tabs.Home:AddParagraph({
-			Title = "											👤  User  👤",
-			Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n 🇺🇸  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n 💻  Device : "..Device.."\n"
-		})
+		Info("🇺🇸", "💻")
 	end
 end
 
