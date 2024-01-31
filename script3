@@ -181,26 +181,12 @@ AutoCookToggle:OnChanged(function(Value)
 				end
 			end
 		end
-		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
-			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Oven"))
-				wait(1.2)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
-			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard") then
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_ChoppingBoard"))
-				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-				wait(1)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
-			elseif v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Stove") then
-				fireproximityprompt(v.Base.Attachment:FindFirstChild("Cook_Stove"))
-				wait(1.2)
-				game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
-			end
+		if game.Players.LocalPlayer.PlayerGui.CookingGui.Frame:FindFirstChild("NewFrame").Instruction.Text:match("Oven") then
+			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("3"), "Oven")
+		elseif game.Players.LocalPlayer.PlayerGui.CookingGui.Frame:FindFirstChild("NewFrame").Instruction.Text:match("Preparation") then
+			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
+		elseif game.Players.LocalPlayer.PlayerGui.CookingGui.Frame:FindFirstChild("NewFrame").Instruction.Text:match("Stove") then
+			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
 		end
 		for i,v in pairs(workspace.Waypoints:GetChildren()) do
 			if workspace.Waypoints:FindFirstChild("Part") then
