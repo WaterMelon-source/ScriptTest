@@ -187,6 +187,8 @@ AutoCookToggle:OnChanged(function(Value)
 			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 		elseif game.Players.LocalPlayer.PlayerGui.CookingGui.Frame:FindFirstChild("NewFrame").Instruction.Text:match("Stove") then
 			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("393"), "Stove")
+		elseif game.Players.LocalPlayer.PlayerGui.CookingGui.Frame:FindFirstChild("NewFrame").Instruction.Text:match("Mouse") then
+			game:GetService("ReplicatedStorage").Events.NewCookingRemote:FireServer("completeTask", getgenv().restaurant.Items.OftenFiltered.Kitchen:FindFirstChild("392"), "ChoppingBoard")
 		end
 		for i,v in pairs(getgenv().restaurant.Items.OftenFiltered.Kitchen:GetChildren()) do
 			if v:FindFirstChild("InUse") and v.Base.Attachment:FindFirstChild("Cook_Oven") then
