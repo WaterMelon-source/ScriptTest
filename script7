@@ -33,7 +33,7 @@ local Tabs = {
 	Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
 	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
 	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
-	Premium = Window:AddTab({Title = "Premium", Icon = "rbxassetid://10709762879"}),
+	Premium = Window:AddTab({Title = "Premium", Icon = "rbxassetid://10709819149"}),
 	Vehicle = Window:AddTab({Title = "Vehicle", Icon = "rbxassetid://10709789810"}),
 	Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
 }
@@ -146,8 +146,8 @@ Tabs.Vehicle:AddParagraph({
 	--Content = ""
 })
 
-local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
-	Title = "🦵  Velocity Multiplier",
+local VehicleSlider = Tabs.Vehicle:AddSlider("Slider", {
+	Title = "❎  Velocity Multiplier",
 	Description = "\nChange Vehicle Velocity Multiplier",
 	Default = 25,
 	Min = 1,
