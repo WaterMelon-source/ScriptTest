@@ -162,6 +162,22 @@ Tabs.Premium:AddButton({
 	end
 })
 
+Tabs.Premium:AddButton({
+	Title = "🚙  Spawn Robux Car 5",
+	Description = "\nSpawns Jeep which cost 49 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_145")
+	end
+})
+
+Tabs.Premium:AddButton({
+	Title = "🚓  Spawn Robux Car 6",
+	Description = "\nSpawns Police Van which cost 49 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_148")
+	end
+})
+
 Tabs.Vehicle:AddParagraph({
 	Title = "\t\t\t\t\t\t\t\t\t\t🚗  Vehicle  🚗"
 	--Content = ""
