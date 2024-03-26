@@ -1,0 +1,151 @@
+local UserInputService = game:GetService("UserInputService")
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
+
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Device = 'Device'
+getgenv().CurrentPlayer = nil
+
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
+end
+
+local Window = Fluent:CreateWindow({
+	Title = "🔓  Dash " .. "0.0.5",
+	SubTitle = " •  Livetopia",
+	TabWidth = 160,
+	Size = UDim2.fromOffset(580, 445),
+	Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+	Theme = "Darker",
+	MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+	Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Premium = Window:AddTab({Title = "Premium", Icon = "rbxassetid://10709762879"}),
+	Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+Tabs.Home:AddParagraph({
+	Title = "\t\t\t\t\t\t\t\t\t\t\t💨  Dash  💨"
+})
+
+Tabs.Home:AddParagraph({
+	Title = "\t\t\t\t\t\t\t\t\t\t  🤖  Discord  🤖",
+	Content = "\n\n\t\t\t\t\t\t\t\t  🔗  Link : --------------  🔗"
+})
+
+getgenv().CurrentPlayer = game.Players.LocalPlayer.Name
+
+Tabs.News:AddParagraph({
+	Title = "\t\t\t\t\t\t\t\t\t\t✨ New Features ✨",
+	Content = "\n\n 💊  Auto Heal  💊\n\n 🔋  Auto Energy 🔋\n\n 🧁  Auto Hunger 🧁\n\n\n Date: ___"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+	Title = "👟   Speed",
+	Description = "\nChange Player's Speed",
+	Default = 16,
+	Min = 0,
+	Max = 999,
+	Rounding = 1,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+	end
+})
+
+Tabs.Player:AddButton({
+	Title = "🔄  Set to default",
+	--Description = "",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+	end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+	Title = "🦵  JumpPower",
+	Description = "\nChange Player's JumpPower",
+	Default = 50,
+	Min = 0,
+	Max = 999,
+	Rounding = 1,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+	end
+})
+
+Tabs.Player:AddButton({
+	Title = "🔄  Set to default",
+	--Description = "",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+	end
+})
+
+Tabs.Premium:AddParagraph({
+	Title = "\t\t\t\t\t\t\t\t\t\t💎  Premium  💎"
+	--Content = ""
+})
+
+
+Tabs.Premium:AddButton({
+	Title = "🏎️  Spawn Robux Car 1",
+	Description = "\nSpawns Sport Car which cost 79 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+	end
+})
+
+Tabs.Premium:AddButton({
+	Title = "🚐  Spawn Robux Car 2",
+	Description = "\nSpawns Pink Gwagon which cost 79 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+	end
+})
+
+Tabs.Premium:AddButton({
+	Title = "🚜  Spawn Robux Car 3",
+	Description = "\nSpawns Lamborghini Aventador which cost 79 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+	end
+})
+
+Tabs.Premium:AddButton({
+	Title = "🛰️  Spawn Robux Car 4",
+	Description = "\nSpawns MoonBuggy which cost 49 Robux",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+	end
+})
+
+
+
+-------------
+
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
