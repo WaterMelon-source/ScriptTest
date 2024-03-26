@@ -181,7 +181,7 @@ local VehicleSlider = Tabs.Vehicle:AddSlider("Slider", {
 	Max = 200,
 	Rounding = 1,
 	Callback = function(Value)
-		getgenv().velocityMulti = Value/100
+		getgenv().velocityMulti = Value/500
 	end
 })
 
