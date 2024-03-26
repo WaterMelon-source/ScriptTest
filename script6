@@ -8,7 +8,8 @@ local DisplayName = game.Players.LocalPlayer.DisplayName
 local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
-getgenv().CurrentPlayer = nil
+
+getgenv().velocityMulti = 0.025
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -33,6 +34,7 @@ local Tabs = {
 	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
 	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
 	Premium = Window:AddTab({Title = "Premium", Icon = "rbxassetid://10709762879"}),
+	Vehicle = Window:AddTab({Title = "Vehicle", Icon = "rbxassetid://10709789810"}),
 	Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
 }
 
@@ -53,8 +55,6 @@ Tabs.Home:AddParagraph({
 	Title = "\t\t\t\t\t\t\t\t\t\t  🤖  Discord  🤖",
 	Content = "\n\n\t\t\t\t\t\t\t\t  🔗  Link : --------------  🔗"
 })
-
-getgenv().CurrentPlayer = game.Players.LocalPlayer.Name
 
 Tabs.News:AddParagraph({
 	Title = "\t\t\t\t\t\t\t\t\t\t✨ New Features ✨",
@@ -141,7 +141,43 @@ Tabs.Premium:AddButton({
 	end
 })
 
+Tabs.Vehicle:AddParagraph({
+	Title = "\t\t\t\t\t\t\t\t\t\t🚗  Vehicle  🚗"
+	--Content = ""
+})
 
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+	Title = "🦵  Velocity Multiplier",
+	Description = "\nChange Vehicle Velocity Multiplier",
+	Default = 25,
+	Min = 1,
+	Max = 200,
+	Rounding = 1,
+	Callback = function(Value)
+		getgenv().velocityMulti = Value/1000
+	end
+})
+
+
+local Keybind = Tabs.Vehicle:AddKeybind("VehicleVelocityKeyBind", {
+	Title = "⚡  Velocity Bind",
+	Mode = "Hold",
+	Default = "W",
+
+	Callback = function(Value)
+		task.wait(0)
+		local Character = game.Players.LocalPlayer.Character
+		if Character and typeof(Character) == "Instance" then
+			local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+			if Humanoid and typeof(Humanoid) == "Instance" then
+				local SeatPart = Humanoid.SeatPart
+				if SeatPart and typeof(SeatPart) == "Instance" and SeatPart:IsA("VehicleSeat") then
+					SeatPart.AssemblyLinearVelocity *= Vector3.new(1 + getgenv().velocityMulti, 1, 1 + getgenv().velocityMulti)
+				end
+			end
+		end
+	end
+})
 
 -------------
 
