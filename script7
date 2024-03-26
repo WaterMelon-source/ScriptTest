@@ -39,6 +39,26 @@ local Tabs = {
 	Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
 }
 
+local function GetVehicleFromDescendant(Descendant)
+	return
+		Descendant:FindFirstAncestor(game.Players.LocalPlayer.Name .. "\'s Car") or
+		(Descendant:FindFirstAncestor("Body") and Descendant:FindFirstAncestor("Body").Parent) or
+		(Descendant:FindFirstAncestor("Misc") and Descendant:FindFirstAncestor("Misc").Parent) or
+		Descendant:FindFirstAncestorWhichIsA("Model")
+end
+
+local function TeleportVehicle(CoordinateFrame: CFrame)
+	local Parent = game.Players.LocalPlayer.Character.Parent
+	local Vehicle = GetVehicleFromDescendant(game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").SeatPart)
+	game.Players.LocalPlayer.Character.Parent = Vehicle
+	local success, response = pcall(function()
+		return Vehicle:SetPrimaryPartCFrame(CoordinateFrame)
+	end)
+	if not success then
+		return Vehicle:MoveTo(CoordinateFrame.Position)
+	end
+end
+
 function Notify(content, time)
 	Fluent:Notify({
 		Title = "💨  Dash",
@@ -172,6 +192,7 @@ local Keybind = Tabs.Vehicle:AddKeybind("VehicleVelocityKeyBind", {
 	Default = "W",
 
 	Callback = function(Value)
+		print(getgenv().velocityEnabled, Value)
 		if not getgenv().velocityEnabled then
 			return
 		end
