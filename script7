@@ -10,7 +10,7 @@ local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayer
 local Device = 'Device'
 
 getgenv().velocityMulti = 0.025
-getgenv().velocityEnabled = false
+getgenv().velocityEnabled = true
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -196,7 +196,6 @@ local Keybind = Tabs.Vehicle:AddKeybind("KeyBind", {
 })
 
 task.spawn(function()
-	print(getgenv().velocityEnabled, Value)
 	if not getgenv().velocityEnabled then
 		return
 	end
