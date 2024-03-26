@@ -10,6 +10,7 @@ local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayer
 local Device = 'Device'
 
 getgenv().velocityMulti = 0.025
+getgenv().velocityEnabled = false
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
 	Device = "Mobile"
@@ -146,6 +147,12 @@ Tabs.Vehicle:AddParagraph({
 	--Content = ""
 })
 
+local VehicleVelocityToggle = Tabs.Vehicle:AddToggle("VehicleVelocityToggle", {Title = "🚙   Vehicle Acceleration", Default = getgenv().velocityEnabled})
+
+VehicleVelocityToggle:OnChanged(function(Value)
+	getgenv().velocityEnabled = Value
+end)
+
 local VehicleSlider = Tabs.Vehicle:AddSlider("Slider", {
 	Title = "❎  Velocity Multiplier",
 	Description = "\nChange Vehicle Velocity Multiplier",
@@ -165,15 +172,23 @@ local Keybind = Tabs.Vehicle:AddKeybind("VehicleVelocityKeyBind", {
 	Default = "W",
 
 	Callback = function(Value)
-		task.wait(0)
-		local Character = game.Players.LocalPlayer.Character
-		if Character and typeof(Character) == "Instance" then
-			local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
-			if Humanoid and typeof(Humanoid) == "Instance" then
-				local SeatPart = Humanoid.SeatPart
-				if SeatPart and typeof(SeatPart) == "Instance" and SeatPart:IsA("VehicleSeat") then
-					SeatPart.AssemblyLinearVelocity *= Vector3.new(1 + getgenv().velocityMulti, 1, 1 + getgenv().velocityMulti)
+		if not getgenv().velocityEnabled then
+			return
+		end
+		while Value == true do
+			task.wait(0)
+			local Character = game.Players.LocalPlayer.Character
+			if Character and typeof(Character) == "Instance" then
+				local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+				if Humanoid and typeof(Humanoid) == "Instance" then
+					local SeatPart = Humanoid.SeatPart
+					if SeatPart and typeof(SeatPart) == "Instance" and SeatPart:IsA("VehicleSeat") then
+						SeatPart.AssemblyLinearVelocity *= Vector3.new(1 + getgenv().velocityMulti, 1, 1 + getgenv().velocityMulti)
+					end
 				end
+			end
+			if not getgenv().velocityEnabled then
+				break
 			end
 		end
 	end
