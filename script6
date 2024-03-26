@@ -212,7 +212,7 @@ task.spawn(function()
 					print("3")
 					local SeatPart = Humanoid.SeatPart
 					if SeatPart and typeof(SeatPart) == "Instance" and SeatPart:IsA("VehicleSeat") then
-						print("4")
+						print(SeatPart)
 						SeatPart.AssemblyLinearVelocity *= Vector3.new(1 + getgenv().velocityMulti, 1, 1 + getgenv().velocityMulti)
 					end
 				end
