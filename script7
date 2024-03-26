@@ -186,17 +186,20 @@ local VehicleSlider = Tabs.Vehicle:AddSlider("Slider", {
 })
 
 
-local Keybind = Tabs.Vehicle:AddKeybind("VehicleVelocityKeyBind", {
+local Keybind = Tabs.Vehicle:AddKeybind("KeyBind", {
 	Title = "⚡  Velocity Bind",
 	Mode = "Hold",
 	Default = "W",
 
-	Callback = function(Value)
-		print(getgenv().velocityEnabled, Value)
-		if not getgenv().velocityEnabled then
-			return
-		end
-		while Value == true do
+	--Callback = function(Value)
+	--end
+})
+
+task.spawn(function()
+	while true do
+		wait(1)
+		local state = Keybind:GetState()
+		if state then
 			task.wait(0)
 			local Character = game.Players.LocalPlayer.Character
 			if Character and typeof(Character) == "Instance" then
@@ -212,8 +215,10 @@ local Keybind = Tabs.Vehicle:AddKeybind("VehicleVelocityKeyBind", {
 				break
 			end
 		end
+
+		if Fluent.Unloaded then break end
 	end
-})
+end)
 
 -------------
 
