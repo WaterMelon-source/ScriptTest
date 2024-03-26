@@ -121,7 +121,7 @@ Tabs.Premium:AddButton({
 	Title = "🚐  Spawn Robux Car 2",
 	Description = "\nSpawns Pink Gwagon which cost 79 Robux",
 	Callback = function()
-		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_173")
 	end
 })
 
@@ -129,7 +129,7 @@ Tabs.Premium:AddButton({
 	Title = "🚜  Spawn Robux Car 3",
 	Description = "\nSpawns Lamborghini Aventador which cost 79 Robux",
 	Callback = function()
-		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_170")
 	end
 })
 
@@ -137,7 +137,7 @@ Tabs.Premium:AddButton({
 	Title = "🛰️  Spawn Robux Car 4",
 	Description = "\nSpawns MoonBuggy which cost 49 Robux",
 	Callback = function()
-		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_174")
+		game:GetService("ReplicatedStorage").Remotes.SpawnVehiclesRE:FireServer("car_149")
 	end
 })
 
