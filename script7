@@ -200,6 +200,7 @@ task.spawn(function()
 		wait(1)
 		local state = Keybind:GetState()
 		if state then
+			print(state)
 			task.wait(0)
 			local Character = game.Players.LocalPlayer.Character
 			if Character and typeof(Character) == "Instance" then
