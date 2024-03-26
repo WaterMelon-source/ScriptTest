@@ -9,7 +9,7 @@ local UserId = game.Players.LocalPlayer.UserId
 local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
 local Device = 'Device'
 
-getgenv().velocityMulti = 0.025
+getgenv().velocityMulti = 0.25
 getgenv().velocityEnabled = false
 
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
@@ -181,7 +181,7 @@ local VehicleSlider = Tabs.Vehicle:AddSlider("Slider", {
 	Max = 200,
 	Rounding = 1,
 	Callback = function(Value)
-		getgenv().velocityMulti = Value/1000
+		getgenv().velocityMulti = Value/100
 	end
 })
 
