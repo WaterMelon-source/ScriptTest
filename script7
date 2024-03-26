@@ -196,15 +196,12 @@ local Keybind = Tabs.Vehicle:AddKeybind("KeyBind", {
 })
 
 task.spawn(function()
-	if not getgenv().velocityEnabled then
-		return
-	end
 	while true do
 		wait(1)
 
 		-- example for checking if a keybind is being pressed
 		local state = Keybind:GetState()
-		if state then
+		if state and getgenv().velocityEnabled then
 			wait()
 			print("1")
 			local Character = game.Players.LocalPlayer.Character
@@ -219,9 +216,6 @@ task.spawn(function()
 						SeatPart.AssemblyLinearVelocity *= Vector3.new(1 + getgenv().velocityMulti, 1, 1 + getgenv().velocityMulti)
 					end
 				end
-			end
-			if not getgenv().velocityEnabled then
-				break
 			end
 		end
 
