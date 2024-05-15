@@ -19,7 +19,7 @@ end
 
 local Window = Fluent:CreateWindow({
     Title = "🔓  Dash " .. "0.0.5",
-    SubTitle = " •  Fishing Simulator",
+    SubTitle = " •  Fishing Simulator 🐠",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 445),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -154,16 +154,16 @@ AutoFarmToggle:OnChanged(function(Value)
                 game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(getgenv().spear, v.HumanoidRootPart.CFrame, Vector3.new(0.03330976516008377, -0.9728596210479736, 0.22898606956005096), 1715731414.3083057)
                 wait(0.2)
                 game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(v, getgenv().spear, true)
+                for i, v in pairs(workspace.DroppedItems:GetChildren()) do
+                    if v:FindFirstChild("Handle") then
+                        wait(0.2)
+                        char.HumanoidRootPart.CFrame = v.Handle.CFrame
+                    end
+                end
                 break
             end
         end
 	end
-    for i, v in pairs(workspace.DroppedItems:GetChildren()) do
-        if v:FindFirstChild("Handle") then
-            wait(0.2)
-            char.HumanoidRootPart.CFrame = v.Handle.CFrame
-        end
-    end
     
     for i, v in pairs(workspace:GetChildren()) do
         if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
