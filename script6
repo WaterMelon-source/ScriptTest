@@ -19,7 +19,7 @@ end
 
 local Window = Fluent:CreateWindow({
     Title = "🔓  Dash " .. "0.0.5",
-    SubTitle = " •  Restaurant Tycoon 2",
+    SubTitle = " •  Fishing Simulator",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 445),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
