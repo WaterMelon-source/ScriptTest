@@ -149,7 +149,7 @@ AutoFarmToggle:OnChanged(function(Value)
             if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm and char and char:FindFirstChild("HumanoidRootPart") then
                 -- char.HumanoidRootPart.Anchored = true
                 -- v.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, char.HumanoidRootPart.CFrame.Y + 50, char.HumanoidRootPart.CFrame.Z)
-                char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 55, v.HumanoidRootPart.CFrame.Z)
+                char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 45, v.HumanoidRootPart.CFrame.Z)
                 wait(0.7)
                 game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(getgenv().spear, v.HumanoidRootPart.CFrame, Vector3.new(0.03330976516008377, -0.9728596210479736, 0.22898606956005096), 1715731414.3083057)
                 wait(0.2)
