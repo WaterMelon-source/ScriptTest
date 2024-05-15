@@ -133,7 +133,7 @@ Tabs.Farm:AddParagraph({
 local AutoFarmToggle = Tabs.Farm:AddToggle("AutoFarm", {Title = "🦈   Auto Farm Sharks", Default = getgenv().AutoFarm})
 
 AutoFarmToggle:OnChanged(function(Value)
-	getgenv().AutoFarm = Value
+    getgenv().AutoFarm = Value
     local player = game.Players.LocalPlayer
     local char = player.Character
     local hum = player.Character.Humanoid
