@@ -143,13 +143,13 @@ AutoFarmToggle:OnChanged(function(Value)
 	while getgenv().AutoFarm == true do
 		wait(0.1)
 	    for i, v in pairs(workspace:GetChildren()) do
-		    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true then
+		    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm == true then
 		        v.HumanoidRootPart.Anchored = true
 		    end
 		end
 	    for i, v in pairs(workspace:GetChildren()) do
 	        wait(0.1)
-	        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true and char and char:FindFirstChild("HumanoidRootPart") then
+	        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm == true and char and char:FindFirstChild("HumanoidRootPart") then
 	            char.HumanoidRootPart.Anchored = true
 	            -- v.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, char.HumanoidRootPart.CFrame.Y + 50, char.HumanoidRootPart.CFrame.Z)
 	            char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 40, v.HumanoidRootPart.CFrame.Z)
