@@ -19,7 +19,7 @@ end
 
 local Window = Fluent:CreateWindow({
     Title = "🔓  Dash " .. "0.0.5",
-    SubTitle = " •  Fishing Simulator 🐠",
+    SubTitle = " •  Fishing Simulator  🌊",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 445),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -137,41 +137,49 @@ AutoFarmToggle:OnChanged(function(Value)
     local player = game.Players.LocalPlayer
     local char = player.Character
     local hum = player.Character.Humanoid
+
+    getgenv().spear = "cryptspear"
+
 	while getgenv().AutoFarm == true do
 		wait(0.1)
-        for i, v in pairs(workspace:GetChildren()) do
-            if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm then
-                v.HumanoidRootPart.Anchored = true
-            end
-        end
-        for i, v in pairs(workspace:GetChildren()) do
-            wait(0.1)
-            if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm and char and char:FindFirstChild("HumanoidRootPart") then
-                -- char.HumanoidRootPart.Anchored = true
-                -- v.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, char.HumanoidRootPart.CFrame.Y + 50, char.HumanoidRootPart.CFrame.Z)
-                char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 45, v.HumanoidRootPart.CFrame.Z)
-                wait(0.7)
-                game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(getgenv().spear, v.HumanoidRootPart.CFrame, Vector3.new(0.03330976516008377, -0.9728596210479736, 0.22898606956005096), 1715731414.3083057)
-                wait(0.2)
-                game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(v, getgenv().spear, true)
-                for i, v in pairs(workspace.DroppedItems:GetChildren()) do
-                    if v:FindFirstChild("Handle") then
-                        wait(0.2)
-                        char.HumanoidRootPart.CFrame = v.Handle.CFrame
-                    end
-                end
-                break
-            end
-        end
+	        for i, v in pairs(workspace:GetChildren()) do
+		        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true then
+		            v.HumanoidRootPart.Anchored = true
+		        end
+		end
+	    for i, v in pairs(workspace:GetChildren()) do
+	        wait(0.1)
+	        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true and char and char:FindFirstChild("HumanoidRootPart") then
+	            char.HumanoidRootPart.Anchored = true
+	            -- v.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, char.HumanoidRootPart.CFrame.Y + 50, char.HumanoidRootPart.CFrame.Z)
+	            char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 40, v.HumanoidRootPart.CFrame.Z)
+	            wait(0.7)
+	            char.HumanoidRootPart.Anchored = false
+	            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(getgenv().spear, v.HumanoidRootPart.CFrame, Vector3.new(0.03330976516008377, -0.9728596210479736, 0.22898606956005096), 1715731414.3083057)
+	            wait(0.2)
+	            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(v, getgenv().spear, true)
+	            char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
+	            if workspace.DroppedItems:FindFirstChild("Model") then
+	                char.HumanoidRootPart.CFrame = workspace.DroppedItems.Model.Handle.CFrame
+	            end
+	            break
+	        end
+	    end
 	end
     
-    for i, v in pairs(workspace:GetChildren()) do
-        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
-            v.HumanoidRootPart.Anchored = false
-        end
-    end
-    
-    char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
+    for i, v in pairs(workspace.DroppedItems:GetChildren()) do
+	    if v:FindFirstChild("Handle") then
+	        char.HumanoidRootPart.CFrame = v.Handle.CFrame
+	    end
+	end
+	
+	for i, v in pairs(workspace:GetChildren()) do
+	    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
+	        v.HumanoidRootPart.Anchored = false
+	    end
+	end
+	
+	char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
 end)
 
 
