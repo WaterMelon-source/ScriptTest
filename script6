@@ -180,6 +180,7 @@ AutoFarmToggle:OnChanged(function(Value)
 	end
 	
 	char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
+	game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
 end)
 
 
