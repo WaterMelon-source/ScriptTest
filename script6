@@ -142,10 +142,10 @@ AutoFarmToggle:OnChanged(function(Value)
 
 	while getgenv().AutoFarm == true do
 		wait(0.1)
-	        for i, v in pairs(workspace:GetChildren()) do
-		        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true then
-		            v.HumanoidRootPart.Anchored = true
-		        end
+	    for i, v in pairs(workspace:GetChildren()) do
+		    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().working == true then
+		        v.HumanoidRootPart.Anchored = true
+		    end
 		end
 	    for i, v in pairs(workspace:GetChildren()) do
 	        wait(0.1)
