@@ -1,14 +1,19 @@
-local player = game:GetService("Players").LocalPlayer
+-- Services
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local player = Players.LocalPlayer
+
+-- Global Configuration
 getgenv().cleanTrash = true
 getgenv().checkNpcs = true
 getgenv().Bins = true
 getgenv().Door = true
-
+getgenv().serveNpcs = true
 getgenv().flight = player.configurations.flight.Value
 
--- Function to clean trash from NPCs
-function CleanTrash(v)
+-- Helper Function to Clean Trash from NPCs
+local function CleanTrash(v)
     local items = {"nut_mix", "chips", "cookies", "bread_roll", "coffee", "water", "coca_cola"}
     for _, item in pairs(items) do
         if v:FindFirstChild(item) then
@@ -17,8 +22,8 @@ function CleanTrash(v)
     end
 end
 
--- Function to fix NPCs animations
-function FixNpcs(v)
+-- Helper Function to Fix NPCs Animations
+local function FixNpcs(v)
     wait(0.1)
     if not v.animations.buckle_seatbelt.Value or v.animations.unbuckle_seatbelt.Value then
         player.Character.Client.Client.RemoteEvent:FireServer("Fix", "seatbelt", v)
@@ -28,8 +33,8 @@ function FixNpcs(v)
     end
 end
 
--- Function to open or close overhead bins
-function Bins(v, status)
+-- Helper Function to Open or Close Overhead Bins
+local function Bins(v, status)
     local targetRotation = CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
     local isClosed = v[v.Name].rotationRef.Value == targetRotation
     if (not isClosed and status == "close") or (isClosed and status == "open") then
@@ -39,11 +44,36 @@ function Bins(v, status)
     end
 end
 
--- Main execution block
+-- Helper Function to Serve NPCs
+local function Serve(v)
+    player.Character.Client.Client.RemoteEvent:FireServer("Ask", "beverage", getgenv().plane.npcs:FindFirstChild(v.Name))
+    wait(0.7)
+
+    local function serveItemIfRequested(itemName, itemCategory, itemIndex)
+        if v.Head.Chat:FindFirstChild("Message") and string.find(v.Head.Chat.Message.TextLabel.Text, itemName) then
+            player.Character.Client.Client.RemoteFunction:InvokeServer("GetItem", "food", itemCategory, itemIndex)
+            player.Character.Client.Client.RemoteFunction:InvokeServer("GiveItem", getgenv().plane.npcs:FindFirstChild(v.Name))
+        end
+    end
+
+    serveItemIfRequested("Water", "beverage", 1)
+    serveItemIfRequested("Coffee", "beverage", 2)
+    serveItemIfRequested("Coca Cola", "beverage", 3)
+    
+    player.Character.Client.Client.RemoteEvent:FireServer("Ask", "food", getgenv().plane.npcs:FindFirstChild(v.Name))
+    wait(0.7)
+
+    serveItemIfRequested("Chips", "economy", 1)
+    serveItemIfRequested("Nut Mix", "economy", 4)
+    serveItemIfRequested("Cookies", "economy", 8)
+    serveItemIfRequested("Bread Roll", "economy", 10)
+end
+
+-- Main Execution Block
 if getgenv().flight then
     print(getgenv().flight)
     local workspace_flight = workspace.flights:FindFirstChild(getgenv().flight)
-    local replicatedStorage_flight = game.ReplicatedStorage.flights:FindFirstChild(getgenv().flight)
+    local replicatedStorage_flight = ReplicatedStorage.flights:FindFirstChild(getgenv().flight)
 
     if workspace_flight and replicatedStorage_flight then
         local flight_status = replicatedStorage_flight.flight_status.Value
@@ -69,6 +99,11 @@ if getgenv().flight then
             if getgenv().checkNpcs and not status_folder.passengers_checked.Value then
                 for _, v in pairs(getgenv().plane.npcs:GetChildren()) do
                     FixNpcs(v)
+                end
+            end
+            if getgenv().serveNpcs and not status_folder.serving_finished.Value and status_folder.serving_started.Value then
+                for _, v in pairs(getgenv().plane.clientNpcs:GetChildren()) do
+                    Serve(v)
                 end
             end
         elseif flight_status == "cruising" then
