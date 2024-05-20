@@ -1,0 +1,276 @@
+local UserInputService = game:GetService("UserInputService")
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
+
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Gamepasses_path = game:GetService("Players").Hshkdgdsskdskv.data.purchases.gamepasses
+local Device = 'Device'
+
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
+end
+
+local Window = Fluent:CreateWindow({
+    Title = "🔓  Dash " .. "0.0.5",
+    SubTitle = " •  Cabin Crew Simulator  ✈️",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 445),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+    Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Farm = Window:AddTab({Title = "Farming", Icon = "rbxassetid://10709762879"}),
+    GamePasses = Window:AddTab({Title = "GamePasses", Icon = "rbxassetid://10709762879"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+Tabs.Home:AddParagraph({
+    Title = "💨  Dash  💨"
+})
+
+function Info(country_emoji, device_emoji)
+	Tabs.Home:AddParagraph({
+		Title = "👤  User  👤",
+		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n "..country_emoji.."  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n "..device_emoji.."  Device : "..Device.."\n"
+	})
+end
+
+if Country == "RU" then
+	if Device == "Mobile" then
+		Info("🇷🇺", "📱")
+	elseif Device == "Computer" then
+		Info("🇷🇺", "🖥️")
+	elseif Device == "Computer With TouchScreen" then
+		Info("🇷🇺", "💻")
+	end
+elseif Country == "US" then
+	if Device == "Mobile" then
+		Info("🇺🇸", "📱")
+	elseif Device == "Computer" then
+		Info("🇺🇸", "🖥️")
+	elseif Device == "Computer With TouchScreen" then
+		Info("🇺🇸", "💻")
+	end
+end
+
+Tabs.Home:AddParagraph({
+    Title = "🤖  Discord  🤖",
+    Content = "\n\n🔗  Link : --------------  🔗"
+})
+
+Tabs.News:AddParagraph({
+    Title = "✨ New Features ✨",
+    Content = "\n\n 💊  Auto Heal  💊\n\n 🔋  Auto Energy 🔋\n\n 🧁  Auto Hunger 🧁\n\n\n Date: ___"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "👟   Speed",
+    Description = "\nChange Player's Speed",
+    Default = 16,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+    end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "🦵  JumpPower",
+    Description = "\nChange Player's JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+Tabs.GamePasses:AddParagraph({
+    Title = "💎  Gamepasses  💎"
+    --Content = ""
+})
+
+local CustomLightingToggle = Tabs.GamePasses:AddToggle("CustomLighting", {Title = "⚡   Custom Lighting", Default = getgenv().CustomLighting})
+
+CustomLightingToggle:OnChanged(function(Value)
+    getgenv().CustomLighting = Value
+    Gamepasses_path.custom_lighting.Value = getgenv().CustomLighting
+end)
+
+local CustomMusicToggle = Tabs.GamePasses:AddToggle("CustomMusic", {Title = "🎵   Custom Music", Default = getgenv().CustomMusic})
+
+CustomMusicToggle:OnChanged(function(Value)
+    getgenv().CustomMusic = Value
+    Gamepasses_path.custom_music.Value = getgenv().CustomMusic
+end)
+
+local EmergencyControlToggle = Tabs.GamePasses:AddToggle("EmergencyControl", {Title = "⚠️   Emergency Control", Default = getgenv().EmergencyControl})
+
+EmergencyControlToggle:OnChanged(function(Value)
+    getgenv().EmergencyControl = Value
+    Gamepasses_path.emergency_control.Value = getgenv().EmergencyControl
+end)
+
+local ExtraDesignToggle = Tabs.GamePasses:AddToggle("ExtraDesign", {Title = "🎨   Extra Design", Default = getgenv().ExtraDesign})
+
+ExtraDesignToggle:OnChanged(function(Value)
+    getgenv().ExtraDesign = Value
+    Gamepasses_path.extra_design.Value = getgenv().ExtraDesign
+end)
+
+local MultiplayerToggle = Tabs.GamePasses:AddToggle("Multiplayer", {Title = "🧑‍🤝‍🧑   Multiplayer", Default = getgenv().Multiplayer})
+
+MultiplayerToggle:OnChanged(function(Value)
+    getgenv().Multiplayer = Value
+    Gamepasses_path.multiplayer.Value = getgenv().Multiplayer
+end)
+
+local PremiumFlightAttendantToggle = Tabs.GamePasses:AddToggle("PremiumFlightAttendant", {Title = "👩‍🦰   Premium Flight Attendant", Default = getgenv().PremiumFlightAttendant})
+
+PremiumFlightAttendantToggle:OnChanged(function(Value)
+    getgenv().PremiumFlightAttendant = Value
+    Gamepasses_path.premium_flight_attendant.Value = getgenv().PremiumFlightAttendant
+end)
+
+local PremiumRoomToggle = Tabs.GamePasses:AddToggle("PremiumRoom", {Title = "🛖   Premium Room", Default = getgenv().PremiumRoom})
+
+PremiumRoomToggle:OnChanged(function(Value)
+    getgenv().PremiumRoom = Value
+    Gamepasses_path.premium_room.Value = getgenv().PremiumRoom
+end)
+
+local SkilledPilotsToggle = Tabs.GamePasses:AddToggle("SkilledPilots", {Title = "🧑‍✈️   Skilled Pilots", Default = getgenv().SkilledPilots})
+
+SkilledPilotsToggle:OnChanged(function(Value)
+    getgenv().SkilledPilots = Value
+    Gamepasses_path.skilled_pilots.Value = getgenv().SkilledPilots
+end)
+
+local TailLogoToggle = Tabs.GamePasses:AddToggle("TailLogo", {Title = "🛬   Tail Logo", Default = getgenv().TailLogo})
+
+TailLogoToggle:OnChanged(function(Value)
+    getgenv().TailLogo = Value
+    Gamepasses_path.tail_logo.Value = getgenv().TailLogo
+end)
+
+local VipToggle = Tabs.GamePasses:AddToggle("Vip", {Title = "👑   Vip", Default = getgenv().Vip})
+
+VipToggle:OnChanged(function(Value)
+    getgenv().Vip = Value
+    Gamepasses_path.vip.Value = getgenv().Vip
+end)
+
+local X2EarningsToggle = Tabs.GamePasses:AddToggle("X2Earnings", {Title = "💸   x2 Earnings", Default = getgenv().X2Earnings})
+
+X2EarningsToggle:OnChanged(function(Value)
+    getgenv().X2Earnings = Value
+    Gamepasses_path.x2_earnings.Value = getgenv().X2Earnings
+end)
+
+Tabs.Farm:AddParagraph({
+    Title = "🔥  Functions  🔥"
+    --Content = ""
+})
+
+local AutoFarmToggle = Tabs.Farm:AddToggle("AutoFarm", {Title = "🦈   Auto Farm Sharks", Default = getgenv().AutoFarm})
+
+AutoFarmToggle:OnChanged(function(Value)
+    getgenv().AutoFarm = Value
+    local player = game.Players.LocalPlayer
+    local char = player.Character
+    local hum = player.Character.Humanoid
+
+    getgenv().spear = "cryptspear"
+
+	while getgenv().AutoFarm == true do
+		wait(0.1)
+	    for i, v in pairs(workspace:GetChildren()) do
+		    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm == true then
+		        v.HumanoidRootPart.Anchored = true
+		    end
+		end
+	    for i, v in pairs(workspace:GetChildren()) do
+	        wait(0.1)
+	        if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") and getgenv().AutoFarm == true and char and char:FindFirstChild("HumanoidRootPart") then
+	            char.HumanoidRootPart.Anchored = true
+	            -- v.HumanoidRootPart.CFrame = CFrame.new(char.HumanoidRootPart.CFrame.X, char.HumanoidRootPart.CFrame.Y + 50, char.HumanoidRootPart.CFrame.Z)
+	            char.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame.X, v.HumanoidRootPart.CFrame.Y - 40, v.HumanoidRootPart.CFrame.Z)
+	            wait(0.7)
+	            char.HumanoidRootPart.Anchored = false
+	            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SpearThrown:FireServer(getgenv().spear, v.HumanoidRootPart.CFrame, Vector3.new(0.03330976516008377, -0.9728596210479736, 0.22898606956005096), 1715731414.3083057)
+	            wait(0.2)
+	            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(v, getgenv().spear, true)
+	            char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
+	            if workspace.DroppedItems:FindFirstChild("Model") then
+	                char.HumanoidRootPart.CFrame = workspace.DroppedItems.Model.Handle.CFrame
+	            end
+	            break
+	        end
+	    end
+	end
+    
+    for i, v in pairs(workspace.DroppedItems:GetChildren()) do
+	    if v:FindFirstChild("Handle") then
+	        char.HumanoidRootPart.CFrame = v.Handle.CFrame
+	    end
+	end
+	
+	for i, v in pairs(workspace:GetChildren()) do
+	    if v:FindFirstChild("Health") and v:FindFirstChild("IsSeaMonster") then
+	        v.HumanoidRootPart.Anchored = false
+	    end
+	end
+	
+	char.HumanoidRootPart.CFrame = CFrame.new(1.8703980445862, 53.57190322876, -188.37982177734)
+	game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
+end)
+
+
+-------------
+
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
