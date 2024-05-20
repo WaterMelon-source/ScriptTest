@@ -51,7 +51,7 @@ local function Serve(v)
 
     local function serveItemIfRequested(itemName, itemCategory, itemIndex)
         if v.Head.Chat:FindFirstChild("Message") and string.find(v.Head.Chat.Message.TextLabel.Text, itemName) then
-            player.Character.Client.Client.RemoteFunction:InvokeServer("GetItem", "food", itemCategory, itemIndex)
+            player.Character.Client.Client.RemoteFunction:InvokeServer("GetItem", itemCategory, "economy", itemIndex)
             player.Character.Client.Client.RemoteFunction:InvokeServer("GiveItem", getgenv().plane.npcs:FindFirstChild(v.Name))
         end
     end
@@ -63,10 +63,10 @@ local function Serve(v)
     player.Character.Client.Client.RemoteEvent:FireServer("Ask", "food", getgenv().plane.npcs:FindFirstChild(v.Name))
     wait(2)
 
-    serveItemIfRequested("Chips", "economy", 1)
-    serveItemIfRequested("Nut Mix", "economy", 4)
-    serveItemIfRequested("Cookies", "economy", 8)
-    serveItemIfRequested("Bread Roll", "economy", 10)
+    serveItemIfRequested("Chips", "food", 1)
+    serveItemIfRequested("Nut Mix", "food", 4)
+    serveItemIfRequested("Cookies", "food", 8)
+    serveItemIfRequested("Bread Roll", "food", 10)
 end
 
 -- Main Execution Block
