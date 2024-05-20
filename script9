@@ -1,0 +1,97 @@
+local player = game:GetService("Players").LocalPlayer
+
+getgenv().cleanTrash = true
+getgenv().checkNpcs = true
+getgenv().Bins = true
+getgenv().Door = true
+
+getgenv().flight = player.configurations.flight.Value
+
+-- Function to clean trash from NPCs
+function CleanTrash(v)
+    local items = {"nut_mix", "chips", "cookies", "bread_roll", "coffee", "water", "coca_cola"}
+    for _, item in pairs(items) do
+        if v:FindFirstChild(item) then
+            player.Character.Client.Client.RemoteEvent:FireServer("Trash", getgenv().plane.npcs:FindFirstChild(v.Name), item)
+        end
+    end
+end
+
+-- Function to fix NPCs animations
+function FixNpcs(v)
+    wait(1)
+    if not v.animations.buckle_seatbelt.Value or v.animations.unbuckle_seatbelt.Value then
+        player.Character.Client.Client.RemoteEvent:FireServer("Fix", "seatbelt", v)
+    end
+    if not v.animations.close_tray.Value or v.animations.open_tray.Value then
+        player.Character.Client.Client.RemoteEvent:FireServer("Fix", "tray", v)
+    end
+end
+
+-- Function to open or close overhead bins
+function Bins(v, status)
+    local targetRotation = CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+    local isClosed = v[v.Name].rotationRef.Value == targetRotation
+    if (not isClosed and status == "close") or (isClosed and status == "open") then
+        wait(0.1)
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(v.CFrame.X, v.CFrame.Y - 3, v.CFrame.Z)
+        fireproximityprompt(v.ProximityPrompt)
+    end
+end
+
+-- Main execution block
+if getgenv().flight then
+    print(getgenv().flight)
+    local workspace_flight = workspace.flights:FindFirstChild(getgenv().flight)
+    local replicatedStorage_flight = game.ReplicatedStorage.flights:FindFirstChild(getgenv().flight)
+
+    if workspace_flight and replicatedStorage_flight then
+        local flight_status = replicatedStorage_flight.flight_status.Value
+        local status_folder = replicatedStorage_flight.status:FindFirstChild(flight_status)
+        getgenv().plane = workspace_flight.clientFolder:GetChildren()[1]
+        print(getgenv().plane.Name)
+
+        if flight_status == "departure" then
+            if getgenv().checkNpcs and not status_folder.passengers_checked.Value and status_folder.passengers_seated.Value then
+                for _, v in pairs(getgenv().plane.clientNpcs:GetChildren()) do
+                    CleanTrash(v)
+                end
+            end
+            if getgenv().Door and not status_folder.door_closed.Value then
+                player.Character.HumanoidRootPart.CFrame = getgenv().plane.doors.Door.Handle.CFrame
+                fireproximityprompt(getgenv().plane.doors.Door.Handle.ProximityPrompt)
+            end
+            if getgenv().Bins and not status_folder.overhead_bins_closed.Value then
+                for _, v in pairs(getgenv().plane.overhead_bins:GetChildren()) do
+                    Bins(v, "close")
+                end
+            end
+            if getgenv().checkNpcs and not status_folder.passengers_checked.Value then
+                for _, v in pairs(getgenv().plane.npcs:GetChildren()) do
+                    FixNpcs(v)
+                end
+            end
+        elseif flight_status == "cruising" then
+            if getgenv().cleanTrash and not status_folder.trash_collected.Value then
+                for _, v in pairs(getgenv().plane.clientNpcs:GetChildren()) do
+                    CleanTrash(v)
+                end
+            end
+            if getgenv().checkNpcs and not status_folder.passengers_checked.Value then
+                for _, v in pairs(getgenv().plane.npcs:GetChildren()) do
+                    FixNpcs(v)
+                end
+            end
+        elseif flight_status == "arrival" then
+            if getgenv().Bins and not status_folder.overhead_bins_opened.Value then
+                for _, v in pairs(getgenv().plane.overhead_bins:GetChildren()) do
+                    Bins(v, "open")
+                end
+            end
+        end
+    else
+        warn("Flight " .. getgenv().flight .. " not found")
+    end
+else
+    warn("No flight specified in player configurations")
+end
