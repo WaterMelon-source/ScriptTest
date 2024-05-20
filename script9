@@ -101,12 +101,12 @@ if getgenv().flight then
                     FixNpcs(v)
                 end
             end
+        elseif flight_status == "cruising" then
             if getgenv().serveNpcs and not status_folder.serving_finished.Value and status_folder.serving_started.Value then
                 for _, v in pairs(getgenv().plane.clientNpcs:GetChildren()) do
                     Serve(v)
                 end
             end
-        elseif flight_status == "cruising" then
             if getgenv().cleanTrash and not status_folder.trash_collected.Value then
                 for _, v in pairs(getgenv().plane.clientNpcs:GetChildren()) do
                     CleanTrash(v)
