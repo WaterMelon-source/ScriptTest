@@ -47,7 +47,7 @@ end
 -- Helper Function to Serve NPCs
 local function Serve(v)
     player.Character.Client.Client.RemoteEvent:FireServer("Ask", "beverage", getgenv().plane.npcs:FindFirstChild(v.Name))
-    wait(1.7)
+    wait(2)
 
     local function serveItemIfRequested(itemName, itemCategory, itemIndex)
         if v.Head.Chat:FindFirstChild("Message") and string.find(v.Head.Chat.Message.TextLabel.Text, itemName) then
@@ -61,7 +61,7 @@ local function Serve(v)
     serveItemIfRequested("Coca Cola", "beverage", 3)
     
     player.Character.Client.Client.RemoteEvent:FireServer("Ask", "food", getgenv().plane.npcs:FindFirstChild(v.Name))
-    wait(1.7)
+    wait(2)
 
     serveItemIfRequested("Chips", "economy", 1)
     serveItemIfRequested("Nut Mix", "economy", 4)
