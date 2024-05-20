@@ -14,10 +14,12 @@ getgenv().flight = player.configurations.flight.Value
 
 -- Helper Function to Clean Trash from NPCs
 local function CleanTrash(v)
-    local items = {"nut_mix", "chips", "cookies", "bread_roll", "coffee", "water", "coca_cola"}
-    for _, item in pairs(items) do
-        if v:FindFirstChild(item) then
-            player.Character.Client.Client.RemoteEvent:FireServer("Trash", getgenv().plane.npcs:FindFirstChild(v.Name), item)
+    for i = 1,2 do
+        local items = {"nut_mix", "chips", "cookies", "bread_roll", "coffee", "water", "coca_cola"}
+        for _, item in pairs(items) do
+            if v:FindFirstChild(item) then
+                player.Character.Client.Client.RemoteEvent:FireServer("Trash", getgenv().plane.npcs:FindFirstChild(v.Name), item)
+            end
         end
     end
 end
@@ -61,7 +63,7 @@ local function Serve(v)
     serveItemIfRequested("Coca Cola", "beverage", 3)
     
     player.Character.Client.Client.RemoteEvent:FireServer("Ask", "food", getgenv().plane.npcs:FindFirstChild(v.Name))
-    wait(2)
+    wait(3)
 
     serveItemIfRequested("Chips", "food", 1)
     serveItemIfRequested("Nut Mix", "food", 4)
