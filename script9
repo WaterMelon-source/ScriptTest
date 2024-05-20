@@ -19,7 +19,7 @@ end
 
 -- Function to fix NPCs animations
 function FixNpcs(v)
-    wait(1)
+    wait(0.1)
     if not v.animations.buckle_seatbelt.Value or v.animations.unbuckle_seatbelt.Value then
         player.Character.Client.Client.RemoteEvent:FireServer("Fix", "seatbelt", v)
     end
