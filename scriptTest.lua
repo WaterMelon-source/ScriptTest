@@ -1,5 +1,408 @@
---[[
-    Protected | Secure by GhostyDuckyy#7698
-]]--
+local UserInputService = game:GetService("UserInputService")
 
-local Taurus_q20zOH16Z20VB672810k2 = function() local Taurus_q4TIL3Y6d9183 = "01000100 01100101 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01100101 00111111"; local Taurus_W44L8235l21 = "01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100 00100001"; local Taurus_Uqa7273Jf954 = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_Q07U5SP2X80M = "01010100 01101111 01110101 01100011 01101000 00100000 01110011 01101111 01101101 01100101 00100000 01100111 01110010 01100001 01110011 01110011"; local Taurus_O058d53H7EkYh = "01000111 01101000 01101111 01110011 01110100 01111001 01000100 01110101 01100011 01101011 01111001 01111001"; local Taurus_z3xU7hif1X2 = "01000111 01101000 01101111 01110011 01110100 01111001 01000100 01110101 01100011 01101011 01111001 01111001"; local Taurus_af9n188e85G1S = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_S94topSpx6xa = "01001110 01100101 01110111 00100000 01110101 01110000 01100100 01100001 01110100 01100101 00100000 01110111 01101000 01100101 01101110 00111111"; local Taurus_MQ78Ag402f90 = "01010100 01101111 01110101 01100011 01101000 00100000 01110011 01101111 01101101 01100101 00100000 01100111 01110010 01100001 01110011 01110011"; local Taurus_wTM6e55401R6b = "01010100 01101111 01110101 01100011 01101000 00100000 01110011 01101111 01101101 01100101 00100000 01100111 01110010 01100001 01110011 01110011"; local Taurus_CeY0YJ47u2re = "01000100 01100101 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01100101 00111111"; local Taurus_l12hZPe1408 = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_i604b7L3OMIU = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_g90821n94uE = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_I17vWP0bm9ua = "01001110 01100101 01110111 00100000 01110101 01110000 01100100 01100001 01110100 01100101 00100000 01110111 01101000 01100101 01101110 00111111"; local Taurus_NtciR59s5911 = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_lnaKf0U293s = "01001110 01100101 01110111 00100000 01110101 01110000 01100100 01100001 01110100 01100101 00100000 01110111 01101000 01100101 01101110 00111111"; local Taurus_s80my22Vn32 = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_paX7m864HpP = "01101010 00110011 00110011 01010001 01101000 01101101 01111000 00111000 00110101 00110001 00110100 01100110 00110011 01010100 01010111 01111001 00111000 01100110 01000100 00110011 00110001 00111000 01010010 01000011 00110011 00111001 00110101 01101010 00110110 01100001 01001100 01100111 01111010 00110000 01101001 01110110 00110101 01110111 00110000 01001110 01111000 01000010 00110111 01100011 00110001 00110010 01010001 01010000 01110101 01101010 01111010 00110000 01010110 00110101 00110101 00111001 00110001 01010000 00110011 01110001 01100101 00110000 00111001 00110100 01110110 01001110 01001100 01000010 01101101 01000011 01010110 00110010 00110000 01010000"; local Taurus_A63N2P908U82 = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_s41283zZ16W61 = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_bM019NG9679j = "01001110 01100101 01110111 00100000 01110101 01110000 01100100 01100001 01110100 01100101 00100000 01110111 01101000 01100101 01101110 00111111"; local Taurus_DDP12k478O4q = "01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100 00100001"; local Taurus_cx81C434828d = "01000101"; local Taurus_JNsU57T66kn = "01001110 01100101 01110111 00100000 01110101 01110000 01100100 01100001 01110100 01100101 00100000 01110111 01101000 01100101 01101110 00111111"; local Taurus_WsKI947W9XB6 = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_jl554d4j865D = "01000100 01100101 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01100101 00111111"; local Taurus_h9O53u2046Ov = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_W2cIg10T57C6g = "01101010 00110011 00110011 01010001 01101000 01101101 01111000 00111000 00110101 00110001 00110100 01100110 00110011 01010100 01010111 01111001 00111000 01100110 01000100 00110011 00110001 00111000 01010010 01000011 00110011 00111001 00110101 01101010 00110110 01100001 01001100 01100111 01111010 00110000 01101001 01110110 00110101 01110111 00110000 01001110 01111000 01000010 00110111 01100011 00110001 00110010 01010001 01010000 01110101 01101010 01111010 00110000 01010110 00110101 00110101 00111001 00110001 01010000 00110011 01110001 01100101 00110000 00111001 00110100 01110110 01001110 01001100 01000010 01101101 01000011 01010110 00110010 00110000 01010000"; local Taurus_TQ1pbnfe06kQ = "01000101"; local Taurus_Xs1Yrr3z751c4 = "01000111 01101000 01101111 01110011 01110100 01111001 01000100 01110101 01100011 01101011 01111001 01111001"; local Taurus_d1vJV5738T68Q = "01000100 01100101 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01100101 00111111"; local Taurus_xRHvF6B1of81 = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_M2w7i2dme8KMv = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_g7tH10Ldx75 = "01000110 01110010 01100101 01100101 00100000 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01101111 01110010 00100001"; local Taurus_ZC2yM6C4w278 = "01101010 00110011 00110011 01010001 01101000 01101101 01111000 00111000 00110101 00110001 00110100 01100110 00110011 01010100 01010111 01111001 00111000 01100110 01000100 00110011 00110001 00111000 01010010 01000011 00110011 00111001 00110101 01101010 00110110 01100001 01001100 01100111 01111010 00110000 01101001 01110110 00110101 01110111 00110000 01001110 01111000 01000010 00110111 01100011 00110001 00110010 01010001 01010000 01110101 01101010 01111010 00110000 01010110 00110101 00110101 00111001 00110001 01010000 00110011 01110001 01100101 00110000 00111001 00110100 01110110 01001110 01001100 01000010 01101101 01000011 01010110 00110010 00110000 01010000"; local Taurus_S41172387mmTC = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_M3AJ9CM88d4z4 = "01001001 01110010 01101111 01101110 01000010 01110010 01100101 01110111 00100000 01000110 01101111 01110010 01101011 00111111 00100000 01001110 01101111 01110000 01100101 00101110"; local Taurus_d0f8854ru7X61 = "01010100 01101111 01110101 01100011 01101000 00100000 01110011 01101111 01101101 01100101 00100000 01100111 01110010 01100001 01110011 01110011"; local Taurus_gGne93Q471G = "01000111 01101000 01101111 01110011 01110100 01111001 01000100 01110101 01100011 01101011 01111001 01111001"; local Taurus_ZaB29u57UDg9 = "01000101"; local Taurus_e7r9hP8b6gK5 = "01000111 01101000 01101111 01110011 01110100 01111001 01000100 01110101 01100011 01101011 01111001 01111001"; local Taurus_CP75rj1c2ztv = "01000100 01100101 01101111 01100010 01100110 01110101 01110011 01100011 01100001 01110100 01100101 00111111"; local Taurus_y7LvQ9hK4UO = "01010100 01101111 01110101 01100011 01101000 00100000 01110011 01101111 01101101 01100101 00100000 01100111 01110010 01100001 01110011 01110011";  end; local Taurus_L0H911O8R77e0v5RW = loadstring(table.concat({"\114", "\101", "\116", "\117", "\114", "\110", "\32", "\102", "\117", "\110", "\99", "\116", "\105", "\111", "\110", "\40", "\98", "\121", "\116", "\101", "\41", "\10", "\32", "\32", "\32", "\32", "\105", "\102", "\32", "\116", "\121", "\112", "\101", "\111", "\102", "\40", "\98", "\121", "\116", "\101", "\41", "\32", "\61", "\61", "\32", "\34", "\116", "\97", "\98", "\108", "\101", "\34", "\32", "\116", "\104", "\101", "\110", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\108", "\111", "\97", "\100", "\115", "\116", "\114", "\105", "\110", "\103", "\40", "\116", "\97", "\98", "\108", "\101", "\46", "\99", "\111", "\110", "\99", "\97", "\116", "\40", "\98", "\121", "\116", "\101", "\41", "\41", "\40", "\41", "\10", "\32", "\32", "\32", "\32", "\101", "\108", "\115", "\101", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\98", "\121", "\116", "\101", "\32", "\61", "\32", "\123", "\98", "\121", "\116", "\101", "\125", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\108", "\111", "\97", "\100", "\115", "\116", "\114", "\105", "\110", "\103", "\40", "\116", "\97", "\98", "\108", "\101", "\46", "\99", "\111", "\110", "\99", "\97", "\116", "\40", "\98", "\121", "\116", "\101", "\41", "\41", "\40", "\41", "\10", "\32", "\32", "\32", "\32", "\101", "\110", "\100", "\10", "\101", "\110", "\100", "\10",}))(); local Taurus_j5Cb2vSQv8t6o9Rf67 = {"\114", "\101", "\116", "\117", "\114", "\110", "\32", "\69", "\117", "\110", "\65", "\57", "\98", "\53", "\50", "\90", "\110", "\48", "\77", "\67", "\53", "\109", "\81", "\114", "\53", "\55", "\90", "\49", "\48", "\49", "\104", "\88", "\55", "\84", "\56", "\84", "\104", "\52", "\115", "\53", "\101", "\118", "\114", "\51", "\50", "\55", "\55", "\51", "\49", "\50", "\49", "\57", "\50", "\52", "\112", "\75", "\50", "\72", "\116", "\90", "\89", "\56", "\97", "\67", "\49", "\110", "\51", "\120", "\115", "\50", "\71", "\53", "\54", "\88", "\116", "\78", "\111", "\55", "\48", "\48", "\57", "\49", "\53", "\85", "\69", "\74", "\56", "\79", "\57", "\106", "\55", "\54", "\53", "\55", "\54", "\76", "\110", "\75", "\83", "\57", "\55", "\107", "\54", "\110", "\111", "\117", "\49", "\54", "\109", "\49", "\56", "\57", "\52", "\98", "\79", "\55", "\48", "\116", "\51", "\101", "\89", "\122", "\119", "\52", "\52", "\50", "\49", "\53", "\56", "\116", "\114", "\54", "\68", "\111", "\55", "\71", "\51", "\67", "\68", "\54", "\79", "\77", "\90", "\70", "\48", "\57", "\75", "\84", "\121", "\89", "\49", "\119", "\84", "\50", "\108", "\107", "\50", "\120", "\51", "\78", "\108", "\122", "\55", "\113", "\119", "\56", "\51", "\109", "\49", "\109", "\102", "\50", "\74", "\48", "\105", "\55", "\81", "\57", "\52", "\79", "\74", "\114", "\80", "\56", "\54", "\71", "\51", "\53", "\51", "\114", "\51", "\82", "\52", "\50", "\52", "\79", "\83", "\121", "\57", "\51", "\75", "\78", "\53", "\55", "\51", "\48", "\90", "\69", "\121", "\81", "\53", "\52", "\102", "\51", "\106", "\55", "\66", "\52", "\68", "\55", "\51", "\71", "\65", "\48", "\53", "\55", "\53", "\51", "\114", "\53", "\112", "\74", "\54", "\49", "\52", "\55", "\51", "\77", "\101", "\54", "\102", "\112", "\57", "\51", "\111", "\52", "\52", "\48", "\52", "\51", "\54", "\71", "\71", "\52", "\105", "\54", "\108", "\57", "\66", "\50", "\51", "\55", "\50", "\77", "\71", "\70", "\53", "\51", "\120", "\105", "\110", "\110", "\48", "\52", "\50", "\72", "\55", "\115", "\53", "\50", "\56", "\57", "\57", "\80", "\49", "\54", "\52", "\79", "\55", "\57", "\72", "\105", "\52", "\103", "\115", "\53", "\55", "\48", "\68", "\48", "\52", "\54", "\73", "\55", "\54", "\104", "\100", "\111", "\54", "\51", "\120", "\55", "\50", "\52", "\54", "\90", "\49", "\111", "\85", "\53", "\69", "\80", "\88", "\84", "\56", "\110", "\55", "\102", "\112", "\48", "\49", "\108", "\56", "\50", "\54", "\54", "\53", "\99", "\108", "\51", "\52", "\117", "\79", "\85", "\66", "\52", "\69", "\56", "\55", "\73", "\55", "\107", "\56", "\54", "\52", "\83", "\48", "\54", "\48", "\54", "\90", "\57", "\78", "\105", "\100", "\78", "\49", "\56", "\53", "\50", "\51", "\89", "\102", "\54", "\50", "\57", "\78", "\49", "\55", "\81", "\54", "\52", "\50", "\100", "\48", "\52", "\97", "\119", "\56", "\50", "\48", "\53", "\112", "\48", "\48", "\52", "\52", "\67", "\50", "\55", "\52", "\52", "\54", "\97", "\71", "\54", "\72", "\51", "\50", "\77", "\103", "\52", "\51", "\52", "\89", "\57", "\70", "\57", "\51", "\81", "\68", "\77", "\56", "\49", "\76", "\57", "\51", "\83", "\48", "\99", "\90", "\119", "\78", "\54", "\54", "\74", "\54", "\71", "\66", "\83", "\48", "\51", "\53", "\69", "\116", "\53", "\56", "\55", "\48", "\87", "\106", "\57", "\56", "\102", "\113", "\52", "\51", "\51", "\57", "\119", "\115", "\52", "\66", "\56", "\56", "\106", "\51", "\48", "\54", "\98", "\71", "\100", "\56", "\83", "\86", "\53", "\52", "\48", "\52", "\105", "\52", "\51", "\50", "\51", "\53", "\56", "\54", "\73", "\107", "\68", "\54", "\112", "\52", "\106", "\79", "\56", "\49", "\49", "\73", "\55", "\55", }; local Taurus_j5Cb2vSQv8t6o9Rf67 = Taurus_L0H911O8R77e0v5RW(Taurus_j5Cb2vSQv8t6o9Rf67); local Taurus_PZ801oeHX7305444 = {"\108", "\111", "\99", "\97", "\108", "\32", "\85", "\115", "\101", "\114", "\73", "\110", "\112", "\117", "\116", "\83", "\101", "\114", "\118", "\105", "\99", "\101", "\32", "\61", "\32", "\103", "\97", "\109", "\101", "\58", "\71", "\101", "\116", "\83", "\101", "\114", "\118", "\105", "\99", "\101", "\40", "\34", "\85", "\115", "\101", "\114", "\73", "\110", "\112", "\117", "\116", "\83", "\101", "\114", "\118", "\105", "\99", "\101", "\34", "\41", "\10", "\10", "\108", "\111", "\99", "\97", "\108", "\32", "\70", "\108", "\117", "\101", "\110", "\116", "\32", "\61", "\32", "\108", "\111", "\97", "\100", "\115", "\116", "\114", "\105", "\110", "\103", "\40", "\103", "\97", "\109", "\101", "\58", "\72", "\116", "\116", "\112", "\71", "\101", "\116", "\40", "\34", "\104", "\116", "\116", "\112", "\115", "\58", "\47", "\47", "\103", "\105", "\116", "\104", "\117", "\98", "\46", "\99", "\111", "\109", "\47", "\100", "\97", "\119", "\105", "\100", "\45", "\115", "\99", "\114", "\105", "\112", "\116", "\115", "\47", "\70", "\108", "\117", "\101", "\110", "\116", "\47", "\114", "\101", "\108", "\101", "\97", "\115", "\101", "\115", "\47", "\108", "\97", "\116", "\101", "\115", "\116", "\47", "\100", "\111", "\119", "\110", "\108", "\111", "\97", "\100", "\47", "\109", "\97", "\105", "\110", "\46", "\108", "\117", "\97", "\34", "\41", "\41", "\40", "\41", "\10", "\108", "\111", "\99", "\97", "\108", "\32", "\79", "\112", "\116", "\105", "\111", "\110", "\115", "\32", "\61", "\32", "\70", "\108", "\117", "\101", "\110", "\116", "\46", "\79", "\112", "\116", "\105", "\111", "\110", "\115", "\10", "\10", "\108", "\111", "\99", "\97", "\108", "\32", "\85", "\115", "\101", "\114", "\78", "\97", "\109", "\101", "\32", "\61", "\32", "\103", "\97", "\109", "\101", "\46", "\80", "\108", "\97", "\121", "\101", "\114", "\115", "\46", "\76", "\111", "\99", "\97", "\108", "\80", "\108", "\97", "\121", "\101", "\114", "\46", "\78", "\97", "\109", "\101", "\10", "\108", "\111", "\99", "\97", "\108", "\32", "\68", "\105", "\115", "\112", "\108", "\97", "\121", "\78", "\97", "\109", "\101", "\32", "\61", "\32", "\103", "\97", "\109", "\101", "\46", "\80", "\108", "\97", "\121", "\101", "\114", "\115", "\46", "\76", "\111", "\99", "\97", "\108", "\80", "\108", "\97", "\121", "\101", "\114", "\46", "\68"
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
+
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Device = 'Device'
+
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
+end
+
+--------Main---------
+getgenv().working = true
+getgenv().spawn = 2
+getgenv().pizzas = 0
+-------Sauce---------
+getgenv().sauceDelay = 0.3
+getgenv().sauceColorNum = 1
+getgenv().sauceSkip = false
+------Toppings--------
+getgenv().toppingsDelay = 0.25
+getgenv().topping1Skip = false
+getgenv().topping2Skip = false
+getgenv().topping3Skip = false
+getgenv().topping4Skip = false
+getgenv().topping5Skip = false
+getgenv().toppingsSkip = false
+-------Oven----------
+getgenv().ovenDelay = 5
+------Slicer---------
+getgenv().slicerDelay = 1
+------Selling--------
+getgenv().selling = false
+------Time-----------
+getgenv().summToppings = 0
+if getgenv().topping1Skip == false then
+    getgenv().summToppings += 1
+elseif getgenv().topping2Skip == false then
+    getgenv().summToppings += 1
+elseif getgenv().topping3Skip == false then
+    getgenv().summToppings += 1
+elseif getgenv().topping4Skip == false then
+    getgenv().summToppings += 1
+elseif getgenv().topping5Skip == false then
+    getgenv().summToppings += 1
+end
+
+local Window = Fluent:CreateWindow({
+    Title = "🔓  Dash " .. "0.0.5",
+    SubTitle = " •  Club Roblox 🧸",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 445),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+    Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Farm = Window:AddTab({Title = "Farming", Icon = "rbxassetid://10709762879"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+Tabs.Home:AddParagraph({
+    Title = "💨  Dash  💨"
+})
+
+local function addUserParagraph(UserName, DisplayName, UserId, Country, Device)
+	local deviceIcon = Device == "Mobile" and "📱" or Device == "Computer" and "🖥️" or Device == "Computer With TouchScreen" and "💻"
+	local countryFlag = Country == "RU" and "🇷🇺" or Country == "US" and "🇺🇸"
+	
+	Tabs.Home:AddParagraph({
+		Title = "👤  User  👤",
+		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n "..countryFlag.."  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n "..deviceIcon.."  Device : "..Device.."\n"
+	})
+end
+
+if Country == "RU" or Country == "US" then
+	addUserParagraph(UserName, DisplayName, UserId, Country, Device)
+end
+
+function TeleportPizza(location, Oven)
+	for i,v in pairs(game.workspace.Items:GetChildren()) do
+		if v:FindFirstChild("C") then
+			if location == "Sauce" and getgenv().sauceSkip == false and getgenv().working == true then
+				if not v.C:FindFirstChild("Sauce") and not v.C:FindFirstChild("CookedState") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Num") then
+								if getgenv().sauceColorNum == 1 and f.Num.Value == 1 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.298999786376953, 254.65623474121094, 9.534388542175293) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 2 and f.Num.Value == 2 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.1721978187561035, 254.41131591796875, 16.220552444458008) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 3 and f.Num.Value == 3 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.2990007400512695, 254.86138916015625, 17.798870086669922) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 4 and f.Num.Value == 4 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.299001693725586, 254.35910034179688, 33.74543380737305) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end
+			if location == "Toppings" and getgenv().toppingsSkip == false and getgenv().working == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						getgenv().pizzas += 1
+                        for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("ToppingName") then
+								v.Root.Anchored = true
+								if f.ToppingName.Value == "T1" and getgenv().topping1Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(19, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+                                    v.Root.Anchored = false
+								elseif f.ToppingName.Value == "T2" and getgenv().topping2Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(28, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T3" and getgenv().topping3Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(36, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T4" and getgenv().topping4Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T5" and getgenv().topping5Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(52, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end 
+			if location == "Oven" and getgenv().working == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						--print("teleportedOvn")
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(79.99996948242188, 254.96519470214844, 50.4114875793457) * CFrame.Angles(-0, 0, -0))
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						wait(0.01)
+					end
+				end
+			end
+			if location == "Slicer" and getgenv().working == true then
+				if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Body") and f:FindFirstChild("Body").CFrame == CFrame.new(55.4714584, 257.630737, 4.98270702) then
+								--print("teleportedSlc")
+								v.Root.Anchored = true
+								game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(55.363868713378906, 254.60670471191406, 6.826766014099121) * CFrame.Angles(-0, 0, -0))
+								wait(0.001)
+								game:GetService("ReplicatedStorage").PizzaEvents.remotePizzaStamper:FireServer(f)
+								v.Root.Anchored = false
+								wait(getgenv().slicerDelay)
+							end
+						end
+					end
+				end
+			end
+			if location == "Boxes" and getgenv().working == true then
+				for i = 1,getgenv().spawn do
+					wait(1.73)
+					game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+				end
+				if v:FindFirstChild("C") then
+					if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+						if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+							for i,d in pairs(game.workspace.Items:GetChildren()) do
+								if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") and getgenv().selling == true and getgenv().working == true then
+									d.Touch:FindFirstChild("BoxController").Disabled = true
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(40.176944732666016, 254.3000030517578, -64.86914825439453) * CFrame.Angles(-0, 0, -0))
+									--print("sold")
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function CalculateCoins(unit)
+    local allTime = (getgenv().spawn * 1.78) + (getgenv().pizzas * getgenv().sauceDelay) + getgenv().ovenDelay + (getgenv().pizzas * getgenv().slicerDelay) + ((getgenv().pizzas * getgenv().toppingsDelay) * getgenv().summToppings)
+    local sellingTime = getgenv().pizzas * 2.5
+    local combinedTime = allTime + sellingTime
+
+    local intervalHour = 3600 / combinedTime
+    local totalCoinsHour = intervalHour * (getgenv().pizzas * 20)
+    return (tostring(math.floor(totalCoinsHour + 0.5))..' coins/hour')
+end
+
+Tabs.Home:AddParagraph({
+    Title = "🤖  Discord  🤖",
+    Content = "🔗  Link : --------------  🔗"
+})
+
+Tabs.News:AddParagraph({
+    Title = "								 ✨ New Features ✨",
+    Content = "\n\n 💊  Auto Heal  💊\n\n 🔋  Auto Energy 🔋\n\n 🧁  Auto Hunger 🧁\n\n\n Date: ___"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "👟   Speed",
+    Description = "\nChange Player's Speed",
+    Default = 16,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+    end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "🦵  JumpPower",
+    Description = "\nChange Player's JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+local SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+    Title = "🔁  AutoFarm",
+    Values = {"Pizza AutoFarm 🍕", "lolas"},
+    Multi = false,
+    Default = 2,
+})
+
+SauceDropdown:OnChanged(function(Value)
+    if Value == "Pizza AutoFarm 🍕" then
+        getgenv().CoinsShow = Tabs.Farm:AddParagraph({
+            Title = "💰  Coins Predictions",
+            Content = "0 coins/hour"
+        })
+        
+        getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
+        
+        getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
+            getgenv().AutoFarmPizza = Value
+        
+            while getgenv().AutoFarmPizza == true do
+                print("Started!")
+                getgenv().pizzas = 0
+                for i = 1,getgenv().spawn do
+                    --print("spawned")
+                    game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
+                    wait(1.78)
+                end
+                TeleportPizza("Sauce")
+                TeleportPizza("Toppings")
+                getgenv().CoinsShow:SetDesc(CalculateCoins())
+                TeleportPizza("Oven")
+                wait(getgenv().ovenDelay)
+                TeleportPizza("Slicer")
+                if getgenv().selling == true and getgenv().working == true then
+                    TeleportPizza("Boxes")
+                end
+            end
+            getgenv().CoinsShow:SetDesc("0 coins/hour")
+        end)
+        
+        getgenv().ConfigTab = Tabs.Farm:AddParagraph({
+            Title = "⚙️  Configs  ⚙️"
+            --Content = ""
+        })
+        
+        getgenv().SpawnSlider = Tabs.Farm:AddSlider("SpawnSlider", {
+            Title = "🍞  Spawn Count",
+            Description = "",
+            Default = 1,
+            Min = 1,
+            Max = 15,
+            Rounding = 0.1,
+            Callback = function(Value)
+                getgenv().spawn = Value
+            end
+        })
+        
+        getgenv().SauceSlider = Tabs.Farm:AddSlider("SauceSlider", {
+            Title = "🌶️  Sauce Delay",
+            Description = "",
+            Default = 0.3,
+            Min = 0.1,
+            Max = 2,
+            Rounding = 1,
+            Callback = function(Value)
+                getgenv().sauceDelay = Value
+            end
+        })
+        
+        getgenv().SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+            Title = "🎨  Sauce Color",
+            Values = {"Red 🔴", "Green 🟢", "Purple 🟣", "Orange 🟠"},
+            Multi = false,
+            Default = 1,
+        })
+        
+        getgenv().SauceDropdown:OnChanged(function(Value)
+            if Value == "Red 🔴" then
+                getgenv().sauceColorNum = 1
+            elseif Value == "Green 🟢" then
+                getgenv().sauceColorNum = 2
+            elseif Value == "Purple 🟣" then
+                getgenv().sauceColorNum = 3
+            elseif Value == "Orange 🟠" then
+                getgenv().sauceColorNum = 4
+            end
+        end)
+    elseif Value == "lolas" then
+        if getgenv().CoinsShow then
+            getgenv().CoinsShow:Destroy()
+            getgenv().AutoFarmPizzaToggle:Destroy()
+            getgenv().ConfigTab:Destroy()
+            getgenv().SpawnSlider:Destroy()
+            getgenv().SauceSlider:Destroy()
+            getgenv().SauceDropdown:Destroy()
+        end
+    end
+end)
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
