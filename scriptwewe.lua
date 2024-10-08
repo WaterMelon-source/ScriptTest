@@ -108,3 +108,7 @@ wait(0.4)
 humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 wait(0.4)
 fireproximityprompt(car.NpcsAdd.ProximityPrompt)
+wait(0.4)
+character.HumanoidRootPart.CFrame = plot.Floors["1"].Floors.Concrete.CFrame
+wait(0.4)
+game:GetService("ReplicatedStorage").Remote.NpcHold:FireServer("Release")
