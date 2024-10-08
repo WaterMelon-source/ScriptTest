@@ -100,7 +100,7 @@ fireproximityprompt(car.Seats.VehicleSeat.ProximityPrompt)
 wait(0.4)
 for i, car_spawn in pairs(plot.Floors["1"].Furnitures:GetChildren()) do
     if car_spawn:FindFirstChild("Part") and car_spawn.Part:FindFirstChild("ProximityPrompt") then
-        smoothTeleportCar(car, Vector3.new(car_spawn.Part.Position.X, car_spawn.Part.Position.Y+10, car_spawn.Part.Position.Z), 30)
+        smoothTeleportCar(car, Vector3.new(car_spawn.Part.Position.X, car_spawn.Part.Position.Y+3, car_spawn.Part.Position.Z), 30)
         break
     end
 end
