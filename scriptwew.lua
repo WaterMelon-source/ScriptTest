@@ -93,7 +93,7 @@ end
 character.HumanoidRootPart.CFrame = car.Seats.VehicleSeat.CFrame
 wait(0.4)
 fireproximityprompt(car.NpcsAdd.ProximityPrompt)
-wait(1.5)
+wait(3)
 character.HumanoidRootPart.CFrame = car.Seats.VehicleSeat.CFrame
 wait(0.4)
 fireproximityprompt(car.Seats.VehicleSeat.ProximityPrompt)
