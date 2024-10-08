@@ -93,7 +93,7 @@ end
 character.HumanoidRootPart.CFrame = car.Seats.VehicleSeat.CFrame
 wait(0.4)
 fireproximityprompt(car.NpcsAdd.ProximityPrompt)
-wait(0.4)
+wait(1.5)
 character.HumanoidRootPart.CFrame = car.Seats.VehicleSeat.CFrame
 wait(0.4)
 fireproximityprompt(car.Seats.VehicleSeat.ProximityPrompt)
@@ -109,6 +109,6 @@ humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 wait(0.4)
 fireproximityprompt(car.NpcsAdd.ProximityPrompt)
 wait(0.4)
-moveToTarget(plot.Floors["1"].Floors.Concrete.Concrete.Position)
-wait(0.4)
+character.HumanoidRootPart.CFrame = plot.Floors["1"].Floors.Concrete.Concrete.CFrame
+wait(0.2)
 game:GetService("ReplicatedStorage").Remote.NpcHold:FireServer("Release")
