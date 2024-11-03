@@ -152,6 +152,49 @@ for i = 1, 5 do
     end
 end
 
+function TeleportIceCream(location)
+    for i,v in pairs(game.workspace.Items:GetChildren()) do
+		if v:FindFirstChild("Root") then
+            if location == "Hammer" then
+                if v.Name == "ConeMix" or v.Name == "ConeMix2" or v.Name == "ConeMix3" or v.Name == "ConeMix4"  then
+                    workspace.ServerInteractables.Machine2.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(-13, 254, -221) * CFrame.Angles(-0, 0, -0))
+                end
+            elseif location == "Filling" then  
+                if v.Name == "IceCream3" then
+                    workspace.ServerInteractables.Machine4.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(42, 255, -224) * CFrame.Angles(-0, 0, -0))
+                end
+            end
+            elseif location == "Topping" then  
+                if v.Name == "IceCream4" then
+                    workspace.ServerInteractables.Machine5.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(73, 255, -248) * CFrame.Angles(-0, 0, -0))
+                end
+            end
+        end
+    end
+end
+
+function SellIceCream()
+    for _,v in pairs(game:GetService("Workspace").ServerWorld.HomeWorld.GenericParts:GetChildren()) do
+        if v.Name == "PizzaLocation" and not v:FindFirstChild("IceCream4") then
+            for i,n in pairs(game.workspace.Items:GetChildren()) do
+                if n.name == "IceCream4" then
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(n, v.C1.CFrame)
+                    break
+                end
+            end
+        end
+    end
+end
+
 function TeleportPizza(location)
 	for i,v in pairs(game.workspace.Items:GetChildren()) do
 		if v:FindFirstChild("C") then
@@ -284,7 +327,7 @@ function SellPizzas(location)
                 if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and v:FindFirstChild("Cut") then
                     if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
                         game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
-                        wait(1.2)
+                        wait(1)
                         for i,d in pairs(game.workspace.Items:GetChildren()) do
                             if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
                                 d.Touch:FindFirstChild("BoxController").Disabled = true
@@ -317,138 +360,174 @@ end
 
 local SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
     Title = "🔁  AutoFarm",
-    Values = {"Pizza AutoFarm 🍕", "lolas"},
+    Values = {"Pizza AutoFarm 🍕", "Ice Cream AutoFarm 🍦"},
     Multi = false,
     Default = 2,
 })
 
+local function spawnPizzaAutoFarmMenu()
+    getgenv().CoinsShow = Tabs.Farm:AddParagraph({
+        Title = "💰  Coins Predictions",
+        Content = "0 coins/hour"
+    })
+    
+    getgenv().ConfigTab = Tabs.Farm:AddParagraph({
+        Title = "⚙️  Configs  ⚙️"
+        --Content = ""
+    })
+    
+    getgenv().SpawnSlider = Tabs.Farm:AddSlider("SpawnSlider", {
+        Title = "🍞  Spawn Count",
+        Description = "",
+        Default = 1,
+        Min = 1,
+        Max = 15,
+        Rounding = 0.1,
+        Callback = function(Value)
+            getgenv().spawn = Value
+        end
+    })
+    
+    getgenv().SauceSlider = Tabs.Farm:AddSlider("SauceSlider", {
+        Title = "🌶️  Sauce Delay",
+        Description = "",
+        Default = 0.3,
+        Min = 0.1,
+        Max = 2,
+        Rounding = 1,
+        Callback = function(Value)
+            getgenv().sauceDelay = Value
+        end
+    })
+    
+    getgenv().SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+        Title = "🎨  Sauce Color",
+        Values = {"Red 🔴", "Green 🟢", "Purple 🟣", "Orange 🟠"},
+        Multi = false,
+        Default = 1,
+    })
+    
+    getgenv().SauceDropdown:OnChanged(function(Value)
+        if Value == "Red 🔴" then
+            getgenv().sauceColorNum = 1
+        elseif Value == "Green 🟢" then
+            getgenv().sauceColorNum = 2
+        elseif Value == "Purple 🟣" then
+            getgenv().sauceColorNum = 3
+        elseif Value == "Orange 🟠" then
+            getgenv().sauceColorNum = 4
+        end
+    end)
+
+    getgenv().ToppingsSlider = Tabs.Farm:AddSlider("SauceSlider", {
+        Title = "🍳  Toppings Delay",
+        Description = "",
+        Default = 0.25,
+        Min = 0.1,
+        Max = 2,
+        Rounding = 1,
+        Callback = function(Value)
+            getgenv().toppingsDelay = Value
+        end
+    })
+
+    getgenv().ToppingsDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+        Title = "🧂  Toppings",
+        Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🟢", "Cheese 🧀", "Basil 🥬"},
+        Multi = true,
+        Default = {"Pepperoni 🔴"},
+    })
+
+    getgenv().ToppingsDropdown:OnChanged(function(Value)
+        local Values = {}
+        for Value, State in pairs(Value) do
+            table.insert(Values, Value)
+        end
+
+        local toppings = {
+            ["Pepperoni 🔴"] = "topping1Skip",
+            ["Tomatoes 🍅"] = "topping2Skip",
+            ["Olives 🟢"] = "topping3Skip",
+            ["Cheese 🧀"] = "topping4Skip",
+            ["Basil 🥬"] = "topping5Skip"
+        }
+
+        for topping, skipVar in pairs(toppings) do
+            getgenv()[skipVar] = not table.find(Values, topping)
+        end
+    end)
+
+    getgenv().SellPizzaToggle = Tabs.Farm:AddToggle("SellPizza", {Title = "💵  Sell Pizza", Default = getgenv().SellPizza})
+    
+    getgenv().SellPizzaToggle:OnChanged(function(Value)
+        getgenv().SellPizza = Value
+        print(getgenv().SellPizza)
+    end)
+
+    getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
+    
+    getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
+        getgenv().AutoFarmPizza = Value
+    
+        while getgenv().AutoFarmPizza == true do
+            print("Started!")
+            getgenv().pizzas = 0
+            for i = 1,getgenv().spawn do
+                --print("spawned")
+                game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
+                wait(1.78)
+            end
+            TeleportPizza("Sauce")
+            TeleportPizza("Toppings")
+            getgenv().CoinsShow:SetDesc(CalculateCoins())
+            TeleportPizza("Oven")
+            wait(getgenv().ovenDelay)
+            TeleportPizza("Slicer")
+            print(getgenv().SellPizza)
+            if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+                SellPizzas("Boxes")
+            end
+        end
+        getgenv().CoinsShow:SetDesc("0 coins/hour")
+    end)
+end
+
+local function spawnIceCreamAutoFarmMenu()
+    getgenv().SellIceCreamToggle = Tabs.Farm:AddToggle("SellIceCream", {Title = "💵  Sell IceCream", Default = getgenv().SellIceCream})
+    
+    getgenv().SellIceCreamToggle:OnChanged(function(Value)
+        getgenv().SellIceCream = Value
+        print(getgenv().SellIceCream)
+    end)
+
+    getgenv().AutoFarmIceCreamToggle = Tabs.Farm:AddToggle("AutoFarmIceCream", {Title = "🍦  Auto Farm IceCream", Default = getgenv().AutoFarmIceCream})
+    
+    getgenv().AutoFarmIceCreamToggle:OnChanged(function(Value)
+        getgenv().AutoFarmIceCream = Value
+    
+        while getgenv().AutoFarmIceCream == true do
+            print("Started!")
+            TeleportIceCream("Hammer")
+            wait(1)
+            TeleportIceCream("Filling")
+            wait(1)
+            TeleportIceCream("Topping")
+            wait(1)
+            if getgenv().SellIceCream == true and getgenv().AutoFarmIceCream == true then
+                SellIceCream()
+            end
+        end
+    end)
+end
+
 SauceDropdown:OnChanged(function(Value)
     if Value == "Pizza AutoFarm 🍕" then
-        getgenv().CoinsShow = Tabs.Farm:AddParagraph({
-            Title = "💰  Coins Predictions",
-            Content = "0 coins/hour"
-        })
-        
-        getgenv().ConfigTab = Tabs.Farm:AddParagraph({
-            Title = "⚙️  Configs  ⚙️"
-            --Content = ""
-        })
-        
-        getgenv().SpawnSlider = Tabs.Farm:AddSlider("SpawnSlider", {
-            Title = "🍞  Spawn Count",
-            Description = "",
-            Default = 1,
-            Min = 1,
-            Max = 15,
-            Rounding = 0.1,
-            Callback = function(Value)
-                getgenv().spawn = Value
-            end
-        })
-        
-        getgenv().SauceSlider = Tabs.Farm:AddSlider("SauceSlider", {
-            Title = "🌶️  Sauce Delay",
-            Description = "",
-            Default = 0.3,
-            Min = 0.1,
-            Max = 2,
-            Rounding = 1,
-            Callback = function(Value)
-                getgenv().sauceDelay = Value
-            end
-        })
-        
-        getgenv().SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
-            Title = "🎨  Sauce Color",
-            Values = {"Red 🔴", "Green 🟢", "Purple 🟣", "Orange 🟠"},
-            Multi = false,
-            Default = 1,
-        })
-        
-        getgenv().SauceDropdown:OnChanged(function(Value)
-            if Value == "Red 🔴" then
-                getgenv().sauceColorNum = 1
-            elseif Value == "Green 🟢" then
-                getgenv().sauceColorNum = 2
-            elseif Value == "Purple 🟣" then
-                getgenv().sauceColorNum = 3
-            elseif Value == "Orange 🟠" then
-                getgenv().sauceColorNum = 4
-            end
-        end)
-
-        getgenv().ToppingsSlider = Tabs.Farm:AddSlider("SauceSlider", {
-            Title = "🍳  Toppings Delay",
-            Description = "",
-            Default = 0.25,
-            Min = 0.1,
-            Max = 2,
-            Rounding = 1,
-            Callback = function(Value)
-                getgenv().toppingsDelay = Value
-            end
-        })
-
-        getgenv().ToppingsDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
-            Title = "🧂  Toppings",
-            Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🟢", "Cheese 🧀", "Basil 🥬"},
-            Multi = true,
-            Default = {"Pepperoni 🔴"},
-        })
-
-        getgenv().ToppingsDropdown:OnChanged(function(Value)
-            local Values = {}
-            for Value, State in pairs(Value) do
-                table.insert(Values, Value)
-            end
-
-            local toppings = {
-                ["Pepperoni 🔴"] = "topping1Skip",
-                ["Tomatoes 🍅"] = "topping2Skip",
-                ["Olives 🫒"] = "topping3Skip",
-                ["Cheese 🧀"] = "topping4Skip",
-                ["Basil 🥬"] = "topping5Skip"
-            }
-
-            for topping, skipVar in pairs(toppings) do
-                getgenv()[skipVar] = not table.find(Values, topping)
-            end
-        end)
-
-        getgenv().SellPizzaToggle = Tabs.Farm:AddToggle("SellPizza", {Title = "💵  Sell Pizza", Default = getgenv().SellPizza})
-        
-        getgenv().SellPizzaToggle:OnChanged(function(Value)
-            getgenv().SellPizza = Value
-            print(getgenv().SellPizza)
-        end)
-
-        getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
-        
-        getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
-            getgenv().AutoFarmPizza = Value
-        
-            while getgenv().AutoFarmPizza == true do
-                print("Started!")
-                getgenv().pizzas = 0
-                for i = 1,getgenv().spawn do
-                    --print("spawned")
-                    game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
-                    wait(1.78)
-                end
-                TeleportPizza("Sauce")
-                TeleportPizza("Toppings")
-                getgenv().CoinsShow:SetDesc(CalculateCoins())
-                TeleportPizza("Oven")
-                wait(getgenv().ovenDelay)
-                TeleportPizza("Slicer")
-                print(getgenv().SellPizza)
-                if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
-                    SellPizzas("Boxes")
-                end
-            end
-            getgenv().CoinsShow:SetDesc("0 coins/hour")
-        end)
-    elseif Value == "lolas" then
+        if getgenv().SellIceCreamToggle and getgenv().AutoFarmIceCreamToggle then
+            getgenv().SellIceCreamToggle:Destroy()
+            getgenv().AutoFarmIceCreamToggle:Destroy()
+            spawnPizzaAutoFarmMenu()
+        end
+    elseif Value == "Ice Cream AutoFarm 🍦" then
         if getgenv().CoinsShow and getgenv().SellPizzaToggle then
             getgenv().CoinsShow:Destroy()
             getgenv().AutoFarmPizzaToggle:Destroy()
@@ -459,6 +538,7 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().ToppingsSlider:Destroy()
             getgenv().ToppingsDropdown:Destroy()
             getgenv().SellPizzaToggle:Destroy()
+            spawnIceCreamAutoFarmMenu()
         end
     end
 end)
