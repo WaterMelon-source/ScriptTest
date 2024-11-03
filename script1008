@@ -444,7 +444,7 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().CoinsShow:SetDesc("0 coins/hour")
         end)
     elseif Value == "lolas" then
-        if getgenv().CoinsShow then
+        if getgenv().CoinsShow and getgenv().SellPizzaToggle then
             getgenv().CoinsShow:Destroy()
             getgenv().AutoFarmPizzaToggle:Destroy()
             getgenv().ConfigTab:Destroy()
@@ -452,8 +452,8 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().SauceSlider:Destroy()
             getgenv().SauceDropdown:Destroy()
             getgenv().ToppingsSlider:Destroy()
-            getgenv().SellPizzaToggle:Destroy()
             getgenv().ToppingsDropdown:Destroy()
+            getgenv().SellPizzaToggle:Destroy()
         end
     end
 end)
