@@ -321,32 +321,6 @@ SauceDropdown:OnChanged(function(Value)
             Content = "0 coins/hour"
         })
         
-        getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
-        
-        getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
-            getgenv().AutoFarmPizza = Value
-        
-            while getgenv().AutoFarmPizza == true do
-                print("Started!")
-                getgenv().pizzas = 0
-                for i = 1,getgenv().spawn do
-                    --print("spawned")
-                    game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
-                    wait(1.78)
-                end
-                TeleportPizza("Sauce")
-                TeleportPizza("Toppings")
-                getgenv().CoinsShow:SetDesc(CalculateCoins())
-                TeleportPizza("Oven")
-                wait(getgenv().ovenDelay)
-                TeleportPizza("Slicer")
-                if getgenv().selling == true and getgenv().AutoFarmPizza == true then
-                    TeleportPizza("Boxes")
-                end
-            end
-            getgenv().CoinsShow:SetDesc("0 coins/hour")
-        end)
-        
         getgenv().ConfigTab = Tabs.Farm:AddParagraph({
             Title = "⚙️  Configs  ⚙️"
             --Content = ""
@@ -394,6 +368,70 @@ SauceDropdown:OnChanged(function(Value)
                 getgenv().sauceColorNum = 4
             end
         end)
+
+        getgenv().ToppingsSlider = Tabs.Farm:AddSlider("SauceSlider", {
+            Title = "🍳  Toppings Delay",
+            Description = "",
+            Default = 0.25,
+            Min = 0.1,
+            Max = 2,
+            Rounding = 1,
+            Callback = function(Value)
+                getgenv().toppingsDelay = Value
+            end
+        })
+
+        getgenv().ToppingsDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+            Title = "🧂  Toppings",
+            Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🫒", "Cheese 🧀", "Basil 🥬"},
+            Multi = true,
+            Default = 1,
+        })
+
+        getgenv().ToppingsDropdown:OnChanged(function(Value)
+            local Values = {}
+            for Value, State in pairs(Value) do
+                table.insert(Values, Value)
+            end
+
+            local toppings = {
+                ["Pepperoni 🔴"] = "topping1Skip",
+                ["Tomatoes 🍅"] = "topping2Skip",
+                ["Olives 🫒"] = "topping3Skip",
+                ["Cheese 🧀"] = "topping4Skip",
+                ["Basil 🥬"] = "topping5Skip"
+            }
+
+            for topping, skipVar in pairs(toppings) do
+                getgenv()[skipVar] = not table.find(Values, topping)
+            end
+        end)
+
+        getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
+        
+        getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
+            getgenv().AutoFarmPizza = Value
+        
+            while getgenv().AutoFarmPizza == true do
+                print("Started!")
+                getgenv().pizzas = 0
+                for i = 1,getgenv().spawn do
+                    --print("spawned")
+                    game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
+                    wait(1.78)
+                end
+                TeleportPizza("Sauce")
+                TeleportPizza("Toppings")
+                getgenv().CoinsShow:SetDesc(CalculateCoins())
+                TeleportPizza("Oven")
+                wait(getgenv().ovenDelay)
+                TeleportPizza("Slicer")
+                if getgenv().selling == true and getgenv().AutoFarmPizza == true then
+                    TeleportPizza("Boxes")
+                end
+            end
+            getgenv().CoinsShow:SetDesc("0 coins/hour")
+        end)
     elseif Value == "lolas" then
         if getgenv().CoinsShow then
             getgenv().CoinsShow:Destroy()
@@ -402,6 +440,8 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().SpawnSlider:Destroy()
             getgenv().SauceSlider:Destroy()
             getgenv().SauceDropdown:Destroy()
+            getgenv().ToppingsSlider:Destroy()
+            getgenv().ToppingsDropdown:Destroy()
         end
     end
 end)
