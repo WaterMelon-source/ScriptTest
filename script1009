@@ -169,7 +169,6 @@ function TeleportIceCream(location)
                     wait(0.4)
                     game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(42, 255, -224) * CFrame.Angles(-0, 0, -0))
                 end
-            end
             elseif location == "Topping" then  
                 if v.Name == "IceCream4" then
                     workspace.ServerInteractables.Machine5.Activate:FireServer(1)
