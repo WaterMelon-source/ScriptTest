@@ -385,7 +385,7 @@ SauceDropdown:OnChanged(function(Value)
             Title = "🧂  Toppings",
             Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🫒", "Cheese 🧀", "Basil 🥬"},
             Multi = true,
-            Default = 1,
+            Default = {"Pepperoni 🔴"},
         })
 
         getgenv().ToppingsDropdown:OnChanged(function(Value)
