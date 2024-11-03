@@ -274,7 +274,7 @@ end
 
 function SellPizzas(location)
     if location == "Boxes" and getgenv().AutoFarmPizza == true then
-        for i = 1,getgenv().spawn do
+        for i = 1,getgenv().spawn+1 do
             wait(1.73)
             game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
         end
