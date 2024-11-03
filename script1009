@@ -1,0 +1,564 @@
+--Setup--
+
+local UserInputService = game:GetService("UserInputService")
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Options = Fluent.Options
+
+local UserName = game.Players.LocalPlayer.Name
+local DisplayName = game.Players.LocalPlayer.DisplayName
+local UserId = game.Players.LocalPlayer.UserId
+local Country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players.LocalPlayer)
+local Device = "Device"
+
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	Device = "Mobile"
+elseif not UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer"
+elseif UserInputService.TouchEnabled and UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+	Device = "Computer With TouchScreen"
+end
+
+local notify_Sound = Instance.new("Sound", game.Players.LocalPlayer)
+notify_Sound.SoundId = "rbxassetid://3320590485"
+notify_Sound.Volume = 2
+
+local Window = Fluent:CreateWindow({
+    Title = "🔓  Dash " .. "0.0.5",
+    SubTitle = " •  Club Roblox 🧸",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 445),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.Home-- Used when theres no MinimizeKeybind
+})
+
+local Tabs = {
+    Home = Window:AddTab({Title = "Home", Icon = "rbxassetid://10723407389"}),
+	News = Window:AddTab({Title = "News", Icon = "rbxassetid://10734907168"}),
+	Player = Window:AddTab({Title = "Player", Icon = "rbxassetid://10734920149"}),
+	Farm = Window:AddTab({Title = "Farming", Icon = "rbxassetid://10709762879"}),
+    Misc = Window:AddTab({Title = "Misc", Icon = "rbxassetid://10734922324"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+
+function Notify(content, time)
+	notify_Sound:Play()
+	Fluent:Notify({
+		Title = "💨  Dash",
+		Content = content,
+		--SubContent = "SubContent", -- Optional
+		Duration = time -- Set to nil to make the notification not disappear
+	})
+end
+
+Tabs.Home:AddParagraph({
+    Title = "💨  Dash  💨"
+})
+
+local function addUserParagraph(UserName, DisplayName, UserId, Country, Device)
+	local deviceIcon = Device == "Mobile" and "📱" or Device == "Computer" and "🖥️" or Device == "Computer With TouchScreen" and "💻"
+	local countryFlag = Country == "RU" and "🇷🇺" or Country == "US" and "🇺🇸"
+	
+	Tabs.Home:AddParagraph({
+		Title = "👤  User  👤",
+		Content = "\n\n 🏡  UserName : "..UserName.."\n\n 💬  Display Name : "..DisplayName.."\n\n 💳  UserId : "..UserId.."\n\n "..countryFlag.."  Country : "..Country.."\n\n 💉  Executor : "..identifyexecutor().."\n\n "..deviceIcon.."  Device : "..Device.."\n"
+	})
+end
+
+if Country == "RU" or Country == "US" then
+	addUserParagraph(UserName, DisplayName, UserId, Country, Device)
+end
+
+Tabs.Home:AddParagraph({
+    Title = "🤖  Discord  🤖",
+    Content = "🔗  Link : --------------  🔗"
+})
+
+local SpeedSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "👟   Speed",
+    Description = "\nChange Player's Speed",
+    Default = 16,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+		SpeedSlider:SetValue(16)
+    end
+})
+
+local JumpPowerSlider = Tabs.Player:AddSlider("Slider", {
+    Title = "🦵  JumpPower",
+    Description = "\nChange Player's JumpPower",
+    Default = 50,
+    Min = 0,
+    Max = 999,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+Tabs.Player:AddButton({
+    Title = "🔄  Set to default",
+    --Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+		JumpPowerSlider:SetValue(50)
+    end
+})
+
+Tabs.Misc:AddButton({
+    Title = "🔀  Server Hop",
+    --Description = "",
+    Callback = function()
+        local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v24,v25) local v26={};for v41=1, #v24 do v6(v26,v0(v4(v1(v2(v24,v41,v41 + 1 )),v1(v2(v25,1 + (v41% #v25) ,1 + (v41% #v25) + 1 )))%256 ));end return v5(v26);end local v8=tonumber;local v9=string.byte;local v10=string.char;local v11=string.sub;local v12=string.gsub;local v13=string.rep;local v14=table.concat;local v15=table.insert;local v16=math.ldexp;local v17=getfenv or function() return _ENV;end ;local v18=setmetatable;local v19=pcall;local v20=select;local v21=unpack or table.unpack ;local v22=tonumber;local function v23(v27,v28,...) local v29=1;local v30;v27=v12(v11(v27,5),v7("\115\154","\50\93\180\218\189\23\46\71"),function(v42) if (v9(v42,2)==81) then local v100=0;while true do if (v100==0) then v30=v8(v11(v42,1,1));return "";end end else local v101=v10(v8(v42,16));if v30 then local v112=0;local v113;while true do if (v112==0) then v113=v13(v101,v30);v30=nil;v112=1;end if (v112==1) then return v113;end end else return v101;end end end);local function v31(v43,v44,v45) if v45 then local v102=(v43/(2^(v44-1)))%(2^(((v45-1) -(v44-(203 -(14 + 188)))) + (2 -1))) ;return v102-(v102%1) ;else local v103=0;local v104;while true do if (v103==0) then v104=2^(v44-1) ;return (((v43%(v104 + v104))>=v104) and 1) or 0 ;end end end end local function v32() local v46=0;local v47;while true do if (v46==0) then v47=v9(v27,v29,v29);v29=v29 + 1 ;v46=1;end if (v46==1) then return v47;end end end local function v33() local v48,v49=v9(v27,v29,v29 + 2 );v29=v29 + 2 ;return (v49 * 256) + v48 ;end local function v34() local v50,v51,v52,v53=v9(v27,v29,v29 + (678 -(534 + 141)) );v29=v29 + (11 -7) ;return (v53 * 16777216) + (v52 * 65536) + (v51 * 256) + v50 ;end local function v35() local v54=v34();local v55=v34();local v56=1;local v57=(v31(v55,1 -0 ,9 + 11 ) * (2^(29 + 3))) + v54 ;local v58=v31(v55,21,31);local v59=((v31(v55,32)==(1 + 0)) and  -1) or 1 ;if (v58==0) then if (v57==0) then return v59 * 0 ;else v58=2 -1 ;v56=619 -(555 + 64) ;end elseif (v58==2047) then return ((v57==0) and (v59 * ((932 -(857 + 74))/(0 -0)))) or (v59 * NaN) ;end return v16(v59,v58-1023 ) * (v56 + (v57/(2^52))) ;end local function v36(v60) local v61;if  not v60 then local v105=0;while true do if (v105==0) then v60=v34();if (v60==0) then return "";end break;end end end v61=v11(v27,v29,(v29 + v60) -1 );v29=v29 + v60 ;local v62={};for v76=1, #v61 do v62[v76]=v10(v9(v11(v61,v76,v76)));end return v14(v62);end local v37=v34;local function v38(...) return {...},v20("#",...);end local function v39() local v63={};local v64={};local v65={};local v66={v63,v64,nil,v65};local v67=v34();local v68={};for v78=1,v67 do local v79=v32();local v80;if (v79==1) then v80=v32()~=0 ;elseif (v79==(2 -0)) then v80=v35();elseif (v79==3) then v80=v36();end v68[v78]=v80;end v66[3]=v32();for v82=1,v34() do local v83=v32();if (v31(v83,928 -(214 + 713) ,1)==(0 -0)) then local v108=v31(v83,2,3);local v109=v31(v83,2 + 2 ,6);local v110={v33(),v33(),nil,nil};if (v108==0) then local v118=0;while true do if (v118==0) then v110[3]=v33();v110[4]=v33();break;end end elseif (v108==1) then v110[2 + 1 ]=v34();elseif (v108==2) then v110[399 -(115 + 281) ]=v34() -((1 + 1)^16) ;elseif (v108==3) then v110[3]=v34() -(2^16) ;v110[4]=v33();end if (v31(v109,2 -1 ,878 -(282 + 595) )==1) then v110[2]=v68[v110[2]];end if (v31(v109,2,2)==(1638 -(1523 + 114))) then v110[7 -4 ]=v68[v110[3]];end if (v31(v109,3,3)==1) then v110[4]=v68[v110[4]];end v63[v82]=v110;end end for v84=1,v34() do v64[v84-1 ]=v39();end return v66;end local function v40(v70,v71,v72) local v73=v70[1];local v74=v70[2];local v75=v70[3 + 0 ];return function(...) local v86=v73;local v87=v74;local v88=v75;local v89=v38;local v90=3 -2 ;local v91= -1;local v92={};local v93={...};local v94=v20("#",...) -1 ;local v95={};local v96={};for v106=0,v94 do if (v106>=v88) then v92[v106-v88 ]=v93[v106 + 1 ];else v96[v106]=v93[v106 + 1 ];end end local v97=(v94-v88) + 1 ;local v98;local v99;while true do local v107=0;while true do if (v107==0) then v98=v86[v90];v99=v98[1];v107=1;end if (v107==1) then if (v99<=33) then if (v99<=16) then if (v99<=(9 -2)) then if (v99<=3) then if (v99<=1) then if (v99>(1065 -(68 + 997))) then v96[v98[2]]=v96[v98[870 -(550 + 317) ]]%v96[v98[4]] ;else v96[v98[2 -0 ]]=v96[v98[3 -0 ]] + v98[11 -7 ] ;end elseif (v99==2) then local v135=0;local v136;local v137;local v138;local v139;local v140;while true do if (v135==10) then v90=v90 + (1991 -(582 + 1408)) ;v98=v86[v90];v140=v98[2];v96[v140](v21(v96,v140 + 1 ,v91));v90=v90 + 1 ;v98=v86[v90];v135=11;end if (v135==2) then v98=v86[v90];v140=v98[2];v96[v140]=v96[v140](v21(v96,v140 + 1 ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v135=3;end if (v135==7) then v140=v98[1 + 1 ];v96[v140]=v96[v140](v21(v96,v140 + 1 ,v91));v90=v90 + 1 ;v98=v86[v90];v140=v98[2];v139=v96[v98[3]];v135=8;end if (v135==6) then v137,v138=v89(v96[v140](v21(v96,v140 + 1 ,v98[3 + 0 ])));v91=(v138 + v140) -1 ;v136=0;for v741=v140,v91 do local v742=0;while true do if (v742==0) then v136=v136 + 1 ;v96[v741]=v137[v136];break;end end end v90=v90 + 1 ;v98=v86[v90];v135=7;end if (v135==1) then v98=v86[v90];v96[v98[1272 -(226 + 1044) ]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[12 -9 ];v90=v90 + 1 ;v135=2;end if (v135==12) then v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v90=v98[960 -(892 + 65) ];break;end if (v135==4) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v135=5;end if (v135==0) then v136=nil;v137,v138=nil;v139=nil;v140=nil;v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v135=1;end if (5==v135) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + (1666 -(970 + 695)) ;v98=v86[v90];v140=v98[2];v135=6;end if (v135==11) then v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[6 -4 ]]();v90=v90 + 1 ;v98=v86[v90];v135=12;end if (v135==8) then v96[v140 + 1 ]=v139;v96[v140]=v139[v98[4]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v135=9;end if (v135==9) then v98=v86[v90];v140=v98[2];v137,v138=v89(v96[v140](v21(v96,v140 + 1 ,v98[5 -2 ])));v91=(v138 + v140) -1 ;v136=0;for v743=v140,v91 do local v744=0;while true do if (v744==0) then v136=v136 + 1 ;v96[v743]=v137[v136];break;end end end v135=10;end if (3==v135) then v90=v90 + 1 ;v98=v86[v90];v140=v98[2];v139=v96[v98[3]];v96[v140 + (118 -(32 + 85)) ]=v139;v96[v140]=v139[v98[4]];v135=4;end end elseif v96[v98[2]] then v90=v90 + 1 ;else v90=v98[3];end elseif (v99<=(6 -1)) then if (v99>4) then v96[v98[2]]=v71[v98[3]];else local v143;local v144;local v145;local v146;local v147;local v148;v72[v98[7 -4 ]]=v96[v98[2]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]();v90=v90 + 1 ;v98=v86[v90];v148=v98[2];v147={};for v347=1, #v95 do v146=v95[v347];for v378=0, #v146 do local v379=0;while true do if (v379==0) then v145=v146[v378];v144=v145[1 -0 ];v379=1;end if (v379==1) then v143=v145[2];if ((v144==v96) and (v143>=v148)) then local v896=0;while true do if (v896==0) then v147[v143]=v144[v143];v145[1]=v147;break;end end end break;end end end end v90=v90 + 1 ;v98=v86[v90];v90=v98[3];end elseif (v99>6) then if (v98[7 -5 ]==v96[v98[4]]) then v90=v90 + 1 ;else v90=v98[4 -1 ];end else v96[v98[2]]=v98[3]~=0 ;end elseif (v99<=11) then if (v99<=(359 -(87 + 263))) then if (v99>8) then if (v96[v98[1826 -(1195 + 629) ]]~=v98[184 -(67 + 113) ]) then v90=v90 + 1 ;else v90=v98[3];end else local v156=v98[2];v96[v156](v96[v156 + 1 ]);end elseif (v99>10) then local v157;v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v157=v98[2];v96[v157]=v96[v157](v96[v157 + 1 ]);v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3 + 0 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + (1 -0) ;v98=v86[v90];v157=v98[2];v96[v157]=v96[v157](v96[v157 + (2 -1) ]);v90=v90 + (242 -(187 + 54)) ;v98=v86[v90];if (v96[v98[2]]~=v96[v98[4]]) then v90=v90 + 1 ;else v90=v98[3];end else local v165=v98[2];do return v96[v165](v21(v96,v165 + 1 ,v98[3]));end end elseif (v99<=13) then if (v99==12) then local v166=0;local v167;while true do if (v166==2) then v98=v86[v90];v96[v98[782 -(162 + 618) ]]=v98[3];v90=v90 + 1 + 0 ;v166=3;end if (v166==3) then v98=v86[v90];v167=v98[2];v96[v167]=v96[v167](v21(v96,v167 + 1 ,v98[3]));v166=4;end if (v166==1) then v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 + 0 ;v166=2;end if (0==v166) then v167=nil;v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v166=1;end if (v166==4) then v90=v90 + (3 -2) ;v98=v86[v90];if (v96[v98[2]]~=v96[v98[4]]) then v90=v90 + 1 ;else v90=v98[6 -3 ];end break;end end else local v168=0;local v169;while true do if (v168==0) then v169=v98[954 -(802 + 150) ];v96[v169]=v96[v169]();break;end end end elseif (v99<=14) then local v170=v98[2];local v171=v96[v170];for v349=v170 + 1 ,v91 do v15(v171,v96[v349]);end elseif (v99==15) then if (v96[v98[2]]<v96[v98[6 -2 ]]) then v90=v90 + 1 ;else v90=v98[3];end else local v383=0;local v384;while true do if (v383==0) then v384=v98[2];v96[v384]=v96[v384](v96[v384 + (2 -1) ]);break;end end end elseif (v99<=24) then if (v99<=20) then if (v99<=18) then if (v99==17) then local v172;v172=v98[3 -1 ];v96[v172](v96[v172 + 1 ]);v90=v90 + 1 ;v98=v86[v90];v96[v98[1 + 1 ]]=v72[v98[1639 -(1373 + 263) ]];v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v172=v98[2];v96[v172](v96[v172 + 1 ]);v90=v90 + 1 ;v98=v86[v90];v90=v98[3];else local v180=v98[2];v96[v180]=v96[v180](v21(v96,v180 + 1 ,v91));end elseif (v99==19) then v96[v98[999 -(915 + 82) ]]=v96[v98[3]];else local v184=0;local v185;local v186;local v187;local v188;while true do if (v184==1) then v91=(v187 + v185) -1 ;v188=0;v184=2;end if (v184==0) then v185=v98[2];v186,v187=v89(v96[v185](v21(v96,v185 + 1 ,v91)));v184=1;end if (v184==2) then for v746=v185,v91 do local v747=0;while true do if (v747==0) then v188=v188 + 1 ;v96[v746]=v186[v188];break;end end end break;end end end elseif (v99<=22) then if (v99>21) then local v189=0;while true do if (v189==1) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v189=2;end if (v189==5) then v98=v86[v90];if  not v96[v98[2]] then v90=v90 + 1 + 0 ;else v90=v98[1003 -(451 + 549) ];end break;end if (v189==2) then v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 ;v98=v86[v90];v189=3;end if (v189==0) then v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[4]];v189=1;end if (v189==4) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v189=5;end if (v189==3) then v96[v98[2]]=v72[v98[8 -5 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[4]];v189=4;end end else local v190;v96[v98[1 + 1 ]]=v96[v98[4 -1 ]][v98[4]];v90=v90 + (1 -0) ;v98=v86[v90];v96[v98[1189 -(1069 + 118) ]]=v71[v98[3]];v90=v90 + (2 -1) ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v190=v98[2 -0 ];v96[v190](v21(v96,v190 + 1 ,v98[6 -3 ]));v90=v90 + 1 ;v98=v86[v90];v96[v98[1386 -(746 + 638) ]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[1 + 1 ]]();v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];end elseif (v99>23) then v90=v98[3];else v96[v98[3 -1 ]]=v98[4 -1 ];end elseif (v99<=28) then if (v99<=26) then if (v99>25) then local v204;local v205,v206;local v207;local v208;v96[v98[2]]=v96[v98[3]][v98[4 + 0 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[794 -(368 + 423) ]];v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v96[v208](v21(v96,v208 + (3 -2) ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[20 -(10 + 8) ]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[11 -8 ];v90=v90 + (443 -(416 + 26)) ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v96[v208]=v96[v208](v21(v96,v208 + 1 ,v98[3]));v90=v90 + (3 -2) ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v207=v96[v98[3]];v96[v208 + 1 ]=v207;v96[v208]=v207[v98[1585 -(1535 + 46) ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[2 + 1 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v96[v98[1 + 1 ]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v205,v206=v89(v96[v208](v21(v96,v208 + (561 -(306 + 254)) ,v98[3])));v91=(v206 + v208) -1 ;v204=0;for v350=v208,v91 do local v351=0;while true do if (v351==0) then v204=v204 + 1 ;v96[v350]=v205[v204];break;end end end v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v96[v208]=v96[v208](v21(v96,v208 + 1 + 0 ,v91));v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v207=v96[v98[4 -1 ]];v96[v208 + (1 -0) ]=v207;v96[v208]=v207[v98[4]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v205,v206=v89(v96[v208](v21(v96,v208 + 1 ,v98[441 -(145 + 293) ])));v91=(v206 + v208) -1 ;v204=0;for v352=v208,v91 do local v353=0;while true do if (v353==0) then v204=v204 + 1 ;v96[v352]=v205[v204];break;end end end v90=v90 + 1 ;v98=v86[v90];v208=v98[2];v96[v208](v21(v96,v208 + 1 ,v91));v90=v90 + (1468 -(899 + 568)) ;v98=v86[v90];v90=v98[3];else v96[v98[2]]=v96[v98[3]][v98[4]];end elseif (v99==(18 + 9)) then local v230=v87[v98[3]];local v231;local v232={};v231=v18({},{[v7("\225\155\82\66\64\217\80","\40\190\196\59\44\36\188")]=function(v354,v355) local v356=v232[v355];return v356[1][v356[4 -2 ]];end,[v7("\3\122\210\177\237\116\3\56\64\196","\109\92\37\188\212\154\29")]=function(v357,v358,v359) local v360=0;local v361;while true do if (v360==0) then v361=v232[v358];v361[1][v361[2]]=v359;break;end end end});for v362=604 -(268 + 335) ,v98[4] do local v363=0;local v364;while true do if (v363==1) then if (v364[1]==19) then v232[v362-1 ]={v96,v364[3]};else v232[v362-1 ]={v71,v364[1 + 2 ]};end v95[ #v95 + 1 ]=v232;break;end if (0==v363) then v90=v90 + 1 ;v364=v86[v90];v363=1;end end end v96[v98[2]]=v40(v230,v231,v72);else v71[v98[3]]=v96[v98[432 -(44 + 386) ]];end elseif (v99<=30) then if (v99==29) then for v365=v98[1488 -(998 + 488) ],v98[3] do v96[v365]=nil;end else local v236=0;local v237;local v238;local v239;local v240;while true do if (v236==3) then v96[v98[1140 -(116 + 1022) ]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v236=4;end if (v236==4) then v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v240=v98[2];v238,v239=v89(v96[v240](v21(v96,v240 + (1457 -(282 + 1174)) ,v98[3])));v91=(v239 + v240) -1 ;v236=5;end if (v236==1) then v96[v98[1 + 1 ]]={};v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v236=2;end if (6==v236) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[814 -(569 + 242) ]][v98[4]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3]~=0 ;v236=7;end if (0==v236) then v237=nil;v238,v239=nil;v240=nil;v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 ;v98=v86[v90];v236=1;end if (v236==5) then v237=0;for v756=v240,v91 do local v757=0;while true do if (v757==0) then v237=v237 + 1 ;v96[v756]=v238[v237];break;end end end v90=v90 + 1 ;v98=v86[v90];v240=v98[2];v96[v240]=v96[v240](v21(v96,v240 + 1 ,v91));v236=6;end if (v236==7) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];break;end if (v236==2) then v96[v98[2]]=v72[v98[3 + 0 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[776 -(201 + 571) ]];v90=v90 + 1 ;v98=v86[v90];v236=3;end end end elseif (v99<=31) then local v241=0;local v242;while true do if (v241==3) then v90=v90 + 1 ;v98=v86[v90];v90=v98[3];break;end if (v241==1) then v96[v98[2]]=v71[v98[10 -7 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[1026 -(706 + 318) ]]=v71[v98[3]];v241=2;end if (v241==2) then v90=v90 + (1252 -(721 + 530)) ;v98=v86[v90];v242=v98[2];v96[v242](v21(v96,v242 + 1 ,v98[1274 -(945 + 326) ]));v241=3;end if (v241==0) then v242=nil;v96[v98[5 -3 ]]=v96[v98[12 -9 ]][v98[1 + 3 ]];v90=v90 + 1 + 0 ;v98=v86[v90];v241=1;end end elseif (v99==32) then local v385=0;local v386;local v387;local v388;local v389;local v390;while true do if (6==v385) then v90=v90 + 1 ;v98=v86[v90];v390=v98[4 -2 ];v386=v96[v390];for v880=v390 + 1 ,v91 do v15(v386,v96[v880]);end break;end if (v385==5) then v390=v98[2];v388,v389=v89(v96[v390](v21(v96,v390 + 1 ,v98[3])));v91=(v389 + v390) -1 ;v387=0;for v881=v390,v91 do local v882=0;while true do if (v882==0) then v387=v387 + 1 ;v96[v881]=v388[v387];break;end end end v385=6;end if (v385==0) then v386=nil;v387=nil;v388,v389=nil;v390=nil;v96[v98[2]]=v71[v98[3]];v385=1;end if (v385==3) then v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[862 -(814 + 45) ]];v385=4;end if (v385==1) then v90=v90 + 1 ;v98=v86[v90];v96[v98[4 -2 ]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v385=2;end if (v385==2) then v96[v98[2]]=v71[v98[10 -7 ]];v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]={};v90=v90 + 1 ;v385=3;end if (v385==4) then v90=v90 + (701 -(271 + 429)) ;v98=v86[v90];for v883=v98[2],v98[3] do v96[v883]=nil;end v90=v90 + 1 ;v98=v86[v90];v385=5;end end elseif (v96[v98[2]]==v96[v98[4 + 0 ]]) then v90=v90 + 1 ;else v90=v98[3];end elseif (v99<=(1550 -(1408 + 92))) then if (v99<=41) then if (v99<=37) then if (v99<=35) then if (v99>(1120 -(461 + 625))) then local v243=0;local v244;while true do if (v243==0) then v244=v98[2];do return v21(v96,v244,v91);end break;end end else local v245;local v246;local v247;v96[v98[2]]={};v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]= #v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v247=v98[2];v246=v96[v247];v245=v96[v247 + 2 ];if (v245>0) then if (v246>v96[v247 + 1 + 0 ]) then v90=v98[2 + 1 ];else v96[v247 + 3 ]=v246;end elseif (v246<v96[v247 + 1 ]) then v90=v98[3];else v96[v247 + 3 ]=v246;end end elseif (v99==36) then if (v96[v98[2]]==v98[4]) then v90=v90 + 1 + 0 ;else v90=v98[3];end else local v254=0;local v255;while true do if (v254==0) then v255=v98[2];v96[v255](v21(v96,v255 + 1 ,v91));break;end end end elseif (v99<=39) then if (v99>38) then local v256=0;local v257;local v258;local v259;local v260;local v261;while true do if (1==v256) then v260=v96[v98[3]];v96[v261 + 1 ]=v260;v96[v261]=v260[v98[4]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v256=2;end if (v256==5) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + (1424 -(630 + 793)) ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v256=6;end if (3==v256) then v91=(v259 + v261) -(530 -(406 + 123)) ;v257=0;for v763=v261,v91 do local v764=0;while true do if (0==v764) then v257=v257 + (1 -0) ;v96[v763]=v258[v257];break;end end end v90=v90 + 1 ;v98=v86[v90];v261=v98[2];v96[v261]=v96[v261](v21(v96,v261 + 1 ,v91));v90=v90 + 1 ;v256=4;end if (v256==8) then v98=v86[v90];v261=v98[2];v96[v261]=v96[v261](v21(v96,v261 + 1 ,v91));v90=v90 + 1 ;v98=v86[v90];v71[v98[3]]=v96[v98[2]];v90=v90 + 1 ;v98=v86[v90];v256=9;end if (v256==0) then v257=nil;v258,v259=nil;v260=nil;v261=nil;v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v261=v98[2];v256=1;end if (v256==7) then v90=v90 + 1 ;v98=v86[v90];v261=v98[2];v258,v259=v89(v96[v261](v21(v96,v261 + (1323 -(1249 + 73)) ,v91)));v91=(v259 + v261) -(1 + 0) ;v257=0;for v765=v261,v91 do v257=v257 + 1 ;v96[v765]=v258[v257];end v90=v90 + 1 ;v256=8;end if (v256==4) then v98=v86[v90];v261=v98[2];v260=v96[v98[3]];v96[v261 + 1 ]=v260;v96[v261]=v260[v98[4]];v90=v90 + 1 ;v98=v86[v90];v96[v98[1082 -(1020 + 60) ]]=v72[v98[3]];v256=5;end if (v256==6) then v96[v98[1771 -(1749 + 20) ]]=v98[3];v90=v90 + 1 + 0 ;v98=v86[v90];v261=v98[2];v258,v259=v89(v96[v261](v21(v96,v261 + 1 ,v98[3])));v91=(v259 + v261) -1 ;v257=0 -0 ;for v768=v261,v91 do v257=v257 + (4 -3) ;v96[v768]=v258[v257];end v256=7;end if (v256==2) then v96[v98[887 -(261 + 624) ]]=v98[1174 -(418 + 753) ];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[2 + 1 ];v90=v90 + 1 + 0 ;v98=v86[v90];v261=v98[1 + 1 ];v258,v259=v89(v96[v261](v21(v96,v261 + 1 + 0 ,v98[3])));v256=3;end if (9==v256) then do return;end break;end end else local v262=0;local v263;local v264;while true do if (v262==1) then for v771=v263 + (1146 -(466 + 679)) ,v98[4] do v264=v264   .. v96[v771] ;end v96[v98[1 + 1 ]]=v264;break;end if (v262==0) then v263=v98[3];v264=v96[v263];v262=1;end end end elseif (v99==40) then local v265=v98[2];local v266,v267=v89(v96[v265](v96[v265 + 1 ]));v91=(v267 + v265) -1 ;local v268=0;for v367=v265,v91 do local v368=0;while true do if (v368==0) then v268=v268 + 1 ;v96[v367]=v266[v268];break;end end end else local v269=0;local v270;while true do if (3==v269) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v269=4;end if (v269==2) then v96[v270]=v96[v270](v96[v270 + 1 ]);v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v269=3;end if (v269==4) then v98=v86[v90];v90=v98[3];break;end if (v269==0) then v270=nil;v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v269=1;end if (v269==1) then v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + (2 -1) ;v98=v86[v90];v270=v98[2];v269=2;end end end elseif (v99<=(154 -109)) then if (v99<=43) then if (v99>42) then if (v96[v98[2]]~=v96[v98[4]]) then v90=v90 + 1 ;else v90=v98[3];end else local v271;local v272,v273;local v274;v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v274=v98[1749 -(760 + 987) ];v96[v274]=v96[v274](v21(v96,v274 + 1 ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + (1914 -(1789 + 124)) ;v98=v86[v90];v274=v98[2];v272,v273=v89(v96[v274](v21(v96,v274 + 1 ,v98[3])));v91=(v273 + v274) -1 ;v271=0;for v369=v274,v91 do v271=v271 + 1 ;v96[v369]=v272[v271];end v90=v90 + (767 -(745 + 21)) ;v98=v86[v90];v274=v98[2];v96[v274]=v96[v274](v21(v96,v274 + 1 + 0 ,v91));v90=v90 + 1 ;v98=v86[v90];if (v96[v98[2]]==v98[4]) then v90=v90 + 1 ;else v90=v98[3];end end elseif (v99>44) then local v281=0;local v282;local v283;local v284;local v285;local v286;local v287;while true do if (v281==1) then v90=v90 + 1 ;v98=v86[v90];v287=v98[1902 -(106 + 1794) ];v286=v96[v98[3]];v96[v287 + 1 ]=v286;v96[v287]=v286[v98[4]];v281=2;end if (v281==2) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v287=v98[2];v281=3;end if (3==v281) then v286=v96[v98[3]];v96[v287 + 1 ]=v286;v96[v287]=v286[v98[15 -11 ]];v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2 + 0 ]]=v71[v98[3]];v281=4;end if (v281==11) then v96[v287]=v96[v287](v21(v96,v287 + (1414 -(447 + 966)) ,v91));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v281=12;end if (v281==9) then for v774=v286 + 1 ,v98[4] do v285=v285   .. v96[v774] ;end v96[v98[2]]=v285;v90=v90 + 1 ;v98=v86[v90];v287=v98[2];v283,v284=v89(v96[v287](v21(v96,v287 + 1 ,v98[3])));v281=10;end if (6==v281) then v96[v98[2]]=v71[v98[13 -10 ]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v281=7;end if (v281==4) then v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[1058 -(87 + 968) ];v281=5;end if (v281==7) then v96[v98[1 + 1 ]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v96[v98[5 -3 ]]=v98[3];v90=v90 + (2 -1) ;v98=v86[v90];v281=8;end if (v281==5) then v90=v90 + 1 ;v98=v86[v90];v287=v98[2];v96[v287]=v96[v287](v21(v96,v287 + 1 ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v281=6;end if (8==v281) then v287=v98[2];v96[v287]=v96[v287](v21(v96,v287 + 1 + 0 ,v98[3]));v90=v90 + (2 -1) ;v98=v86[v90];v286=v98[587 -(57 + 527) ];v285=v96[v286];v281=9;end if (v281==12) then v90=v98[3];break;end if (v281==0) then v282=nil;v283,v284=nil;v285=nil;v286=nil;v287=nil;v96[v98[5 -3 ]]=v96[v98[3]][v98[4]];v281=1;end if (v281==10) then v91=(v284 + v287) -1 ;v282=0;for v775=v287,v91 do v282=v282 + 1 ;v96[v775]=v283[v282];end v90=v90 + 1 ;v98=v86[v90];v287=v98[2];v281=11;end end else v96[v98[2]]= #v96[v98[3]];end elseif (v99<=47) then if (v99==(125 -79)) then local v289;local v290,v291;local v292;v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v98[1430 -(41 + 1386) ];v90=v90 + 1 ;v98=v86[v90];v96[v98[105 -(17 + 86) ]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v292=v98[1819 -(1703 + 114) ];v290,v291=v89(v96[v292](v21(v96,v292 + 1 ,v98[704 -(376 + 325) ])));v91=(v291 + v292) -1 ;v289=0 -0 ;for v372=v292,v91 do local v373=0;while true do if (v373==0) then v289=v289 + 1 ;v96[v372]=v290[v289];break;end end end v90=v90 + (1 -0) ;v98=v86[v90];v292=v98[2];v96[v292](v21(v96,v292 + 1 ,v91));v90=v90 + (2 -1) ;v98=v86[v90];v96[v98[2]]={};v90=v90 + 1 ;v98=v86[v90];v71[v98[3]]=v96[v98[2]];v90=v90 + 1 ;v98=v86[v90];v96[v98[168 -(122 + 44) ]]=v98[3];else do return;end end elseif (v99<=48) then v96[v98[2]]();elseif (v99>(84 -35)) then local v394=0;local v395;local v396;local v397;local v398;local v399;local v400;while true do if (v394==4) then v98=v86[v90];v96[v98[2]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v400=v98[2];v96[v400]=v96[v400](v21(v96,v400 + (1 -0) ,v98[3]));v90=v90 + (15 -(9 + 5)) ;v394=5;end if (v394==2) then v96[v98[6 -4 ]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v400=v98[2];v399=v96[v98[3]];v96[v400 + 1 ]=v399;v96[v400]=v399[v98[12 -8 ]];v394=3;end if (v394==7) then v96[v400]=v96[v400](v21(v96,v400 + (1266 -(243 + 1022)) ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[11 -8 ]];v90=v90 + 1 ;v98=v86[v90];v399=v98[3];v394=8;end if (v394==6) then v96[v98[2]]=v98[1260 -(1043 + 214) ];v90=v90 + (377 -(85 + 291)) ;v98=v86[v90];v96[v98[2]]=v98[11 -8 ];v90=v90 + 1 ;v98=v86[v90];v400=v98[2];v394=7;end if (10==v394) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];break;end if (1==v394) then v98=v86[v90];v400=v98[2];v399=v96[v98[3]];v96[v400 + 1 ]=v399;v96[v400]=v399[v98[4]];v90=v90 + 1 ;v98=v86[v90];v394=2;end if (v394==5) then v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3 + 0 ]];v90=v90 + 1 ;v98=v86[v90];v394=6;end if (v394==9) then v91=(v397 + v400) -(2 -1) ;v395=0;for v885=v400,v91 do v395=v395 + 1 ;v96[v885]=v396[v395];end v90=v90 + 1 ;v98=v86[v90];v400=v98[2];v96[v400]=v96[v400](v21(v96,v400 + (1181 -(1123 + 57)) ,v91));v394=10;end if (v394==3) then v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]=v71[v98[1 + 2 ]];v90=v90 + (2 -1) ;v98=v86[v90];v96[v98[2]]=v98[1 + 2 ];v90=v90 + 1 ;v394=4;end if (0==v394) then v395=nil;v396,v397=nil;v398=nil;v399=nil;v400=nil;v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 ;v394=1;end if (v394==8) then v398=v96[v399];for v888=v399 + 1 + 0 ,v98[4] do v398=v398   .. v96[v888] ;end v96[v98[2]]=v398;v90=v90 + 1 ;v98=v86[v90];v400=v98[2];v396,v397=v89(v96[v400](v21(v96,v400 + 1 ,v98[3])));v394=9;end end else local v401=0;local v402;local v403;local v404;while true do if (v401==1) then v404=v96[v402 + 2 ];if (v404>(0 + 0)) then if (v403>v96[v402 + (255 -(163 + 91)) ]) then v90=v98[3];else v96[v402 + 3 ]=v403;end elseif (v403<v96[v402 + 1 ]) then v90=v98[3];else v96[v402 + (1933 -(1869 + 61)) ]=v403;end break;end if (v401==0) then v402=v98[2];v403=v96[v402];v401=1;end end end elseif (v99<=59) then if (v99<=54) then if (v99<=52) then if (v99>51) then local v302=0;local v303;local v304;local v305;local v306;while true do if (3==v302) then v96[v98[2]]=v96[v98[3]] + v98[4] ;v90=v90 + 1 ;v98=v86[v90];v306=v98[2];v304,v305=v89(v96[v306](v21(v96,v306 + (1 -0) ,v98[3])));v91=(v305 + v306) -1 ;v303=0;for v780=v306,v91 do local v781=0;while true do if (v781==0) then v303=v303 + 1 ;v96[v780]=v304[v303];break;end end end v302=4;end if (v302==2) then v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]];v90=v90 + (414 -(15 + 398)) ;v98=v86[v90];v302=3;end if (5==v302) then v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2 + 0 ]]=v96[v98[3]];v90=v90 + (1475 -(1329 + 145)) ;v98=v86[v90];v96[v98[2]]= #v96[v98[3]];v302=6;end if (v302==11) then v98=v86[v90];v306=v98[2];v304,v305=v89(v96[v306](v96[v306 + 1 ]));v91=(v305 + v306) -1 ;v303=0;for v782=v306,v91 do v303=v303 + (1722 -(345 + 1376)) ;v96[v782]=v304[v303];end v90=v90 + 1 ;v98=v86[v90];v302=12;end if (v302==12) then v306=v98[2];v96[v306](v21(v96,v306 + 1 ,v91));break;end if (v302==10) then v90=v90 + 1 + 0 ;v98=v86[v90];v306=v98[440 -(262 + 176) ];v96[v306]=v96[v306](v21(v96,v306 + 1 ,v91));v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]]%v98[4] ;v90=v90 + 1 ;v302=11;end if (v302==6) then v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]]%v96[v98[4]] ;v90=v90 + (851 -(20 + 830)) ;v98=v86[v90];v96[v98[973 -(140 + 831) ]]=v98[3 + 0 ] + v96[v98[130 -(116 + 10) ]] ;v90=v90 + 1 ;v98=v86[v90];v302=7;end if (v302==8) then v98=v86[v90];v96[v98[2]]=v96[v98[6 -3 ]] + v98[4] ;v90=v90 + 1 + 0 ;v98=v86[v90];v306=v98[2];v304,v305=v89(v96[v306](v21(v96,v306 + 1 ,v98[3])));v91=(v305 + v306) -1 ;v303=0;v302=9;end if (v302==7) then v96[v98[2]]= #v96[v98[3]];v90=v90 + (1851 -(1409 + 441)) ;v98=v86[v90];v96[v98[2]]=v96[v98[1 + 2 ]]%v96[v98[4]] ;v90=v90 + 1 ;v98=v86[v90];v96[v98[740 -(542 + 196) ]]=v98[3] + v96[v98[4]] ;v90=v90 + (719 -(15 + 703)) ;v302=8;end if (v302==9) then for v785=v306,v91 do v303=v303 + 1 + 0 ;v96[v785]=v304[v303];end v90=v90 + 1 ;v98=v86[v90];v306=v98[2];v304,v305=v89(v96[v306](v21(v96,v306 + 1 ,v91)));v91=(v305 + v306) -1 ;v303=0;for v788=v306,v91 do v303=v303 + 1 ;v96[v788]=v304[v303];end v302=10;end if (v302==4) then v90=v90 + 1 + 0 ;v98=v86[v90];v306=v98[2];v96[v306]=v96[v306](v21(v96,v306 + 1 ,v91));v90=v90 + (1 -0) ;v98=v86[v90];v96[v98[2]]=v71[v98[3 + 0 ]];v90=v90 + 1 + 0 ;v302=5;end if (1==v302) then v98=v86[v90];v96[v98[322 -(53 + 267) ]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v71[v98[3]];v302=2;end if (v302==0) then v303=nil;v304,v305=nil;v306=nil;v96[v98[2]]=v96[v98[3]];v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[6 -4 ]]=v71[v98[3]];v90=v90 + 1 ;v302=1;end end else local v307=0;local v308;local v309;local v310;while true do if (v307==1) then v310=0 -0 ;for v791=v308,v98[4] do v310=v310 + (2 -1) ;v96[v791]=v309[v310];end break;end if (0==v307) then v308=v98[2];v309={v96[v308](v96[v308 + (689 -(198 + 490)) ])};v307=1;end end end elseif (v99==53) then local v311=v98[2];local v312=v96[v311 + 2 ];local v313=v96[v311] + v312 ;v96[v311]=v313;if (v312>0) then if (v313<=v96[v311 + 1 ]) then v90=v98[3];v96[v311 + 3 ]=v313;end elseif (v313>=v96[v311 + 1 ]) then local v796=0;while true do if (v796==0) then v90=v98[3];v96[v311 + 3 ]=v313;break;end end end else local v315=0;local v316;while true do if (v315==0) then v316=v98[2];v96[v316](v21(v96,v316 + 1 ,v98[3]));break;end end end elseif (v99<=56) then if (v99>55) then local v317;v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 ;v98=v86[v90];v317=v98[2];v96[v317]=v96[v317](v96[v317 + 1 ]);v90=v90 + 1 ;v98=v86[v90];v96[v98[4 -2 ]]=v72[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + (2 -1) ;v98=v86[v90];v317=v98[2];v96[v317]=v96[v317](v96[v317 + 1 ]);v90=v90 + 1 ;v98=v86[v90];if (v96[v98[1208 -(696 + 510) ]]<v96[v98[1555 -(1126 + 425) ]]) then v90=v90 + 1 ;else v90=v98[408 -(118 + 287) ];end else v96[v98[2]]=v98[3] + v96[v98[4]] ;end elseif (v99<=(119 -62)) then if  not v96[v98[2]] then v90=v90 + (1122 -(118 + 1003)) ;else v90=v98[3];end elseif (v99>58) then local v407=0;local v408;local v409;while true do if (v407==1) then for v889=1, #v95 do local v890=0;local v891;while true do if (v890==0) then v891=v95[v889];for v921=0 -0 , #v891 do local v922=0;local v923;local v924;local v925;while true do if (v922==1) then v925=v923[2];if ((v924==v96) and (v925>=v408)) then local v929=0;while true do if (v929==0) then v409[v925]=v924[v925];v923[1]=v409;break;end end end break;end if (0==v922) then v923=v891[v921];v924=v923[1263 -(1091 + 171) ];v922=1;end end end break;end end end break;end if (0==v407) then v408=v98[2];v409={};v407=1;end end else v96[v98[379 -(142 + 235) ]]=v96[v98[3]]%v98[4] ;end elseif (v99<=63) then if (v99<=(10 + 51)) then if (v99==60) then local v326=v98[2];local v327=v98[4];local v328=v326 + 2 ;local v329={v96[v326](v96[v326 + 1 ],v96[v328])};for v374=3 -2 ,v327 do v96[v328 + v374 ]=v329[v374];end local v330=v329[1];if v330 then v96[v328]=v330;v90=v98[3];else v90=v90 + (4 -3) ;end else v96[v98[2]]=v72[v98[9 -6 ]];end elseif (v99>62) then local v333=0;local v334;while true do if (v333==0) then v334=v98[2];v96[v334]=v96[v334](v21(v96,v334 + 1 ,v98[3]));break;end end else v96[v98[2]]={};end elseif (v99<=65) then if (v99>64) then local v336=0;local v337;local v338;local v339;local v340;while true do if (v336==0) then v337=v98[376 -(123 + 251) ];v338,v339=v89(v96[v337](v21(v96,v337 + 1 ,v98[1 + 2 ])));v336=1;end if (v336==2) then for v797=v337,v91 do local v798=0;while true do if (v798==0) then v340=v340 + 1 ;v96[v797]=v338[v340];break;end end end break;end if (v336==1) then v91=(v339 + v337) -1 ;v340=0;v336=2;end end else do return v96[v98[2]]();end end elseif (v99<=66) then local v341=0;local v342;local v343;local v344;local v345;local v346;while true do if (v341==2) then v96[v98[2]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[3 -1 ]]=v98[14 -11 ];v90=v90 + 1 ;v341=3;end if (v341==1) then v345=v96[v98[3]];v96[v346 + 1 ]=v345;v96[v346]=v345[v98[4]];v90=v90 + (978 -(553 + 424)) ;v98=v86[v90];v341=2;end if (v341==8) then v90=v90 + 1 ;v98=v86[v90];v96[v98[1 + 1 ]]=v72[v98[839 -(660 + 176) ]];v90=v90 + 1 ;v98=v86[v90];v341=9;end if (v341==3) then v98=v86[v90];v96[v98[700 -(208 + 490) ]]=v98[3];v90=v90 + 1 ;v98=v86[v90];v346=v98[2];v341=4;end if (v341==9) then v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 + 0 ;v98=v86[v90];v96[v98[2]]=v96[v98[3]][v98[4]];v90=v90 + 1 ;v341=10;end if (v341==7) then v98=v86[v90];v96[v98[2 + 0 ]]=v71[v98[3]];v90=v90 + 1 ;v98=v86[v90];v96[v98[1 + 1 ]]=v71[v98[2 + 1 ]];v341=8;end if (v341==11) then v90=v98[3];break;end if (v341==5) then v98=v86[v90];v346=v98[2];v96[v346]=v96[v346](v21(v96,v346 + 1 ,v91));v90=v90 + 1 ;v98=v86[v90];v341=6;end if (v341==0) then v342=nil;v343,v344=nil;v345=nil;v346=nil;v346=v98[2];v341=1;end if (4==v341) then v343,v344=v89(v96[v346](v21(v96,v346 + 1 ,v98[3])));v91=(v344 + v346) -1 ;v342=0 + 0 ;for v799=v346,v91 do local v800=0;while true do if (v800==0) then v342=v342 + 1 ;v96[v799]=v343[v342];break;end end end v90=v90 + 1 ;v341=5;end if (v341==6) then v346=v98[2];v345=v96[v98[3]];v96[v346 + 1 ]=v345;v96[v346]=v345[v98[4]];v90=v90 + 1 ;v341=7;end if (v341==10) then v98=v86[v90];v346=v98[2];v96[v346](v21(v96,v346 + 1 ,v98[3]));v90=v90 + 1 ;v98=v86[v90];v341=11;end end elseif (v99==67) then local v413=v98[2];local v414=v96[v98[3]];v96[v413 + 1 ]=v414;v96[v413]=v414[v98[1 + 3 ]];else v72[v98[3]]=v96[v98[2]];end v90=v90 + 1 ;break;end end end end;end return v40(v39(),{},v28)(...);end return v23("LOL!0D3Q0003063Q00737472696E6703043Q006368617203043Q00627974652Q033Q0073756203053Q0062697433322Q033Q0062697403043Q0062786F7203053Q007461626C6503063Q00636F6E63617403063Q00696E7365727403053Q006D6174636803083Q00746F6E756D62657203053Q007063612Q6C00243Q0012163Q00013Q00206Q000200122Q000100013Q00202Q00010001000300122Q000200013Q00202Q00020002000400122Q000300053Q00062Q0003000A000100010004183Q000A000100123D000300063Q00201900040003000700123D000500083Q00201900050005000900123D000600083Q00201900060006000A00061B00073Q000100062Q00133Q00064Q00138Q00133Q00044Q00133Q00014Q00133Q00024Q00133Q00053Q00123D000800013Q00201900080008000B00123D0009000C3Q00123D000A000D3Q00061B000B0001000100052Q00133Q00074Q00133Q00094Q00133Q00084Q00133Q000A4Q00133Q000B4Q0013000C000B4Q0040000C00014Q0023000C6Q002F3Q00013Q00023Q00023Q00026Q00F03F026Q00704002264Q002200025Q00122Q000300016Q00045Q00122Q000500013Q00042Q0003002100012Q000500076Q0034000800026Q000900016Q000A00026Q000B00036Q000C00046Q000D8Q000E00063Q00202Q000F000600014Q000C000F6Q000B3Q00024Q000C00036Q000D00046Q000E00016Q000F00016Q000F0006000F00102Q000F0001000F4Q001000016Q00100006001000102Q00100001001000202Q0010001000014Q000D00106Q000C8Q000A3Q000200202Q000A000A00024Q0009000A6Q00073Q00010004350003000500012Q0005000300054Q0013000400024Q000A000300044Q002300036Q002F3Q00017Q00043Q00027Q004003053Q003A25642B3A2Q033Q0025642B026Q00F03F001C3Q00061B5Q000100012Q00058Q0020000100016Q000200026Q000300026Q00048Q000500036Q00068Q000700076Q000500076Q00043Q000100201900040004000100122A000500026Q00030005000200122Q000400036Q000200046Q00013Q000200262Q00010018000100040004183Q001800012Q001300016Q003E00026Q000A000100024Q002300015Q0004183Q001B00012Q0005000100044Q0040000100014Q002300016Q002F3Q00013Q00013Q00163Q0003043Q0067616D6503073Q00506C6163654964034Q0003023Q006F7303043Q00646174652Q033Q00BB962003063Q00149ABC5479DF03043Q00686F757203053Q007063612Q6C028Q0003053Q007461626C6503063Q00696E7365727403093Q00777269746566696C6503133Q00DD24A833F226B933F639AA05E138F20AE024B203043Q0060934BDC030A3Q0047657453657276696365030B3Q0022163EC931BFC51C0B29DC03073Q00B76A624AB962DA030A3Q004A534F4E456E636F6465030A3Q00545052657475726E657203083Q0054656C65706F7274026Q00F03F01463Q0006033Q004400013Q0004183Q0044000100123D000100013Q00201E0001000100024Q00025Q00122Q000300033Q00122Q000400043Q00202Q0004000400054Q00055Q00122Q000600063Q00122Q000700076Q000500076Q00043Q000200202Q0004000400084Q00055Q00122Q000600093Q00061B00073Q000100022Q00133Q00024Q00058Q001000060002000200063900060036000100010004183Q003600010012170007000A4Q001D000800083Q002624000700180001000A0004183Q001800010012170008000A3Q0026240008001B0001000A0004183Q001B000100123D0009000B3Q00201A00090009000C4Q000A00026Q000B00046Q0009000B000100122Q0009000D6Q000A5Q00122Q000B000E3Q00122Q000C000F6Q000A000C000200122Q000B00013Q00202Q000B000B00104Q000D5Q00122Q000E00113Q00122Q000F00126Q000D000F6Q000B3Q000200202Q000B000B00134Q000D00026Q000B000D6Q00093Q000100044Q003600010004183Q001B00010004183Q003600010004183Q0018000100061B00070001000100052Q00133Q00024Q00133Q00044Q00058Q00133Q00014Q00133Q00033Q001244000700143Q00061B00070002000100012Q00133Q00033Q001204000700153Q00122Q000700156Q0007000100014Q00015Q00044Q0045000100201900013Q00162Q002F3Q00013Q00033Q00083Q0003043Q0067616D65030A3Q0047657453657276696365030B3Q00A53895D18853CD9B2582C403073Q00BFED4CE1A1DB36030A3Q004A534F4E4465636F646503083Q007265616466696C6503133Q00145F24662444A509552243205BB3745A235A2B03073Q00C05A305035452900113Q0012273Q00013Q00206Q00024Q000200013Q00122Q000300033Q00122Q000400046Q000200049Q00000200206Q000500122Q000200066Q000300013Q00122Q000400073Q00122Q000500086Q000300056Q00029Q003Q00029Q006Q00017Q00213Q00028Q00026Q00F03F027Q004003053Q00706169727303043Q006461746103083Q00746F6E756D626572030A3Q006D6178506C617965727303073Q00706C6179696E6703083Q00746F737472696E6703053Q007063612Q6C2Q0103053Q007461626C6503063Q00696E7365727403043Q0077616974026Q00104003023Q006964034Q00030E3Q006E65787450616765437572736F7203043Q00B8FC26C703083Q00A7D6894AAB78CE530003043Q0067616D65030B3Q00482Q747053657276696365030A3Q004A534F4E4465636F646503073Q00482Q747047657403223Q0083E4264DEBFDC4BF355CF5A298BE2052FAAB84E87C5EF7AAC4E66312FFA686F5211203063Q00C7EB90523D9803273Q004805BC391113AB384826AC290B1FBA741419AB3F2804BD2E154B98380450B5220A1FAD765646E903043Q004B6776D903223Q00CF406404AA44881B7715B41BD41A621BBB12C84C3E17B6138842215BBE1FCA51635B03063Q007EA7341074D9032F3Q00873D2592A21CEEDB611095B615F5CB71338FA60DD3DA2A2592E938EFCB682C89B910E8957F70D0F21AE9DA3D2F92E903073Q009CA84E40E0D47900BD3Q0012173Q00014Q001D000100043Q0026243Q0006000100020004183Q000600012Q001D000300043Q0012173Q00033Q0026243Q000B000100010004183Q000B0001001217000100014Q001D000200023Q0012173Q00023Q0026243Q0002000100030004183Q0002000100262400010071000100030004183Q00710001001217000400013Q00123D000500043Q0020190006000200052Q00330005000200070004183Q006E0001001217000A00014Q001D000B000C3Q002624000A0068000100020004183Q00680001000E070002005E0001000B0004183Q005E000100123D000D00063Q002038000E000900074Q000D0002000200122Q000E00063Q00202Q000F000900084Q000E0002000200062Q000E006E0001000D0004183Q006E0001001217000D00013Q002624000D0023000100010004183Q0023000100123D000E00044Q0005000F6Q0033000E000200100004183Q00460001001217001300013Q0026240013002A000100010004183Q002A000100260900040035000100010004183Q0035000100123D001400094Q0013001500124Q001000140002000200062100030043000100140004183Q004300012Q0006000C5Q0004183Q0043000100123D001400064Q000B001500016Q00140002000200122Q001500066Q001600126Q00150002000200062Q00140043000100150004183Q0043000100123D0014000A3Q00061B00153Q000100032Q00058Q00053Q00014Q00053Q00024Q001000140002000200202Q0004000400020004183Q004600010004183Q002A000100063C000E0029000100020004183Q00290001002624000C006E0001000B0004183Q006E000100123D000E000C3Q002015000E000E000D4Q000F8Q001000036Q000E0010000100122Q000E000E6Q000E0001000100122Q000E000A3Q00061B000F0001000100042Q00053Q00024Q00053Q00034Q00133Q00034Q00058Q0011000E0002000100122Q000E000E3Q00122Q000F000F6Q000E0002000100044Q006E00010004183Q002300010004183Q006E0001002624000B0018000100010004183Q001800012Q0006000C00013Q001229000D00093Q00202Q000E000900104Q000D000200024Q0003000D3Q00122Q000B00023Q00044Q001800010004183Q006E0001002624000A0016000100010004183Q00160001001217000B00014Q001D000C000C3Q001217000A00023Q0004183Q0016000100063C00050014000100020004183Q001400010004183Q00BC00010026240001008C000100020004183Q008C0001001217000500013Q00262400050078000100020004183Q00780001001217000100033Q0004183Q008C000100262400050074000100010004183Q00740001001217000300113Q0020190006000200120006030006008A00013Q0004183Q008A00010020190006000200122Q000C000700023Q00122Q000800133Q00122Q000900146Q00070009000200062Q0006008A000100070004183Q008A00010020190006000200120026090006008A000100150004183Q008A00010020190006000200122Q001C000600043Q001217000500023Q0004183Q007400010026240001000D000100010004183Q000D00012Q001D000200024Q0005000500043Q002624000500A5000100110004183Q00A5000100123D000500163Q00202D00050005001700202Q00050005001800122Q000700163Q00202Q0007000700194Q000900023Q00122Q000A001A3Q00122Q000B001B6Q0009000B00024Q000A00036Q000B00023Q00122Q000C001C3Q00122Q000D001D6Q000B000D00024Q00090009000B4Q000700096Q00053Q00024Q000200053Q00044Q00B8000100123D000500163Q00203200050005001700202Q00050005001800122Q000700163Q00202Q0007000700194Q000900023Q00122Q000A001E3Q00122Q000B001F6Q0009000B00024Q000A00036Q000B00023Q00122Q000C00203Q00122Q000D00216Q000B000D00024Q000C00046Q00090009000C4Q000700096Q00053Q00024Q000200053Q001217000100023Q0004183Q000D00010004183Q00BC00010004183Q000200012Q002F3Q00013Q00023Q00073Q00028Q00026Q00F03F03053Q007461626C6503063Q00696E7365727403073Q0064656C66696C6503133Q0037A5DF0F26EBDB041CB8DD3935F5903D0AA5C503083Q005779CAAB5C4786BE001E3Q0012173Q00013Q0026243Q0009000100020004183Q0009000100123D000100033Q00201F0001000100044Q00028Q000300016Q00010003000100044Q001D00010026243Q0001000100010004183Q00010001001217000100013Q00262400010017000100010004183Q0017000100123D000200054Q002E000300023Q00122Q000400063Q00122Q000500076Q000300056Q00023Q00014Q00028Q00025Q00122Q000100023Q0026240001000C000100020004183Q000C00010012173Q00023Q0004183Q000100010004183Q000C00010004183Q000100012Q002F3Q00017Q00103Q00028Q00026Q00F03F03043Q0067616D65030A3Q0047657453657276696365030F3Q001DC4208D39CE3E9C1AC43E9E20C22903043Q00E849A14C03173Q0054656C65706F7274546F506C616365496E7374616E636503073Q00506C6179657273030B3Q004C6F63616C506C6179657203093Q00777269746566696C6503133Q0095D6566E1FB6DC71580CADDC504E50B1CA4D5303053Q007EDBB9223D030B3Q0024DA4A624D72E1F105CD5B03083Q00876CAE3E121E1793030A3Q004A534F4E456E636F646503043Q0077616974002F3Q0012173Q00014Q001D000100013Q000E070001000200013Q0004183Q00020001001217000100013Q00262400010016000100020004183Q0016000100123D000200033Q0020420002000200044Q00045Q00122Q000500053Q00122Q000600066Q000400066Q00023Q000200202Q0002000200074Q000400016Q000500023Q00122Q000600033Q00202Q00060006000800202Q0006000600094Q00020006000100044Q002E000100262400010005000100010004183Q0005000100123D0002000A4Q000200035Q00122Q0004000B3Q00122Q0005000C6Q00030005000200122Q000400033Q00202Q0004000400044Q00065Q00122Q0007000D3Q00122Q0008000E6Q000600086Q00043Q000200202Q00040004000F4Q000600036Q000400066Q00023Q000100122Q000200106Q00020001000100122Q000100023Q00044Q000500010004183Q002E00010004183Q000200012Q002F3Q00017Q00023Q0003043Q007761697403053Q007063612Q6C000A3Q00123D3Q00014Q000D3Q000100020006033Q000900013Q0004183Q0009000100123D3Q00023Q00061B00013Q000100012Q00058Q00083Q000200010004185Q00012Q002F3Q00013Q00013Q00033Q00028Q00030A3Q00545052657475726E6572035Q000D3Q0012173Q00013Q0026243Q0001000100010004183Q0001000100123D000100024Q00300001000100012Q000500015Q0026090001000C000100030004183Q000C000100123D000100024Q00300001000100010004183Q000C00010004183Q000100012Q002F3Q00017Q00",v17(),...);
+    end
+})
+
+Tabs.News:AddParagraph({
+    Title = "✨ New Features ✨",
+    Content = "\n\n 🍦  Added Autofarm IceCream  🍦\n\n\n Date: 03.11.2024"
+})
+
+Tabs.News:AddParagraph({
+    Title = "✨ New Features ✨",
+    Content = "\n\n 🍕  Added Autofarm Pizza  🍕\n\n\n Date: 04.11.2024"
+})
+
+Tabs.News:AddParagraph({
+    Title = "✨ New Features ✨",
+    Content = "\n\n 📑  Added New Tab: '📌  Misc'  📑\n\n 🔀  Added Server Hop  🔀\n\n\n Date: 05.11.2024"
+})
+
+--------Main---------
+getgenv().spawn = 2
+getgenv().pizzas = 0
+-------Sauce---------
+getgenv().sauceDelay = 0.3
+getgenv().sauceColorNum = 1
+getgenv().sauceSkip = false
+------Toppings--------
+getgenv().toppingsDelay = 0.25
+getgenv().topping1Skip = false
+getgenv().topping2Skip = false
+getgenv().topping3Skip = false
+getgenv().topping4Skip = false
+getgenv().topping5Skip = false
+getgenv().toppingsSkip = false
+-------Oven----------
+getgenv().ovenDelay = 5
+------Slicer---------
+getgenv().slicerDelay = 1
+------Selling--------
+getgenv().selling = false
+------Time-----------
+getgenv().summToppings = 0
+for i = 1, 5 do
+    if getgenv()["topping" .. i .. "Skip"] == false then
+        getgenv().summToppings += 1
+    end
+end
+
+function TeleportIceCream(location)
+    for i,v in pairs(game.workspace.Items:GetChildren()) do
+		if v:FindFirstChild("Root") then
+            if location == "Hammer" then
+                if v.Name == "ConeMix" or v.Name == "ConeMix2" or v.Name == "ConeMix3" or v.Name == "ConeMix4"  then
+                    workspace.ServerInteractables.Machine2.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(-13, 254, -221) * CFrame.Angles(-0, 0, -0))
+                end
+            elseif location == "Filling" then  
+                if v.Name == "IceCream3" then
+                    workspace.ServerInteractables.Machine4.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(42, 255, -224) * CFrame.Angles(-0, 0, -0))
+                end
+            elseif location == "Topping" then  
+                if v.Name == "IceCream4" then
+                    workspace.ServerInteractables.Machine5.Activate:FireServer(1)
+                    v.PrimaryPart.Anchored = true
+                    wait(0.4)
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(73, 255, -248) * CFrame.Angles(-0, 0, -0))
+                end
+            end
+        end
+    end
+end
+
+function SellIceCream()
+    for _,v in pairs(game:GetService("Workspace").ServerWorld.HomeWorld.GenericParts:GetChildren()) do
+        if v.Name == "PizzaLocation" and not v:FindFirstChild("IceCream4") then
+            for i,n in pairs(game.workspace.Items:GetChildren()) do
+                if n.name == "IceCream4" then
+                    game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(n, v.C1.CFrame)
+                    break
+                end
+            end
+        end
+    end
+end
+
+function TeleportPizza(location)
+	for i,v in pairs(game.workspace.Items:GetChildren()) do
+		if v:FindFirstChild("C") then
+			if location == "Sauce" and getgenv().sauceSkip == false and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("Sauce") and not v.C:FindFirstChild("CookedState") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Num") then
+								if getgenv().sauceColorNum == 1 and f.Num.Value == 1 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.298999786376953, 254.65623474121094, 9.534388542175293) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 2 and f.Num.Value == 2 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.1721978187561035, 254.41131591796875, 16.220552444458008) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 3 and f.Num.Value == 3 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.2990007400512695, 254.86138916015625, 17.798870086669922) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 4 and f.Num.Value == 4 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.299001693725586, 254.35910034179688, 33.74543380737305) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end
+			if location == "Toppings" and getgenv().toppingsSkip == false and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						getgenv().pizzas += 1
+                        for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("ToppingName") then
+								v.Root.Anchored = true
+								if f.ToppingName.Value == "T1" and getgenv().topping1Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(21, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+                                    v.Root.Anchored = false
+								elseif f.ToppingName.Value == "T2" and getgenv().topping2Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(29, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T3" and getgenv().topping3Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(37, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T4" and getgenv().topping4Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(45, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T5" and getgenv().topping5Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(53, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end 
+			if location == "Oven" and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						--print("teleportedOvn")
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(80, 254, 50) * CFrame.Angles(-0, 0, -0))
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						wait(0.01)
+					end
+				end
+			end
+			if location == "Slicer" and getgenv().AutoFarmPizza == true then
+				if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Body") and f:FindFirstChild("Body").CFrame == CFrame.new(55.4714584, 257.630737, 4.98270702) then
+								--print("teleportedSlc")
+								v.Root.Anchored = true
+								game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(55.363868713378906, 254.60670471191406, 6.826766014099121) * CFrame.Angles(-0, 0, -0))
+								wait(0.001)
+								game:GetService("ReplicatedStorage").PizzaEvents.remotePizzaStamper:FireServer(f)
+								v.Root.Anchored = false
+								wait(getgenv().slicerDelay)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function SellPizzas(location)
+    if location == "Boxes" and getgenv().AutoFarmPizza == true then
+        -- for i = 1,getgenv().spawn+1 do
+        --     wait(1.73)
+        --     wait(0.3)
+        --     game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+        -- end
+        for i,v in pairs(game.workspace.Items:GetChildren()) do
+            if v:FindFirstChild("C") then
+                if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and v:FindFirstChild("Cut") then
+                    if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+                        game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+                        wait(1)
+                        for i,d in pairs(game.workspace.Items:GetChildren()) do
+                            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
+                                d.Touch:FindFirstChild("BoxController").Disabled = true
+                                wait(0.01)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
+                                wait(0.01)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
+                                wait(0.01)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 254, -78) * CFrame.Angles(-0, 0, -0))
+                                --print("sold")
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function CalculateCoins(unit)
+    local allTime = (getgenv().spawn * 1.78) + (getgenv().pizzas * getgenv().sauceDelay) + getgenv().ovenDelay + (getgenv().pizzas * getgenv().slicerDelay) + ((getgenv().pizzas * getgenv().toppingsDelay) * getgenv().summToppings)
+    local sellingTime = getgenv().pizzas * 2.5
+    local combinedTime = allTime + sellingTime
+
+    local intervalHour = 3600 / combinedTime
+    local totalCoinsHour = intervalHour * (getgenv().pizzas * 20)
+    return (tostring(math.floor(totalCoinsHour + 0.5)).." coins/hour")
+end
+
+local SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+    Title = "🔁  AutoFarm",
+    Values = {"Pizza AutoFarm 🍕", "Ice Cream AutoFarm 🍦"},
+    Multi = false,
+    Default = 2,
+})
+
+local function spawnPizzaAutoFarmMenu()
+    getgenv().CoinsShow = Tabs.Farm:AddParagraph({
+        Title = "💰  Coins Predictions",
+        Content = "0 coins/hour"
+    })
+    
+    getgenv().ConfigTab = Tabs.Farm:AddParagraph({
+        Title = "⚙️  Configs  ⚙️"
+        --Content = ""
+    })
+    
+    getgenv().SpawnSlider = Tabs.Farm:AddSlider("SpawnSlider", {
+        Title = "🍞  Spawn Count",
+        Description = "",
+        Default = 1,
+        Min = 1,
+        Max = 15,
+        Rounding = 0.1,
+        Callback = function(Value)
+            getgenv().spawn = Value
+        end
+    })
+    
+    getgenv().SauceSlider = Tabs.Farm:AddSlider("SauceSlider", {
+        Title = "🌶️  Sauce Delay",
+        Description = "",
+        Default = 0.3,
+        Min = 0.1,
+        Max = 2,
+        Rounding = 1,
+        Callback = function(Value)
+            getgenv().sauceDelay = Value
+        end
+    })
+    
+    getgenv().SauceDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+        Title = "🎨  Sauce Color",
+        Values = {"Red 🔴", "Green 🟢", "Purple 🟣", "Orange 🟠"},
+        Multi = false,
+        Default = 1,
+    })
+    
+    getgenv().SauceDropdown:OnChanged(function(Value)
+        if Value == "Red 🔴" then
+            getgenv().sauceColorNum = 1
+        elseif Value == "Green 🟢" then
+            getgenv().sauceColorNum = 2
+        elseif Value == "Purple 🟣" then
+            getgenv().sauceColorNum = 3
+        elseif Value == "Orange 🟠" then
+            getgenv().sauceColorNum = 4
+        end
+    end)
+
+    getgenv().ToppingsSlider = Tabs.Farm:AddSlider("SauceSlider", {
+        Title = "🍳  Toppings Delay",
+        Description = "",
+        Default = 0.25,
+        Min = 0.1,
+        Max = 2,
+        Rounding = 1,
+        Callback = function(Value)
+            getgenv().toppingsDelay = Value
+        end
+    })
+
+    getgenv().ToppingsDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
+        Title = "🧂  Toppings",
+        Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🟢", "Cheese 🧀", "Basil 🥬"},
+        Multi = true,
+        Default = {"Pepperoni 🔴"},
+    })
+
+    getgenv().ToppingsDropdown:OnChanged(function(Value)
+        local Values = {}
+        for Value, State in pairs(Value) do
+            table.insert(Values, Value)
+        end
+
+        local toppings = {
+            ["Pepperoni 🔴"] = "topping1Skip",
+            ["Tomatoes 🍅"] = "topping2Skip",
+            ["Olives 🟢"] = "topping3Skip",
+            ["Cheese 🧀"] = "topping4Skip",
+            ["Basil 🥬"] = "topping5Skip"
+        }
+
+        for topping, skipVar in pairs(toppings) do
+            getgenv()[skipVar] = not table.find(Values, topping)
+        end
+    end)
+
+    getgenv().SellPizzaToggle = Tabs.Farm:AddToggle("SellPizza", {Title = "💵  Sell Pizza", Default = getgenv().SellPizza})
+    
+    getgenv().SellPizzaToggle:OnChanged(function(Value)
+        getgenv().SellPizza = Value
+        print(getgenv().SellPizza)
+    end)
+
+    getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
+    
+    getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
+        getgenv().AutoFarmPizza = Value
+    
+        while getgenv().AutoFarmPizza == true do
+            print("Started!")
+            getgenv().pizzas = 0
+            for i = 1,getgenv().spawn do
+                --print("spawned")
+                game.ReplicatedStorage.PizzaEvents.remoteDropDough:FireServer(workspace.ServerInteractables.DoughDropper)
+                wait(1.78)
+            end
+            TeleportPizza("Sauce")
+            TeleportPizza("Toppings")
+            getgenv().CoinsShow:SetDesc(CalculateCoins())
+            TeleportPizza("Oven")
+            wait(getgenv().ovenDelay)
+            TeleportPizza("Slicer")
+            print(getgenv().SellPizza)
+            if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+                SellPizzas("Boxes")
+            end
+        end
+        getgenv().CoinsShow:SetDesc("0 coins/hour")
+    end)
+end
+
+local function spawnIceCreamAutoFarmMenu()
+    getgenv().SellIceCreamToggle = Tabs.Farm:AddToggle("SellIceCream", {Title = "💵  Sell IceCream", Default = getgenv().SellIceCream})
+    
+    getgenv().SellIceCreamToggle:OnChanged(function(Value)
+        getgenv().SellIceCream = Value
+        print(getgenv().SellIceCream)
+    end)
+
+    getgenv().AutoFarmIceCreamToggle = Tabs.Farm:AddToggle("AutoFarmIceCream", {Title = "🍦  Auto Farm IceCream", Default = getgenv().AutoFarmIceCream})
+    
+    getgenv().AutoFarmIceCreamToggle:OnChanged(function(Value)
+        getgenv().AutoFarmIceCream = Value
+    
+        while getgenv().AutoFarmIceCream == true do
+            print("Started!")
+            TeleportIceCream("Hammer")
+            wait(1)
+            TeleportIceCream("Filling")
+            wait(1)
+            TeleportIceCream("Topping")
+            wait(1)
+            if getgenv().SellIceCream == true and getgenv().AutoFarmIceCream == true then
+                SellIceCream()
+            end
+        end
+    end)
+end
+
+SauceDropdown:OnChanged(function(Value)
+    if Value == "Pizza AutoFarm 🍕" then
+        if getgenv().SellIceCreamToggle and getgenv().AutoFarmIceCreamToggle then
+            getgenv().SellIceCreamToggle:Destroy()
+            getgenv().AutoFarmIceCreamToggle:Destroy()
+            spawnPizzaAutoFarmMenu()
+        end
+    elseif Value == "Ice Cream AutoFarm 🍦" then
+        if getgenv().CoinsShow and getgenv().SellPizzaToggle then
+            getgenv().CoinsShow:Destroy()
+            getgenv().AutoFarmPizzaToggle:Destroy()
+            getgenv().ConfigTab:Destroy()
+            getgenv().SpawnSlider:Destroy()
+            getgenv().SauceSlider:Destroy()
+            getgenv().SauceDropdown:Destroy()
+            getgenv().ToppingsSlider:Destroy()
+            getgenv().ToppingsDropdown:Destroy()
+            getgenv().SellPizzaToggle:Destroy()
+        end
+        spawnIceCreamAutoFarmMenu()
+    end
+end)
+
+Window:SelectTab(1)
+
+Notify("✅  Successfully Loaded!", 5)
