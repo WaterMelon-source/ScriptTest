@@ -152,109 +152,146 @@ for i = 1, 5 do
     end
 end
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local MoveEvents = ReplicatedStorage.RemoteEvents.MoveEvents
-local PizzaEvents = ReplicatedStorage.PizzaEvents
-local workspaceItems = game.workspace.Items
-local serverInteractables = game.workspace.ServerInteractables
-
--- Helper function to move and anchor the pizza object
-local function movePizza(v, position, delay)
-	v.Root.Anchored = true
-	MoveEvents.remoteMoveObject:FireServer(v, position)
-	wait(delay)
-	v.Root.Anchored = false
-end
-
--- Sauce handler function
-local function handleSauce(v)
-	for _, f in pairs(serverInteractables:GetChildren()) do
-		if f:FindFirstChild("Num") and f.Num.Value == getgenv().sauceColorNum then
-			local saucePositions = {
-				[1] = CFrame.new(5.3, 254.656, 9.534),
-				[2] = CFrame.new(5.17, 254.411, 16.221),
-				[3] = CFrame.new(5.299, 254.861, 17.799),
-				[4] = CFrame.new(5.299, 254.359, 33.745)
-			}
-			movePizza(v, saucePositions[getgenv().sauceColorNum], getgenv().sauceDelay)
-			PizzaEvents.remoteAddSauce:FireServer(f)
-			wait(getgenv().sauceDelay)
-			break
-		end
-	end
-end
-
--- Toppings handler function
-local function handleToppings(v)
-	getgenv().pizzas += 1
-	for _, f in pairs(serverInteractables:GetChildren()) do
-		local toppingPositions = {
-			T1 = CFrame.new(19, 254, 50),
-			T2 = CFrame.new(28, 254, 50),
-			T3 = CFrame.new(36, 254, 50),
-			T4 = CFrame.new(44, 254, 50),
-			T5 = CFrame.new(52, 254, 50)
-		}
-		local topping = f:FindFirstChild("ToppingName")
-		if topping and not getgenv()[topping.Value .. "Skip"] then
-			movePizza(v, toppingPositions[topping.Value], getgenv().toppingsDelay)
-			PizzaEvents.remoteAddTopping:FireServer(f)
-		end
-	end
-end
-
--- Oven handler function
-local function handleOven(v)
-	PizzaEvents.remoteResetOven:FireServer(serverInteractables.Oven)
-	movePizza(v, CFrame.new(80, 254.965, 50.411), 0.01)
-end
-
--- Slicer handler function
-local function handleSlicer(v)
-	for _, f in pairs(serverInteractables:GetChildren()) do
-		if f:FindFirstChild("Body") and f.Body.CFrame == CFrame.new(55.471, 257.631, 4.983) then
-			movePizza(v, CFrame.new(55.364, 254.607, 6.827), getgenv().slicerDelay)
-			PizzaEvents.remotePizzaStamper:FireServer(f)
-		end
-	end
-end
-
--- Boxes handler function
-local function handleBoxes(v)
-	for i = 1, getgenv().spawn do
-		wait(1.73)
-		PizzaEvents.remoteGetBox:FireServer(serverInteractables.DropPizzaBox)
-	end
-	for _, d in pairs(workspaceItems:GetChildren()) do
-		local boxController = d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController")
-		if boxController and getgenv().selling and getgenv().working then
-			boxController.Disabled = true
-			wait(0.01)
-			movePizza(d, CFrame.new(43.937, 251.799, -51.34), 0.01)
-			movePizza(v, CFrame.new(43.937, 251.799, -51.34), 0.01)
-			movePizza(d, CFrame.new(40.177, 254.3, -64.869), 0.01)
-		end
-	end
-end
-
--- Main function to handle pizza teleportation
 function TeleportPizza(location, Oven)
-	for _, v in pairs(workspaceItems:GetChildren()) do
-		local c = v:FindFirstChild("C")
-		local hasToppings = c:FindFirstChild("T1") or c:FindFirstChild("T2") or c:FindFirstChild("T3") or c:FindFirstChild("T4") or c:FindFirstChild("T5")
-		local isCooked = c:FindFirstChild("CookedState")
-		local hasSauce = c:FindFirstChild("Sauce")
-
-		if location == "Sauce" and not getgenv().sauceSkip and getgenv().AutoFarmPizza and not hasSauce and not isCooked and not hasToppings then
-			handleSauce(v)
-		elseif location == "Toppings" and not getgenv().toppingsSkip and getgenv().AutoFarmPizza and hasSauce and not isCooked and not hasToppings then
-			handleToppings(v)
-		elseif location == "Oven" and getgenv().AutoFarmPizza and hasSauce and hasToppings and not isCooked then
-			handleOven(v)
-		elseif location == "Slicer" and getgenv().AutoFarmPizza and hasSauce and isCooked and not v:FindFirstChild("Cut") and hasToppings then
-			handleSlicer(v)
-		elseif location == "Boxes" and getgenv().AutoFarmPizza then
-			handleBoxes(v)
+	for i,v in pairs(game.workspace.Items:GetChildren()) do
+		if v:FindFirstChild("C") then
+			if location == "Sauce" and getgenv().sauceSkip == false and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("Sauce") and not v.C:FindFirstChild("CookedState") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Num") then
+								if getgenv().sauceColorNum == 1 and f.Num.Value == 1 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.298999786376953, 254.65623474121094, 9.534388542175293) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 2 and f.Num.Value == 2 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.1721978187561035, 254.41131591796875, 16.220552444458008) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 3 and f.Num.Value == 3 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.2990007400512695, 254.86138916015625, 17.798870086669922) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+								if getgenv().sauceColorNum == 4 and f.Num.Value == 4 then
+									v.Root.Anchored = true
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(5.299001693725586, 254.35910034179688, 33.74543380737305) * CFrame.Angles(-0, 0, -0))
+									wait(getgenv().sauceDelay)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddSauce:FireServer(f)
+									wait(getgenv().sauceDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end
+			if location == "Toppings" and getgenv().toppingsSkip == false and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if not v.C:FindFirstChild("T1") and not v.C:FindFirstChild("T2") and not v.C:FindFirstChild("T3") and not v.C:FindFirstChild("T4") and not v.C:FindFirstChild("T5") then
+						getgenv().pizzas += 1
+                        for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("ToppingName") then
+								v.Root.Anchored = true
+								if f.ToppingName.Value == "T1" and getgenv().topping1Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(19, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+                                    v.Root.Anchored = false
+								elseif f.ToppingName.Value == "T2" and getgenv().topping2Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(28, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T3" and getgenv().topping3Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(36, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T4" and getgenv().topping4Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+                                elseif f.ToppingName.Value == "T5" and getgenv().topping5Skip == false then
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(52, 254, 50) * CFrame.Angles(-0, 0, -0))
+									wait(0.1)
+									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
+									wait(getgenv().toppingsDelay)
+									v.Root.Anchored = false
+								end
+							end
+						end
+					end
+				end
+			end 
+			if location == "Oven" and getgenv().AutoFarmPizza == true then
+				if not v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						--print("teleportedOvn")
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(79.99996948242188, 254.96519470214844, 50.4114875793457) * CFrame.Angles(-0, 0, -0))
+						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
+						wait(0.01)
+					end
+				end
+			end
+			if location == "Slicer" and getgenv().AutoFarmPizza == true then
+				if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+						for i,f in pairs(game.workspace.ServerInteractables:GetChildren()) do
+							if f:FindFirstChild("Body") and f:FindFirstChild("Body").CFrame == CFrame.new(55.4714584, 257.630737, 4.98270702) then
+								--print("teleportedSlc")
+								v.Root.Anchored = true
+								game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(55.363868713378906, 254.60670471191406, 6.826766014099121) * CFrame.Angles(-0, 0, -0))
+								wait(0.001)
+								game:GetService("ReplicatedStorage").PizzaEvents.remotePizzaStamper:FireServer(f)
+								v.Root.Anchored = false
+								wait(getgenv().slicerDelay)
+							end
+						end
+					end
+				end
+			end
+			if location == "Boxes" and getgenv().AutoFarmPizza == true then
+				for i = 1,getgenv().spawn do
+					wait(1.73)
+					game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+				end
+				if v:FindFirstChild("C") then
+					if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+						if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+							for i,d in pairs(game.workspace.Items:GetChildren()) do
+								if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") and getgenv().selling == true and getgenv().AutoFarmPizza == true then
+									d.Touch:FindFirstChild("BoxController").Disabled = true
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
+									wait(0.01)
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(40.176944732666016, 254.3000030517578, -64.86914825439453) * CFrame.Angles(-0, 0, -0))
+									--print("sold")
+								end
+							end
+						end
+					end
+				end
+			end
 		end
 	end
 end
@@ -303,7 +340,7 @@ SauceDropdown:OnChanged(function(Value)
                 TeleportPizza("Oven")
                 wait(getgenv().ovenDelay)
                 TeleportPizza("Slicer")
-                if getgenv().selling == true and getgenv().working == true then
+                if getgenv().selling == true and getgenv().AutoFarmPizza == true then
                     TeleportPizza("Boxes")
                 end
             end
