@@ -205,31 +205,31 @@ function TeleportPizza(location, Oven)
 							if f:FindFirstChild("ToppingName") then
 								v.Root.Anchored = true
 								if f.ToppingName.Value == "T1" and getgenv().topping1Skip == false then
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(19, 254, 50) * CFrame.Angles(-0, 0, -0))
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(21, 254, 50) * CFrame.Angles(-0, 0, -0))
 									wait(0.1)
 									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
 									wait(getgenv().toppingsDelay)
                                     v.Root.Anchored = false
 								elseif f.ToppingName.Value == "T2" and getgenv().topping2Skip == false then
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(28, 254, 50) * CFrame.Angles(-0, 0, -0))
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(29, 254, 50) * CFrame.Angles(-0, 0, -0))
 									wait(0.1)
 									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
 									wait(getgenv().toppingsDelay)
 									v.Root.Anchored = false
                                 elseif f.ToppingName.Value == "T3" and getgenv().topping3Skip == false then
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(36, 254, 50) * CFrame.Angles(-0, 0, -0))
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(37, 254, 50) * CFrame.Angles(-0, 0, -0))
 									wait(0.1)
 									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
 									wait(getgenv().toppingsDelay)
 									v.Root.Anchored = false
                                 elseif f.ToppingName.Value == "T4" and getgenv().topping4Skip == false then
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 254, 50) * CFrame.Angles(-0, 0, -0))
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(45, 254, 50) * CFrame.Angles(-0, 0, -0))
 									wait(0.1)
 									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
 									wait(getgenv().toppingsDelay)
 									v.Root.Anchored = false
                                 elseif f.ToppingName.Value == "T5" and getgenv().topping5Skip == false then
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(52, 254, 50) * CFrame.Angles(-0, 0, -0))
+									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(53, 254, 50) * CFrame.Angles(-0, 0, -0))
 									wait(0.1)
 									game:GetService("ReplicatedStorage").PizzaEvents.remoteAddTopping:FireServer(f)
 									wait(getgenv().toppingsDelay)
@@ -245,7 +245,7 @@ function TeleportPizza(location, Oven)
 					if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
 						--print("teleportedOvn")
 						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
-						game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(79.99996948242188, 254.96519470214844, 50.4114875793457) * CFrame.Angles(-0, 0, -0))
+						game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(80, 254, 50) * CFrame.Angles(-0, 0, -0))
 						game:GetService("ReplicatedStorage").PizzaEvents.remoteResetOven:FireServer(workspace.ServerInteractables.Oven)
 						wait(0.01)
 					end
