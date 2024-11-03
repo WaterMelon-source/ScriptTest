@@ -537,8 +537,8 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().ToppingsSlider:Destroy()
             getgenv().ToppingsDropdown:Destroy()
             getgenv().SellPizzaToggle:Destroy()
-            spawnIceCreamAutoFarmMenu()
         end
+        spawnIceCreamAutoFarmMenu()
     end
 end)
 
