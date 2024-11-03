@@ -383,7 +383,7 @@ SauceDropdown:OnChanged(function(Value)
 
         getgenv().ToppingsDropdown = Tabs.Farm:AddDropdown("SauceDropdown", {
             Title = "🧂  Toppings",
-            Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🫒", "Cheese 🧀", "Basil 🥬"},
+            Values = {"Pepperoni 🔴", "Tomatoes 🍅", "Olives 🟢", "Cheese 🧀", "Basil 🥬"},
             Multi = true,
             Default = {"Pepperoni 🔴"},
         })
