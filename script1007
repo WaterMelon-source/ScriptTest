@@ -152,7 +152,7 @@ for i = 1, 5 do
     end
 end
 
-function TeleportPizza(location, Oven)
+function TeleportPizza(location)
 	for i,v in pairs(game.workspace.Items:GetChildren()) do
 		if v:FindFirstChild("C") then
 			if location == "Sauce" and getgenv().sauceSkip == false and getgenv().AutoFarmPizza == true then
@@ -268,34 +268,39 @@ function TeleportPizza(location, Oven)
 					end
 				end
 			end
-			if location == "Boxes" and getgenv().AutoFarmPizza == true then
-				for i = 1,getgenv().spawn do
-					wait(1.73)
-					game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
-				end
-				if v:FindFirstChild("C") then
-					if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
-						if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
-							for i,d in pairs(game.workspace.Items:GetChildren()) do
-								if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") and getgenv().selling == true and getgenv().AutoFarmPizza == true then
-									d.Touch:FindFirstChild("BoxController").Disabled = true
-									wait(0.01)
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
-									wait(0.01)
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(43.936702728271484, 251.79925537109375, -51.33980178833008) * CFrame.Angles(-0, 0, -0))
-									wait(0.01)
-									game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(40.176944732666016, 254.3000030517578, -64.86914825439453) * CFrame.Angles(-0, 0, -0))
-									--print("sold")
-								end
-							end
-						end
-					end
-				end
-			end
 		end
 	end
 end
 
+function SellPizzas(location)
+    if location == "Boxes" and getgenv().AutoFarmPizza == true then
+        for i = 1,getgenv().spawn do
+            wait(1.73)
+            game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+        end
+        for i,d in pairs(game.workspace.Items:GetChildren()) do
+            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") and getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+                for i,v in pairs(game.workspace.Items:GetChildren()) do
+                    if v:FindFirstChild("C") then
+                        if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
+                            if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+                                d.Touch:FindFirstChild("BoxController").Disabled = true
+                                wait(0.1)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
+                                wait(0.1)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
+                                wait(0.1)
+                                game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 254, -78) * CFrame.Angles(-0, 0, -0))
+                                --print("sold")
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
 
 function CalculateCoins(unit)
     local allTime = (getgenv().spawn * 1.78) + (getgenv().pizzas * getgenv().sauceDelay) + getgenv().ovenDelay + (getgenv().pizzas * getgenv().slicerDelay) + ((getgenv().pizzas * getgenv().toppingsDelay) * getgenv().summToppings)
@@ -407,6 +412,12 @@ SauceDropdown:OnChanged(function(Value)
             end
         end)
 
+        getgenv().SellPizzaToggle = Tabs.Farm:AddToggle("SellPizza", {Title = "💵  Sell Pizza", Default = getgenv().SellPizza})
+        
+        getgenv().SellPizzaToggle:OnChanged(function(Value)
+            getgenv().SellPizza = Value
+        end)
+
         getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
         
         getgenv().AutoFarmPizzaToggle:OnChanged(function(Value)
@@ -426,8 +437,8 @@ SauceDropdown:OnChanged(function(Value)
                 TeleportPizza("Oven")
                 wait(getgenv().ovenDelay)
                 TeleportPizza("Slicer")
-                if getgenv().selling == true and getgenv().AutoFarmPizza == true then
-                    TeleportPizza("Boxes")
+                if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+                    SellPizzas("Boxes")
                 end
             end
             getgenv().CoinsShow:SetDesc("0 coins/hour")
@@ -441,6 +452,7 @@ SauceDropdown:OnChanged(function(Value)
             getgenv().SauceSlider:Destroy()
             getgenv().SauceDropdown:Destroy()
             getgenv().ToppingsSlider:Destroy()
+            getgenv().SellPizzaToggle:Destroy()
             getgenv().ToppingsDropdown:Destroy()
         end
     end
