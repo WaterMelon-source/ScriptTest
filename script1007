@@ -124,7 +124,6 @@ Tabs.News:AddParagraph({
 })
 
 --------Main---------
-getgenv().working = false
 getgenv().spawn = 2
 getgenv().pizzas = 0
 -------Sauce---------
@@ -242,21 +241,19 @@ end
 function TeleportPizza(location, Oven)
 	for _, v in pairs(workspaceItems:GetChildren()) do
 		local c = v:FindFirstChild("C")
-		if not c then continue end
-
 		local hasToppings = c:FindFirstChild("T1") or c:FindFirstChild("T2") or c:FindFirstChild("T3") or c:FindFirstChild("T4") or c:FindFirstChild("T5")
 		local isCooked = c:FindFirstChild("CookedState")
 		local hasSauce = c:FindFirstChild("Sauce")
 
-		if location == "Sauce" and not getgenv().sauceSkip and getgenv().working and not hasSauce and not isCooked and not hasToppings then
+		if location == "Sauce" and not getgenv().sauceSkip and getgenv().AutoFarmPizza and not hasSauce and not isCooked and not hasToppings then
 			handleSauce(v)
-		elseif location == "Toppings" and not getgenv().toppingsSkip and getgenv().working and hasSauce and not isCooked and not hasToppings then
+		elseif location == "Toppings" and not getgenv().toppingsSkip and getgenv().AutoFarmPizza and hasSauce and not isCooked and not hasToppings then
 			handleToppings(v)
-		elseif location == "Oven" and getgenv().working and hasSauce and hasToppings and not isCooked then
+		elseif location == "Oven" and getgenv().AutoFarmPizza and hasSauce and hasToppings and not isCooked then
 			handleOven(v)
-		elseif location == "Slicer" and getgenv().working and hasSauce and isCooked and not v:FindFirstChild("Cut") and hasToppings then
+		elseif location == "Slicer" and getgenv().AutoFarmPizza and hasSauce and isCooked and not v:FindFirstChild("Cut") and hasToppings then
 			handleSlicer(v)
-		elseif location == "Boxes" and getgenv().working then
+		elseif location == "Boxes" and getgenv().AutoFarmPizza then
 			handleBoxes(v)
 		end
 	end
