@@ -274,16 +274,19 @@ end
 
 function SellPizzas(location)
     if location == "Boxes" and getgenv().AutoFarmPizza == true then
-        for i = 1,getgenv().spawn+1 do
-            wait(1.73)
-            game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
-        end
-        for i,d in pairs(game.workspace.Items:GetChildren()) do
-            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
-                for i,v in pairs(game.workspace.Items:GetChildren()) do
-                    if v:FindFirstChild("C") then
-                        if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and v:FindFirstChild("Cut") then
-                            if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+        -- for i = 1,getgenv().spawn+1 do
+        --     wait(1.73)
+        --     wait(0.3)
+        --     game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+        -- end
+        for i,v in pairs(game.workspace.Items:GetChildren()) do
+            if v:FindFirstChild("C") then
+                if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and v:FindFirstChild("Cut") then
+                    if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
+                        game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
+                        wait(0.3)
+                        for i,d in pairs(game.workspace.Items:GetChildren()) do
+                            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
                                 d.Touch:FindFirstChild("BoxController").Disabled = true
                                 wait(0.1)
                                 game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
