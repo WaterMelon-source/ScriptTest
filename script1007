@@ -279,7 +279,7 @@ function SellPizzas(location)
             game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
         end
         for i,d in pairs(game.workspace.Items:GetChildren()) do
-            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") and getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+            if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
                 for i,v in pairs(game.workspace.Items:GetChildren()) do
                     if v:FindFirstChild("C") then
                         if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and not v:FindFirstChild("Cut") then
@@ -437,7 +437,7 @@ SauceDropdown:OnChanged(function(Value)
                 TeleportPizza("Oven")
                 wait(getgenv().ovenDelay)
                 TeleportPizza("Slicer")
-                if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
+                if getgenv().SellPizza and getgenv().AutoFarmPizza then
                     SellPizzas("Boxes")
                 end
             end
