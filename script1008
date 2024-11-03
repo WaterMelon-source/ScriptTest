@@ -416,6 +416,7 @@ SauceDropdown:OnChanged(function(Value)
         
         getgenv().SellPizzaToggle:OnChanged(function(Value)
             getgenv().SellPizza = Value
+            print(getgenv().SellPizza)
         end)
 
         getgenv().AutoFarmPizzaToggle = Tabs.Farm:AddToggle("AutoFarmPizza", {Title = "🍕  Auto Farm Pizza", Default = getgenv().AutoFarmPizza})
@@ -437,7 +438,8 @@ SauceDropdown:OnChanged(function(Value)
                 TeleportPizza("Oven")
                 wait(getgenv().ovenDelay)
                 TeleportPizza("Slicer")
-                if getgenv().SellPizza and getgenv().AutoFarmPizza then
+                print(getgenv().SellPizza)
+                if getgenv().SellPizza == true and getgenv().AutoFarmPizza == true then
                     SellPizzas("Boxes")
                 end
             end
