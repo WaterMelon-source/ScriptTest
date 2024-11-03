@@ -284,7 +284,7 @@ function SellPizzas(location)
                 if v.C:FindFirstChild("CookedState") and v.C:FindFirstChild("Sauce") and v:FindFirstChild("Cut") then
                     if v.C:FindFirstChild("T1") or v.C:FindFirstChild("T2") or v.C:FindFirstChild("T3") or v.C:FindFirstChild("T4") or v.C:FindFirstChild("T5") then
                         game:GetService("ReplicatedStorage").PizzaEvents.remoteGetBox:FireServer(workspace.ServerInteractables.DropPizzaBox)
-                        wait(0.5)
+                        wait(1.2)
                         for i,d in pairs(game.workspace.Items:GetChildren()) do
                             if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
                                 d.Touch:FindFirstChild("BoxController").Disabled = true
