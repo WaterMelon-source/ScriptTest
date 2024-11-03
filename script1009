@@ -288,11 +288,11 @@ function SellPizzas(location)
                         for i,d in pairs(game.workspace.Items:GetChildren()) do
                             if d:FindFirstChild("Touch") and d.Touch:FindFirstChild("BoxController") then
                                 d.Touch:FindFirstChild("BoxController").Disabled = true
-                                wait(0.1)
+                                wait(0.01)
                                 game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
-                                wait(0.1)
+                                wait(0.01)
                                 game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(v, CFrame.new(44, 252, -51) * CFrame.Angles(-0, 0, -0))
-                                wait(0.1)
+                                wait(0.01)
                                 game:GetService("ReplicatedStorage").RemoteEvents.MoveEvents.remoteMoveObject:FireServer(d, CFrame.new(44, 254, -78) * CFrame.Angles(-0, 0, -0))
                                 --print("sold")
                                 break
